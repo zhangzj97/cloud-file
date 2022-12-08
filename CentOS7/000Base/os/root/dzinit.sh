@@ -21,6 +21,7 @@ for file in ${fileList[@]}; do
   echo "   Deleting: " $file
   rm -f $file
   echo "Downloading: " $file
+  echo "     source: " $file
   echo ""
   curl -o $file -fsSL $pathRoot/$file
 done
