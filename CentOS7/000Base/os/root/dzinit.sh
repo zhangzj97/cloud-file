@@ -14,6 +14,10 @@ fileList=(
 )
 
 for file in ${fileList[@]}; do
+  echo ""
+  echo "   Deleting: " $file
   rm $file
+  echo "Downloading: " $file
+  echo ""
   curl -o $file -fsSL $pathRoot$file
 done
