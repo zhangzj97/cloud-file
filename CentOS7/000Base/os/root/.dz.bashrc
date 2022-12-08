@@ -2,10 +2,6 @@
 
 # User specific aliases and functions
 
-alias rm='rm -i'
-alias cp='cp -i'
-alias mv='mv -i'
-
 chmod 755 -R /root/.dz
 alias dzcheck="/root/.dz/dzcheck.sh"
 alias dzset="/root/.dz/dzset.sh"
