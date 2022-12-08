@@ -6,11 +6,11 @@ mkdir -p /root/.dz
 chmod -R 755 /root/.dz
 
 fileList=(
-  "/root/.dz.bashrc",
-  "/root/.dz/dzinit.sh",
-  "/root/.dz/dzcheck.sh",
-  "/root/.dz/dzsys.sh",
-  "/root/.dz/dzset.sh",
+  "/root/.dz.bashrc"
+  "/root/.dz/dzinit.sh"
+  "/root/.dz/dzcheck.sh"
+  "/root/.dz/dzsys.sh"
+  "/root/.dz/dzset.sh"
 )
 
 for file in ${fileList[@]}; do
