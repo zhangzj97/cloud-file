@@ -25,6 +25,8 @@ for file in ${fileList[@]}; do
   curl -o $file -fsSL $pathRoot/$file
 done
 
+chmod -R 755 /root/.dz
+
 alias dzcheck="/root/.dz/dzcheck.sh"
 alias dzset="/root/.dz/dzset.sh"
 alias dzsys="/root/.dz/dzsys.sh"
