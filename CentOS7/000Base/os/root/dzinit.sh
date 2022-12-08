@@ -32,4 +32,9 @@ alias dzset="/root/.dz/dzset.sh"
 alias dzsys="/root/.dz/dzsys.sh"
 alias dzinit="/root/.dz/dzinit.sh"
 
+echo "1"
+
 dzset $ipAddrNew $hostNameNew
+echo "2"
+
+/root/.dz/dzset.sh $ipAddrNew $hostNameNew
