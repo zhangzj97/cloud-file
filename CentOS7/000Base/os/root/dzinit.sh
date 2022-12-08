@@ -1,5 +1,8 @@
 #!/bin/bash
 
+ipAddrNew=$1
+hostNameNew=$2
+
 pathRoot=https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/000Base/os/
 
 mkdir -p /root/.dz
@@ -21,3 +24,10 @@ for file in ${fileList[@]}; do
   echo ""
   curl -o $file -fsSL $pathRoot/$file
 done
+
+alias dzcheck="/root/.dz/dzcheck.sh"
+alias dzset="/root/.dz/dzset.sh"
+alias dzsys="/root/.dz/dzsys.sh"
+alias dzinit="/root/.dz/dzinit.sh"
+
+dzset $ipAddrNew $hostNameNew
