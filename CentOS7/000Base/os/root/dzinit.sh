@@ -1,9 +1,6 @@
 #!/bin/bash
 
-remoteUrl=https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/000Base/os/root
-osName=CentOS7
-
-pathRoot=$remoteUrl/$onName/000Base/os/root
+pathRoot=https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/000Base/os/root
 
 mkdir /root/.dz
 chmod -R 755 /root/.dz
