@@ -56,12 +56,12 @@ hostnamectl set-hostname $hostNameNew
 # If ifcfg-ens33 does not have static ip, append IPADDR
 # Otherwise change IPADDR
 if [[ ! $ipAddrOld ]]; then
-  echo "" >> $ifcfgPath
-  echo "IPADDR=\"192.168.59.${ipAddrNew}\"" >> $ifcfgPath
-  echo "NETMASK=\"255.255.255.0\"" >> $ifcfgPath
-  echo "GATEWAY=\"192.168.226.2\"" >> $ifcfgPath
-  echo "DNS1=\"8.8.8.8\"" >> $ifcfgPath
-else 
+  echo "" >>$ifcfgPath
+  echo "IPADDR=\"192.168.59.${ipAddrNew}\"" >>$ifcfgPath
+  echo "NETMASK=\"255.255.255.0\"" >>$ifcfgPath
+  echo "GATEWAY=\"192.168.226.2\"" >>$ifcfgPath
+  echo "DNS1=\"8.8.8.8\"" >>$ifcfgPath
+else
   sed -i "s/^\(IPADDR=\"192.168.[0-9]*\).[0-9]*/\1.${ipAddrNew}/g" $ifcfgPath
 fi
 
