@@ -9,7 +9,7 @@ mkdir -p /root/.dz
 chmod -R 755 /root/.dz
 
 fileList=(
-  "/root/.dz.bashrc"
+  "/root/.dz/.bashrc"
   "/root/.dz/dzfile.sh"
   "/root/.dz/dzcheck.sh"
   "/root/.dz/dzsys.sh"
@@ -28,11 +28,6 @@ done
 
 chmod -R 755 /root/.dz
 
-source /root/.dz.bashrc
-
-echo "1"
-
-dzset $ipAddrNew $hostNameNew
-echo "2"
+/root/.dz/dzalias.sh
 
 /root/.dz/dzset.sh $ipAddrNew $hostNameNew
