@@ -23,6 +23,8 @@ fileList=(
 
     "/etc/sysctl.d/kubernetes.conf"
 
+    "/etc/pki/dz/jenkins.io.key"
+
 )
 
 for file in ${fileList[@]}; do
