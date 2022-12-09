@@ -9,7 +9,7 @@ mkdir -p /etc/docker
 chmod -R 755 /root/.dz
 chmod -R 755 /etc/docker
 chmod -R 755 /etc/sysctl.d
-chmod -R 755 /etc/yum.repo.d
+chmod -R 755 /etc/yum.repos.d
 
 echo ""
 echo "   Deleting: " $file
