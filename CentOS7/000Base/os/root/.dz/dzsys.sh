@@ -18,3 +18,4 @@ echo "Close swap Successfully!"
 # Restart Service
 sysctl --system
 systemctl daemon-reload
+echo "Restart Service Successfully!"
