@@ -7,6 +7,7 @@ fileList=(
     "/root/.dz/dzcheck.sh"
     "/root/.dz/dzfirewall.sh"
     "/root/.dz/dzhost.sh"
+    "/root/.dz/dzreinit.sh"
     "/root/.dz/dzsys.sh"
     "/root/.dz/dzset.sh"
     "/root/.dz/dzyum.sh"
