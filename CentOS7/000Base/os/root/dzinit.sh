@@ -21,7 +21,7 @@ for file in ${fileList[@]}; do
   echo "   Deleting: " $file
   rm -f $file
   echo "Downloading: " $file
-  echo "     source: " $file
+  echo "     Source: " $file
   echo ""
   curl -o $file -fsSL $pathRoot/$file
 done
@@ -31,7 +31,9 @@ chmod -R 755 /root/.dz
 alias dzcheck="/root/.dz/dzcheck.sh"
 alias dzset="/root/.dz/dzset.sh"
 alias dzsys="/root/.dz/dzsys.sh"
-alias dzinit="/root/.dz/dzinit.sh"
+alias dzfile="/root/.dz/dzfile.sh"
+
+source /root/.dz.bashrc
 
 echo "1"
 
