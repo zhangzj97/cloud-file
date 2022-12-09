@@ -7,6 +7,17 @@ fileList=(
     "/root/.dz/dzcheck.sh"
     "/root/.dz/dzsys.sh"
     "/root/.dz/dzset.sh"
+    "/root/.dz/dzyum.sh"
+
+    "/etc/yum.repo.d/dz-docker.repo"
+    "/etc/yum.repo.d/dz-k8s.repo"
+    "/etc/yum.repo.d/dz-mysql.repo"
+    "/etc/yum.repo.d/dz-nginx.repo"
+
+    "/etc/docker/daemon.json"
+
+    "/etc/sysctl.d/kubernetes.conf"
+
 )
 
 for file in ${fileList[@]}; do
