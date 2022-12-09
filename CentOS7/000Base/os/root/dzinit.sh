@@ -9,7 +9,7 @@ mkdir -p /root/.dz
 chmod -R 755 /root/.dz
 
 fileList=(
-  "/root/.dz/.bashrc"
+  "/root/.dz/dzalias.sh"
   "/root/.dz/dzfile.sh"
   "/root/.dz/dzcheck.sh"
   "/root/.dz/dzsys.sh"
