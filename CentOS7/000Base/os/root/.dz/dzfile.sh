@@ -18,8 +18,6 @@ fileList=(
     "/etc/yum.repos.d/dz-mysql.repo"
     "/etc/yum.repos.d/dz-nginx.repo"
 
-    "/etc/pki/dz/jenkins.io.key"
-
     "/etc/docker/daemon.json"
 
     "/etc/sysctl.d/kubernetes.conf"
