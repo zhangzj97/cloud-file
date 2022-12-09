@@ -9,7 +9,9 @@ fileList=(
     "/root/.dz/dzset.sh"
     "/root/.dz/dzyum.sh"
 
+    "/etc/yum.repos.d/dz-centos.repo"
     "/etc/yum.repos.d/dz-docker.repo"
+    "/etc/yum.repos.d/dz-jenkins.repo"
     "/etc/yum.repos.d/dz-k8s.repo"
     "/etc/yum.repos.d/dz-mysql.repo"
     "/etc/yum.repos.d/dz-nginx.repo"
