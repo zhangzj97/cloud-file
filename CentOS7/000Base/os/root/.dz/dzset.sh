@@ -66,8 +66,9 @@ else
 fi
 
 # Restart network
-service network restart
+systemctl restart network
+echo "Service Network Restart Successfully!"
 
 # Message
-echo "Change Success!"
+echo "Change Successfully!"
 echo ""
