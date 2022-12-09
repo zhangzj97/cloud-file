@@ -23,6 +23,8 @@ chmod -R 755 /root/.dz
 
 chmod -R 755 /root/.dz
 
+ll
+
 /root/.dz/dzalias.sh
 
 /root/.dz/dzset.sh $ipAddrNew $hostNameNew
