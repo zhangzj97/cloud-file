@@ -1,5 +1,6 @@
 #!/bin/bash
 
+yum install -y yum-utils
 yum-config-manager --add-repo /etc/yum.repo.d/dz-centos.repo
 yum-config-manager --add-repo /etc/yum.repo.d/dz-docker.repo
 yum-config-manager --add-repo /etc/yum.repo.d/dz-k8s.repo
@@ -7,7 +8,6 @@ yum-config-manager --add-repo /etc/yum.repo.d/dz-mysql.repo
 yum-config-manager --add-repo /etc/yum.repo.d/dz-nginx.repo
 
 yum install -y wget
-yum install -y yum-utils
 yum install -y device-mapper-persistent-data
 yum install -y lvm2
 yum install -y net-tools
