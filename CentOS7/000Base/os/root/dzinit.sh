@@ -19,6 +19,7 @@ echo "     Source: " $sourceRemote/$file
 echo ""
 curl -o $file -fsSL $sourceRemote/$file
 
+chmod -R 755 /root/.dz
 /root/.dz/dzfile.sh
 
 /root/.dz/dzalias.sh
