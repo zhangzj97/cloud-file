@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -i
 
 echo '# Start dz' >>/root/.bashrc
 echo 'alias dzcheck="/root/.dz/dzcheck.sh"' >>/root/.bashrc

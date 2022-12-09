@@ -7,7 +7,7 @@ if [ ! $IPADDR ]; then
   echo ""
   echo "[Error]: IPADDR is none"
   echo ""
-  exit;
+  exit
 fi
 
 echo ""
