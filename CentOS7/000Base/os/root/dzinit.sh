@@ -28,11 +28,6 @@ done
 
 chmod -R 755 /root/.dz
 
-alias dzcheck="/root/.dz/dzcheck.sh"
-alias dzset="/root/.dz/dzset.sh"
-alias dzsys="/root/.dz/dzsys.sh"
-alias dzfile="/root/.dz/dzfile.sh"
-
 source /root/.dz.bashrc
 
 echo "1"
