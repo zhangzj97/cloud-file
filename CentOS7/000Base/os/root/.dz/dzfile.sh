@@ -1,6 +1,6 @@
 #!/bin/bash
 
-pathRoot=https://raw.githubusercontent.com/zhangzj97/cloud-file/blob/main/CentOS7/000Base/os/
+sourceRemote=https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/000Base/os/
 
 fileList=(
     "/root/.dz/dzalias.sh"
@@ -14,7 +14,7 @@ for file in ${fileList[@]}; do
     echo "   Deleting: " $file
     rm -f $file
     echo "Downloading: " $file
-    echo "     Source: " $pathRoot/$file
+    echo "     Source: " $sourceRemote/$file
     echo ""
-    curl -o $file -fsSL $pathRoot/$file
+    curl -o $file -fsSL $sourceRemote/$file
 done
