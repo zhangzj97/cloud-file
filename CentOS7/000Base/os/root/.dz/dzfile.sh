@@ -18,3 +18,5 @@ for file in ${fileList[@]}; do
     echo ""
     curl -o $file -fsSL $sourceRemote/$file
 done
+
+chmod -R 755 /root/.dz
