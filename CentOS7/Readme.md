@@ -10,4 +10,5 @@ curl -fsSL  https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/
 
 # alias
 . /root/.bashr
+
 ```
