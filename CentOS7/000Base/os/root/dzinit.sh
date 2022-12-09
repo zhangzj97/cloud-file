@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -i
 
 ipAddrNew=$1
 hostNameNew=$2
