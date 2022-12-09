@@ -5,6 +5,8 @@ sourceRemote=https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7
 fileList=(
     "/root/.dz/dzalias.sh"
     "/root/.dz/dzcheck.sh"
+    "/root/.dz/dzfirewall.sh"
+    "/root/.dz/dzhost.sh"
     "/root/.dz/dzsys.sh"
     "/root/.dz/dzset.sh"
     "/root/.dz/dzyum.sh"
