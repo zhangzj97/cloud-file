@@ -28,3 +28,5 @@ yum install -y kubeadm-1.18.6
 yum install -y kubectl-1.18.6
 
 yum install -y mysql-community-server
+
+yum install -y gitlab-ce
