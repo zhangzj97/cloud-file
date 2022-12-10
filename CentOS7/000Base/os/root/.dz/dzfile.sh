@@ -15,6 +15,7 @@ fileList=(
 
     "/etc/yum.repos.d/dz-centos.repo"
     "/etc/yum.repos.d/dz-docker.repo"
+    "/etc/yum.repos.d/dz-gitlab.repo"
     "/etc/yum.repos.d/dz-jenkins.repo"
     "/etc/yum.repos.d/dz-k8s.repo"
     "/etc/yum.repos.d/dz-mysql.repo"
