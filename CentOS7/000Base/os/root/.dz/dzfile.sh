@@ -8,6 +8,7 @@ fileList=(
     "/root/.dz/dzfirewall.sh"
     "/root/.dz/dzhost.sh"
     "/root/.dz/dzreinit.sh"
+    "/root/.dz/dzssl.sh"
     "/root/.dz/dzsys.sh"
     "/root/.dz/dzset.sh"
     "/root/.dz/dzyum.sh"
