@@ -24,7 +24,7 @@ fileList=(
 
     "/etc/sysctl.d/kubernetes.conf"
 
-    "/etc/pki/dz/jenkins.io.key"
+    "/etc/pki/rpm-gpg/jenkins.io.key"
 
 )
 
