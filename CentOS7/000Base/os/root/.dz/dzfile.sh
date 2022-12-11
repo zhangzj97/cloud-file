@@ -30,12 +30,8 @@ fileList=(
 )
 
 for file in ${fileList[@]}; do
-    echo ""
-    echo "   Deleting: " $file
     rm -f $file
-    echo "Downloading: " $file
-    echo "     Source: " $sourceRemote/$file
-    echo ""
+    echo "Source: " $sourceRemote/$file
     curl -o $file -fsSL $sourceRemote/$file
 done
 

@@ -12,10 +12,8 @@ chmod -R 755 /etc/sysctl.d
 chmod -R 755 /etc/yum.repos.d
 
 echo ""
-echo "   Deleting: " $file
 rm -f $file
-echo "Downloading: " $file
-echo "     Source: " $sourceRemote/$file
+echo "Source: " $sourceRemote/$file
 echo ""
 curl -o $file -fsSL $sourceRemote/$file
 
