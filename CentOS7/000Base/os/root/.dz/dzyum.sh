@@ -1,7 +1,6 @@
 #!/bin/bash
 
 yum install -y yum-utils
-
 yum install -y wget
 yum install -y device-mapper-persistent-data
 yum install -y lvm2
@@ -29,4 +28,4 @@ yum install -y kubectl-1.18.6
 
 yum install -y mysql-community-server
 
-yum install -y gitlab-ce
+yum install -y gitlab-ee
