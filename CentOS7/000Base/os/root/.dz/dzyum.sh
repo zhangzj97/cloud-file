@@ -12,7 +12,7 @@ yum install -y zlib-devel
 yum install -y openssl
 yum install -y openssl-devel
 yum install -y pcre-devel
-
+yum install -y postfix
 yum install -y nginx
 
 yum install -y docker-ce-19.03.*
