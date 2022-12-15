@@ -12,3 +12,11 @@ curl -fsSL  https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/
 . /root/.bashrc
 
 ```
+
+## port
+
+|||
+|--|--|
+|Jenkin|8810|
+|Gitlab|8820|
+||32000-34999|

@@ -14,7 +14,9 @@ yum install -y openssl-devel
 yum install -y pcre-devel
 yum install -y postfix
 yum install -y nginx
+yum install -y epel-release
 
+yum install -y docker-compose
 yum install -y docker-ce-19.03.*
 yum install -y docker-ce-cli
 yum install -y containerd.io
