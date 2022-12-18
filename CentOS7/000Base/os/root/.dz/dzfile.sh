@@ -21,6 +21,9 @@ fileList=(
     "/etc/yum.repos.d/dz-mysql.repo"
     "/etc/yum.repos.d/dz-nginx.repo"
 
+    "/etc/systemd/system/cri-docker.service"
+    "/etc/systemd/system/cri-docker.socket"
+
     "/etc/docker/daemon.json"
 
     "/etc/sysctl.d/kubernetes.conf"
