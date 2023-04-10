@@ -29,8 +29,7 @@ CloudFileVersion=$1
 echo $CloudFileVersion
 
 ## 检查版本号
-# if [[ !$CloudFileVersion || !$CloudFileVersion =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
-if [[ !$CloudFileVersion ]]; then
+if [[ ! $CloudFileVersion || ! $CloudFileVersion =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
     echo "请输入 版本号"
     exit
 fi
