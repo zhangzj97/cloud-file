@@ -13,12 +13,14 @@ echo '# </Dz> GitHub' >>/etc/hosts
 ## 安装 wget
 WgetVersion = rpm -qa wget
 if [[ ! WgetVersion =~ 'wget' ]]; then
+    echo WgetVersion
     yum install -y wget
 fi
 
 ## 安装 vim
 VimtVersion = rpm -qa vim
 if [[ ! VimVersion =~ 'vim' ]]; then
+    echo VimVersion
     yum install -y vim
 fi
 
