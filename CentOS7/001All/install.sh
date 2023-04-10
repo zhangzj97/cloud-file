@@ -38,3 +38,6 @@ fi
 curl -fsSL https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz >/tmp/cloud-file.tar.gz
 tar -zxvf /tmp/cloud-file.tar.gz
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
+
+# 触发别名功能
+bash /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh

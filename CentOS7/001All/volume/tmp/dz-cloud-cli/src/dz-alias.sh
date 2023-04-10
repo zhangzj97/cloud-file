@@ -1,10 +1,16 @@
 #!/bin/bash -i
 
-# 清空 dz cli
-sed -i "s/^# Start dz cli(*)# End dz cli/""/g" $ifcfgPath
+# 添加 Alias
+## 清除 Alias
+sed -i '/# <Dz> Alias/,/# <\/Dz> Alias/d' /etc/hosts
+## 添加 Github DNS
+echo '# <Dz> GitHub' >>/etc/hosts
+echo '185.199.110.133 raw.githubusercontent.com' >>/etc/hosts
+echo '140.82.113.3    raw.github.com' >>/etc/hosts
+echo '# </Dz> GitHub' >>/etc/hosts
 
-# 添加
-echo '# Start dz cli' >>/root/.bashrc
+# 添加 Alias
+echo '# <Dz> Alias' >>/root/.bashrc
 echo 'alias dz=/tmp/dz-clound-cli/src/dz-dispatch.sh' >>/root/.bashrc
 echo 'alias dzalias="/tmp/dz-clound-cli/src/dz-alias.sh"' >>/root/.bashrc
 echo 'alias dzhelp="/tmp/dz-clound-cli/src/dz-help.sh"' >>/root/.bashrc
@@ -17,7 +23,6 @@ echo 'alias dzset="/tmp/dz-clound-cli/src/dz-set.sh"' >>/root/.bashrc
 echo 'alias dzssl="/tmp/dz-clound-cli/src/dz-ssl.sh"' >>/root/.bashrc
 echo 'alias dzsys="/tmp/dz-clound-cli/src/dz-sys.sh"' >>/root/.bashrc
 echo 'alias dzyum="/tmp/dz-clound-cli/src/dz-yum.sh"' >>/root/.bashrc
-echo '# End dz cli' >>/root/.bashrc
-echo '' >>/root/.bashrc
+echo '# </Dz> Alias' >>/root/.bashrc
 
 source /root/.bashrc
