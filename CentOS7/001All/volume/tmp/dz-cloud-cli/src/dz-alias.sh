@@ -3,13 +3,7 @@
 # 添加 Alias
 ## 清除 Alias
 sed -i '/# <Dz> Alias/,/# <\/Dz> Alias/d' /etc/hosts
-## 添加 Github DNS
-echo '# <Dz> GitHub' >>/etc/hosts
-echo '185.199.110.133 raw.githubusercontent.com' >>/etc/hosts
-echo '140.82.113.3    raw.github.com' >>/etc/hosts
-echo '# </Dz> GitHub' >>/etc/hosts
-
-# 添加 Alias
+## 添加 Alias
 echo '# <Dz> Alias' >>/root/.bashrc
 echo 'alias dz=/tmp/dz-clound-cli/src/dz-dispatch.sh' >>/root/.bashrc
 echo 'alias dzalias="/tmp/dz-clound-cli/src/dz-alias.sh"' >>/root/.bashrc
