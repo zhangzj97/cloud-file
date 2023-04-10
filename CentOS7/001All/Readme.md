@@ -6,11 +6,17 @@
 
 ```bash
 
-# Download package to /tmp/
-curl -o https://github.com/zhangzj97/cloud-file/archive/refs/tags/v0.1.0.tar.gz /tmp/cloud-file.tar.gz
+# 添加 DNS
+## 清除 Github DNS
+sed -i '/# <Dz> GitHub/,/# <\/Dz> GitHub/d' /etc/hosts
+## 添加 Github DNS
+echo '# <Dz> GitHub' >>/etc/hosts
+echo '185.199.110.133 raw.githubusercontent.com' >>/etc/hosts
+echo '140.82.113.3    raw.github.com' >>/etc/hosts
+echo '# </Dz> GitHub' >>/etc/hosts
 
-# 解压
-tar -zxvf /tmp/cloud-file.tar.gz
+# Download package to /tmp/
+curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/001All/volume/tmp/dz-cloud-cli/install.sh | bash
 
 # copy 重要文件
 ## Repo
