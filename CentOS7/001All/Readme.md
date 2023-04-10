@@ -16,7 +16,9 @@ echo '140.82.113.3    raw.github.com' >>/etc/hosts
 echo '# </Dz> GitHub' >>/etc/hosts
 
 # Download package to /tmp/
-curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/001All/install.sh | bash
+# curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/001All/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/001All/install.sh > /tmp/dz-install.sh
+/tmp/dz-install.sh
 
 # copy 重要文件
 ## Repo

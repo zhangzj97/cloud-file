@@ -26,7 +26,7 @@ fi
 
 # 安装 CloudFile
 ## 获取版本号
-CloudFileVersion = $1
+CloudFileVersion=$1
 
 ## 检查版本号
 if [[ !$CloudFileVersion || !$ipAddrNew =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
