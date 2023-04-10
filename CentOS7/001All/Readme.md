@@ -2,6 +2,8 @@
 
 ## Step
 
+### Release
+
 ```bash
 
 # Download package to /tmp/
@@ -18,5 +20,11 @@ cp -r /tmp/CentOS7/001All/volume/etc/yum.repos.d/* /etc/yum.repos.d/
 
 # 删除 package tar
 rm -f /tmp/cloud-file.tar.gz
+
+```
+
+### Snipaste
+
+```bash
 
 ```
