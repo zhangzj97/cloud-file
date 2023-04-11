@@ -37,10 +37,9 @@ fi
 ## 下载相应的版本
 wget t=20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz
 ### TODO 存在异步问题
-tar -zxvf /tmp/cloud-file.tar.gz
-await
-mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
-rm -f /tmp/cloud-file.tar.gz
+tar -zxvf /tmp/cloud-file.tar.gz |
+    mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file |
+    rm -f /tmp/cloud-file.tar.gz
 
 # 触发别名功能
 bash /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh
