@@ -46,3 +46,4 @@ chmod -R 755 /tmp/cloud-file
 
 # 添加常用的 Alias
 source /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh
+echo 'Add Alias Successfully!'
