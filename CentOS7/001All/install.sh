@@ -41,5 +41,8 @@ rm -fr /tmp/cloud-file
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
 rm -f /tmp/cloud-file.tar.gz
 
+# 修改权限
+chmod -R 755 /tmp/cloud-file
+
 # 触发别名功能
 bash /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh
