@@ -39,7 +39,6 @@ wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/arc
 ### TODO 存在异步问题
 tar -zxvf /tmp/cloud-file.tar.gz
 rm -fr /tmp/cloud-file
-[ -d /tmp/cloud-file-$CloudFileVersion ] && echo /tmp/cloud-file-$CloudFileVersion " exists."
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
 # rm -f /tmp/cloud-file.tar.gz
 
