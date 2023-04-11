@@ -38,7 +38,7 @@ fi
 wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz
 ### TODO 存在异步问题
 sleep 10
-tar -xvf /tmp/cloud-file.tar.gz
+tar -xvf /tmp/cloud-file.tar.gz -C /tmp/
 rm -fr /tmp/cloud-file
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
 # rm -f /tmp/cloud-file.tar.gz
@@ -46,22 +46,22 @@ mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
 # 触发别名功能
 bash /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh
 
-## 下载相应的版本
-wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz
-### TODO 存在异步问题
-sleep 10
-tar -xvf /tmp/cloud-file.tar.gz
+# ## 下载相应的版本
+# wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz
+# ### TODO 存在异步问题
+# sleep 10
+# tar -xvf /tmp/cloud-file.tar.gz
 
-if [[ ! -x /tmp/cloud-file-$CloudFileVersion ]]; then
-    echo /tmp/cloud-file-$CloudFileVersion "No Exist"
-fi
+# if [[ ! -x /tmp/cloud-file-$CloudFileVersion ]]; then
+#     echo /tmp/cloud-file-$CloudFileVersion "No Exist"
+# fi
 
-cd /tmp
-ls
+# cd /tmp
+# ls
 
-rm -fr /tmp/cloud-file
-mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
-# rm -f /tmp/cloud-file.tar.gz
+# rm -fr /tmp/cloud-file
+# mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
+# # rm -f /tmp/cloud-file.tar.gz
 
 ###########
 
@@ -72,10 +72,13 @@ mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
 # tar -zxvf /tmp/cloud-file.tar.gz
 
 # ### 加一个 目录存在的测试
-
+# #### 测试1
 # if [[ ! -x /tmp/cloud-file-$CloudFileVersion ]]; then
 #     echo /tmp/cloud-file-$CloudFileVersion "No Exist"
 # fi
+# #### 测试2
+# cd /tmp
+# ls
 
 # ## /tmp/cloud-file-1.1.1 => /tmp/cloud-file 去除文件夹上的版本号
 # ### !!! 理论上 会有一个 /tmp/cloud-file-1.1.1 被解压出来
