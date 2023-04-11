@@ -37,16 +37,9 @@ fi
 ## 下载相应的版本
 wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz
 ### TODO 存在异步问题
-echo " [][][][tar -zxvf /tmp/cloud-file.tar.gz"
 sleep 10
 tar -xvf /tmp/cloud-file.tar.gz
 rm -fr /tmp/cloud-file
-if [[ ! -x /tmp/cloud-file-$CloudFileVersion ]]; then
-    echo /tmp/cloud-file-$CloudFileVersion "MEIYOU"
-fi
-
-echo /tmp/cloud-file-$CloudFileVersion "YOU"
-
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
 # rm -f /tmp/cloud-file.tar.gz
 
