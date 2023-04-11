@@ -40,7 +40,12 @@ wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/arc
 echo " [][][][tar -zxvf /tmp/cloud-file.tar.gz"
 tar zxvf /tmp/cloud-file.tar.gz
 rm -fr /tmp/cloud-file
-echo " [][][][mv"
+if [ ! -x /tmp/cloud-file-$CloudFileVersion]; then
+    echo /tmp/cloud-file-$CloudFileVersion "MEIYOU"
+fi
+
+echo /tmp/cloud-file-$CloudFileVersion "YOU"
+
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
 # rm -f /tmp/cloud-file.tar.gz
 
