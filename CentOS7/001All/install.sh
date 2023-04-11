@@ -56,6 +56,7 @@ if [[ ! -x /tmp/cloud-file-$CloudFileVersion ]]; then
     echo /tmp/cloud-file-$CloudFileVersion "No Exist"
 fi
 
+cd /tmp
 ll
 
 rm -fr /tmp/cloud-file
