@@ -57,7 +57,7 @@ if [[ ! -x /tmp/cloud-file-$CloudFileVersion ]]; then
 fi
 
 cd /tmp
-ll
+ls
 
 rm -fr /tmp/cloud-file
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
