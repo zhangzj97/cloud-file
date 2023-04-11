@@ -18,7 +18,7 @@ echo '# </Dz> GitHub' >>/etc/hosts
 
 # Download Install file
 curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/001All/install.sh > /tmp/dz-install.sh
-bash /tmp/dz-install.sh 0.1.2
+bash /tmp/dz-install.sh 0.1.3
 
 ```
 
@@ -34,7 +34,7 @@ echo '140.82.113.3    raw.github.com' >>/etc/hosts
 echo '140.82.112.4    raw.github.com' >>/etc/hosts
 echo '# </Dz> GitHub' >>/etc/hosts
 curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/001All/install.sh > /tmp/dz-install.sh
-bash /tmp/dz-install.sh 0.1.2
+bash /tmp/dz-install.sh 0.1.3
 
 
 
