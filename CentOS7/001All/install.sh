@@ -44,5 +44,5 @@ rm -f /tmp/cloud-file.tar.gz
 # 修改权限
 chmod -R 755 /tmp/cloud-file
 
-# 触发别名功能
+# 添加常用的 Alias
 source /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh
