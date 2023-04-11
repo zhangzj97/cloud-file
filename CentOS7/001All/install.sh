@@ -38,7 +38,7 @@ fi
 wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz
 ### TODO 存在异步问题
 echo " [][][][tar -zxvf /tmp/cloud-file.tar.gz"
-tar -zxvf /tmp/cloud-file.tar.gz
+tar zxvf /tmp/cloud-file.tar.gz
 rm -fr /tmp/cloud-file
 echo " [][][][mv"
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
