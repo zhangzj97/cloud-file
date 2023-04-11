@@ -45,4 +45,4 @@ rm -f /tmp/cloud-file.tar.gz
 chmod -R 755 /tmp/cloud-file
 
 # 触发别名功能
-bash /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh
+source /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh
