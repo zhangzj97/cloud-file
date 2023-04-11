@@ -35,7 +35,7 @@ if [[ ! $CloudFileVersion || ! $CloudFileVersion =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; t
 fi
 
 ## 下载相应的版本
-wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz
+wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz --no-check-certificate
 ### TODO 存在异步问题
 tar -zxvf /tmp/cloud-file.tar.gz
 rm -fr /tmp/cloud-file
@@ -44,7 +44,3 @@ mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
 
 # 触发别名功能
 bash /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh
-
-# tar -zxvf /tmp/cloud-file.tar.gz
-# rm -fr /tmp/cloud-file
-# mv /tmp/cloud-file-0.1.2 /tmp/cloud-file
