@@ -36,8 +36,6 @@ fi
 
 ## 下载相应的版本
 wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz
-### TODO 存在异步问题
-sleep 10
 tar -xvf /tmp/cloud-file.tar.gz -C /tmp/
 rm -fr /tmp/cloud-file
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
@@ -45,50 +43,3 @@ mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
 
 # 触发别名功能
 bash /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh
-
-# ## 下载相应的版本
-# wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz
-# ### TODO 存在异步问题
-# sleep 10
-# tar -xvf /tmp/cloud-file.tar.gz
-
-# if [[ ! -x /tmp/cloud-file-$CloudFileVersion ]]; then
-#     echo /tmp/cloud-file-$CloudFileVersion "No Exist"
-# fi
-
-# cd /tmp
-# ls
-
-# rm -fr /tmp/cloud-file
-# mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
-# # rm -f /tmp/cloud-file.tar.gz
-
-###########
-
-# # Test
-# ## 从 github 下载一个发行版本
-# wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/xxxxx.tar.gz
-# ## 解压
-# tar -zxvf /tmp/cloud-file.tar.gz
-
-# ### 加一个 目录存在的测试
-# #### 测试1
-# if [[ ! -x /tmp/cloud-file-$CloudFileVersion ]]; then
-#     echo /tmp/cloud-file-$CloudFileVersion "No Exist"
-# fi
-# #### 测试2
-# cd /tmp
-# ls
-
-# ## /tmp/cloud-file-1.1.1 => /tmp/cloud-file 去除文件夹上的版本号
-# ### !!! 理论上 会有一个 /tmp/cloud-file-1.1.1 被解压出来
-# ### !!! 但是 mv 报错 no such file or ...
-# mv /tmp/cloud-file-$Version /tmp/cloud-file
-
-# # 情况
-# ## 如果 控制台直接执行 是可以的
-# ## 但如果 是 bash xxx.sh 就会报错
-
-# # 问
-# ## 1. 是不是和异步相关 , tar 是异步的
-# ### 实验了一下， tar 后 ， 目标文件夹（/tmp/cloud-file-1.1.1）不存在
