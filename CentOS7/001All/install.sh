@@ -13,14 +13,14 @@ echo '# </Dz> GitHub' >>/etc/hosts
 ## 安装 wget
 WgetVersion=$(rpm -qa wget)
 if [[ ! $WgetVersion =~ 'wget' ]]; then
-    yum install -y wget
+  yum install -y wget
 fi
 
 ## 安装 vim
 ### TODO 如何判断 vim 是否已经安装
 VimtVersion=$(rpm -qa vim)
 if [[ ! $VimVersion =~ 'vim' ]]; then
-    yum install -y vim
+  yum install -y vim
 fi
 
 # 安装 CloudFile
@@ -30,8 +30,8 @@ echo $CloudFileVersion
 
 ## 检查版本号
 if [[ ! $CloudFileVersion || ! $CloudFileVersion =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
-    echo "请输入 版本号"
-    exit
+  echo "请输入 版本号"
+  exit
 fi
 
 ## 下载相应的版本
