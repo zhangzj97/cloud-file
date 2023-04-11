@@ -39,7 +39,7 @@ wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/arc
 tar -xvf /tmp/cloud-file.tar.gz -C /tmp/
 rm -fr /tmp/cloud-file
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
-# rm -f /tmp/cloud-file.tar.gz
+rm -f /tmp/cloud-file.tar.gz
 
 # 触发别名功能
 bash /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh
