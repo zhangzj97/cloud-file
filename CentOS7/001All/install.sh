@@ -38,6 +38,7 @@ fi
 wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz --no-check-certificate
 ### TODO 存在异步问题
 tar -zxvf /tmp/cloud-file.tar.gz
+sleep 6
 rm -fr /tmp/cloud-file
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
 # rm -f /tmp/cloud-file.tar.gz
