@@ -37,4 +37,10 @@ curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/0
 bash /tmp/dz-install.sh 0.1.2
 
 
+
+
+
+
+
+
 ```
