@@ -35,10 +35,9 @@ if [[ ! $CloudFileVersion || ! $CloudFileVersion =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; t
 fi
 
 ## 下载相应的版本
-curl -fsSL https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz >/tmp/cloud-file.tar.gz
+wget https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz >/tmp/cloud-file.tar.gz
 ### TODO 存在异步问题
 tar -zxvf /tmp/cloud-file.tar.gz
-sleep 1
 mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
 rm -f /tmp/cloud-file.tar.gz
 
