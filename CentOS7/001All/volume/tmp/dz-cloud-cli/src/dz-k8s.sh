@@ -1,5 +1,12 @@
 #!/bin/bash
 
+NodeType=$1
+if [[ $NodeType =~ master ]]; then
+  echo 'Master 节点'
+else
+  echo 'Node 节点'
+fi
+
 # 添加 DNS
 echo ========== 添加 DNS ==========
 ## 清除 K8S DNS
@@ -129,20 +136,24 @@ for imageName in ${images[@]}; do
   docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName
 done
 docker images
+
 ## 初始化集群
-## TODO 学习 参数意义
-# kubeadm init --kubernetes-version=v1.17.4 --apiserver-advertise-address=192.168.226.201 --pod-network-cidr=10.244.0.0/16 --service-cidr=10.96.0.0/12
-kubeadm init \
-  --kubernetes-version=v1.17.4 \
-  --apiserver-advertise-address=192.168.226.201 \
-  --pod-network-cidr=10.244.0.0/16 \
-  --service-cidr=10.96.0.0/12
-mkdir -p $HOME/.kube
-cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-chown $(id -u):$(id -g) $HOME/.kube/config
-## kuebadm toke
-## kubeadm init 会生成 token 以供 worker 去 kubeadm join
-kubeadm token list
-kubeadm token create --print-join-command
-## 永久token
-# kubeadm token create --ttl 0 --print-join-command
+if [[ $NodeType =~ master ]]; then
+  echo 'Master 初始化集群'
+  ## TODO 学习 参数意义
+  # kubeadm init --kubernetes-version=v1.17.4 --apiserver-advertise-address=192.168.226.201 --pod-network-cidr=10.244.0.0/16 --service-cidr=10.96.0.0/12
+  kubeadm init \
+    --kubernetes-version=v1.17.4 \
+    --apiserver-advertise-address=192.168.226.201 \
+    --pod-network-cidr=10.244.0.0/16 \
+    --service-cidr=10.96.0.0/12
+  mkdir -p $HOME/.kube
+  cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  chown $(id -u):$(id -g) $HOME/.kube/config
+  ## kuebadm toke
+  ## kubeadm init 会生成 token 以供 worker 去 kubeadm join
+  kubeadm token list
+  kubeadm token create --print-join-command
+  ## 永久token
+  # kubeadm token create --ttl 0 --print-join-command
+fi
