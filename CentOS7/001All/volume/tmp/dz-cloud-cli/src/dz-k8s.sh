@@ -1,6 +1,7 @@
 #!/bin/bash
 
 # 添加 DNS
+echo ========== 添加 DNS ==========
 ## 清除 K8S DNS
 sed -i '/# <Dz> K8S/,/# <\/Dz> K8S/d' /etc/hosts
 ## 添加 K8S DNS
@@ -12,6 +13,7 @@ echo '192.168.226.212 node2' >>/etc/hosts
 echo '# </Dz> K8S' >>/etc/hosts
 
 # 修改 linux 内核参数
+echo ========== 修改 linux 内核参数 ==========
 ## 添加网桥过滤和地址转发功能
 if [ ! -f /etc/sysctl.d/kubernetes.conf ]; then
   touch /etc/sysctl.d/kubernetes.conf
@@ -30,6 +32,7 @@ modprobe br_netfilter
 lsmod | grep br_netfilter
 
 # 处理服务
+echo ========== 处理服务 ==========
 ## 开启 chronyd
 systemctl start chronyd
 systemctl enable chronyd
@@ -46,8 +49,8 @@ sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig
 swapoff -a
 sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
-# 配置ipvs功能
-## TODO 在kubernetes中service有两种代理模型，一种是基于iptables的，一种是基于ipvs的
+# 配置 ipvs 功能
+echo ========== 配置 ipvs 功能 ==========
 ## 安装 ipset
 IpsetVersion=$(rpm -qa ipset)
 if [[ ! $IpsetVersion =~ 'ipset' ]]; then
@@ -72,22 +75,12 @@ source /etc/sysconfig/modules/ipvs.modules
 lsmod | grep -e ip_vs -e nf_conntrack_ipv4
 
 # 安转 K8S
+echo ========== 安转 K8S ==========
 ## 复制 repo 文件
-mv /tmp/cloud-file/CentOS7/001All/volume/etc/yum.repos.d/dz-kubernetes.repo /etc/yum.repos.d/docker-ce.repo
-
-# cat <<EOF >/etc/yum.repos.d/dz-kubernetes.repo
-# [kubernetes]
-# name=Kubernetes
-# baseurl=http://mirrors.aliyun.com/kubernetes/yum/repos/kubernetes-el7-x86_64
-# enabled=1
-# gpgcheck=0
-# EOF
-# cat /etc/yum.repos.d/dz-kubernetes.repo
-
+mv /tmp/cloud-file/CentOS7/001All/volume/etc/yum.repos.d/dz-kubernetes.repo /etc/yum.repos.d/dz-kubernetes.repo
 ## 安装 组件
 yum remove -y kubelet kubeadm kubectl
 yum install -y --setopt=obsoletes=0 kubelet-1.17.4-0 kubectl-1.17.4-0 kubeadm-1.17.4-0
-
 ## 配置
 if [ ! -f /etc/sysconfig/kubelet ]; then
   touch /etc/sysconfig/kubelet
@@ -97,11 +90,9 @@ echo '# <Dz> K8S ' >>/etc/sysconfig/kubelet
 echo 'KUBELET_CGROUP_ARGS=--cgroup-driver=systemd' >>/etc/sysconfig/kubelet
 echo 'KUBE_PROXY_MODE=ipvs' >>/etc/sysconfig/kubelet
 echo '# </Dz> K8S' >>/etc/sysconfig/kubelet
-
 ## 开启 kubelet
 systemctl start kubelet
 systemctl enable kubelet
-
 ## 准备集群镜像
 kubeadm config images list
 images=(
@@ -138,14 +129,11 @@ kubeadm token create --print-join-command
 # kubeadm token create --ttl 0 --print-join-command
 
 # 安装 docker
-# wget https://mirrors.aliyun.com/docker-ce/linux/centos/docker-ce.repo -O /etc/yum.repos.d/docker.repo
-
+echo ========== 安转 docker ==========
 ## 复制 repo 文件
 mv /tmp/cloud-file/CentOS7/001All/volume/etc/yum.repos.d/dz-docker.repo /etc/yum.repos.d/dz-docker.repo
-
 ## 安装 docker-ce
 yum install -y --setopt=obsoletes=0 docker-ce-18.06.3.ce-3.el7
-
 ## 配置
 ## Docker在默认情况下使用的Cgroup Driver为cgroupfs，而kubernetes推荐使用systemd来代替cgroupfs
 rm -f /etc/docker/daemon.json
@@ -155,7 +143,6 @@ echo '{' >>/etc/docker/daemon.json
 echo '"exec-opts": ["native.cgroupdriver=systemd"],' >>/etc/docker/daemon.json
 echo '"registry-mirrors": ["https://kn0t2bca.mirror.aliyuncs.com"]' >>/etc/docker/daemon.json
 echo '}' >>/etc/docker/daemon.json
-
 ## 开启 docker
 systemctl restart docker
 systemctl enable docker
