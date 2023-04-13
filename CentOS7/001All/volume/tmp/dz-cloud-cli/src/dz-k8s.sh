@@ -156,4 +156,7 @@ if [[ $NodeType =~ master ]]; then
   kubeadm token create --print-join-command
   ## 永久token
   # kubeadm token create --ttl 0 --print-join-command
+
+  ## 安装 k8s 网络插件
+  kubectl apply -f /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/k8s/kube-flannel.yml
 fi
