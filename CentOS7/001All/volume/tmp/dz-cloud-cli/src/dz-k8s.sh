@@ -74,6 +74,25 @@ chmod +x /etc/sysconfig/modules/ipvs.modules
 source /etc/sysconfig/modules/ipvs.modules
 lsmod | grep -e ip_vs -e nf_conntrack_ipv4
 
+# 安装 docker
+echo ========== 安转 docker ==========
+## 复制 repo 文件
+mv /tmp/cloud-file/CentOS7/001All/volume/etc/yum.repos.d/dz-docker.repo /etc/yum.repos.d/dz-docker.repo
+## 安装 docker-ce
+yum install -y --setopt=obsoletes=0 docker-ce-18.06.3.ce-3.el7
+## 配置
+## Docker在默认情况下使用的Cgroup Driver为cgroupfs，而kubernetes推荐使用systemd来代替cgroupfs
+rm -f /etc/docker/daemon.json
+mkdir /etc/docker
+touch /etc/docker/daemon.json
+echo '{' >>/etc/docker/daemon.json
+echo '"exec-opts": ["native.cgroupdriver=systemd"],' >>/etc/docker/daemon.json
+echo '"registry-mirrors": ["https://kn0t2bca.mirror.aliyuncs.com"]' >>/etc/docker/daemon.json
+echo '}' >>/etc/docker/daemon.json
+## 开启 docker
+systemctl restart docker
+systemctl enable docker
+
 # 安转 K8S
 echo ========== 安转 K8S ==========
 ## 复制 repo 文件
@@ -127,22 +146,3 @@ kubeadm token list
 kubeadm token create --print-join-command
 ## 永久token
 # kubeadm token create --ttl 0 --print-join-command
-
-# 安装 docker
-echo ========== 安转 docker ==========
-## 复制 repo 文件
-mv /tmp/cloud-file/CentOS7/001All/volume/etc/yum.repos.d/dz-docker.repo /etc/yum.repos.d/dz-docker.repo
-## 安装 docker-ce
-yum install -y --setopt=obsoletes=0 docker-ce-18.06.3.ce-3.el7
-## 配置
-## Docker在默认情况下使用的Cgroup Driver为cgroupfs，而kubernetes推荐使用systemd来代替cgroupfs
-rm -f /etc/docker/daemon.json
-mkdir /etc/docker
-touch /etc/docker/daemon.json
-echo '{' >>/etc/docker/daemon.json
-echo '"exec-opts": ["native.cgroupdriver=systemd"],' >>/etc/docker/daemon.json
-echo '"registry-mirrors": ["https://kn0t2bca.mirror.aliyuncs.com"]' >>/etc/docker/daemon.json
-echo '}' >>/etc/docker/daemon.json
-## 开启 docker
-systemctl restart docker
-systemctl enable docker
