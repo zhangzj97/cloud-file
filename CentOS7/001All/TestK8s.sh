@@ -1,4 +1,8 @@
+kubectl get 
+
 # Namespaces
+
+
 
 kubectl get namespaces
 

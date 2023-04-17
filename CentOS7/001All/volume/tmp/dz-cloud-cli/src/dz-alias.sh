@@ -24,7 +24,7 @@ echo 'alias dzssl=/tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-
 echo 'alias dzsys=/tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-sys.sh' >>/root/.bashrc
 echo 'alias dzyum=/tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-yum.sh' >>/root/.bashrc
 # Plugins
-echo 'alias dzdocker=/tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-yum.sh' >>/root/.bashrc
+echo 'alias dz=/tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-yum.sh' >>/root/.bashrc
 echo '# </Dz> Alias' >>/root/.bashrc
 
 ## 永久保存

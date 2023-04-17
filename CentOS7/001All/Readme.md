@@ -7,9 +7,9 @@
 ```bash
 
 # Download Install file
-curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/001All/dzadm.sh > /bin/dzadm.sh
-chmod u+x /bin/dzadm.sh
-dzadm 0.2.0
+wget -O /bin/dzadm https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/001All/dzadm.sh --no-check-certificate | chmod u+x /bin/dzadm
+
+dzadm
 
 ```
 
