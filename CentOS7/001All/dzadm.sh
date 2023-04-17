@@ -6,9 +6,7 @@ StepMap=(
 )
 
 logStep() {
-    echo ===========================
-    echo "[Step:" ${StepMap[$1]} "]"
-    echo ===========================
+    echo ===== "[Step:" ${StepMap[$1]} "]" =====
     echo \n
 }
 
