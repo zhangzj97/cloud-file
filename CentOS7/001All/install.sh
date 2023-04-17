@@ -45,5 +45,3 @@ echo 检查 jq
 [[ ! $(jq --version) ]] && yum install -y -q jq
 ## [Result]
 logResult AddDNS
-
-#
