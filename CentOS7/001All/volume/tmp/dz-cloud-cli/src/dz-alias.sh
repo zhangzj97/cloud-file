@@ -1,5 +1,10 @@
 #!/bin/bash -i
 
+# 定义 path 变量
+## 定义 PluginPath
+SrcPath=/tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src
+PluginPath=$SrcPath/plugins/
+
 # 添加 Alias
 ## 清除 Alias
 sed -i '/# <Dz> Alias/,/# <\/Dz> Alias/d' /etc/hosts
@@ -18,6 +23,8 @@ echo 'alias dzset=/tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-
 echo 'alias dzssl=/tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-ssl.sh' >>/root/.bashrc
 echo 'alias dzsys=/tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-sys.sh' >>/root/.bashrc
 echo 'alias dzyum=/tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-yum.sh' >>/root/.bashrc
+# Plugins
+echo 'alias dzdocker=/tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-yum.sh' >>/root/.bashrc
 echo '# </Dz> Alias' >>/root/.bashrc
 
 ## 永久保存

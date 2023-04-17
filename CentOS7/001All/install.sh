@@ -1,49 +1,47 @@
 #!/bin/bash -i
 
-# 添加 DNS
-## 清除 Github DNS
+# Step 参数
+StepMap=(
+  AddDNS: "1"
+)
+
+logStep() {
+  echo ===========================
+  echo "[Step:" StepMap[$1] "]"
+  echo ===========================
+}
+
+logResult() {
+  echo Successfully
+}
+
+# AddDNS | Add DNS host
+logStep AddDNS
+## [UpdateFile] Github DNS
 sed -i '/# <Dz> GitHub/,/# <\/Dz> GitHub/d' /etc/hosts
-## 添加 Github DNS
 echo '# <Dz> GitHub' >>/etc/hosts
 echo '185.199.110.133 raw.githubusercontent.com' >>/etc/hosts
 echo '140.82.113.3    raw.github.com' >>/etc/hosts
+echo '140.82.112.4    raw.github.com' >>/etc/hosts
 echo '# </Dz> GitHub' >>/etc/hosts
+## [Result]
+logResult AddDNS
 
-# 安装重要软件
-## 安装 wget
-WgetVersion=$(rpm -qa wget)
-if [[ ! $WgetVersion =~ 'wget' ]]; then
-  yum install -y wget
-fi
+# AddRepo | Add some repo source
+## [Install] epel
+yum install -y -q epel-release
+## [AddFile] repos
+mv /tmp/cloud-file/CentOS7/001All/volume/etc/yum.repos.d/*.repo /etc/yum.repos.d/
 
-## 安装 vim
-### TODO 如何判断 vim 是否已经安装
-VimtVersion=$(rpm -qa vim)
-if [[ ! $VimVersion =~ 'vim' ]]; then
-  yum install -y vim
-fi
-
-# 安装 CloudFile
-## 获取版本号
-CloudFileVersion=$1
-echo $CloudFileVersion
-
-## 检查版本号
-if [[ ! $CloudFileVersion || ! $CloudFileVersion =~ [0-9]+\.[0-9]+\.[0-9]+ ]]; then
-  echo "请输入 版本号"
-  exit
-fi
-
-## 下载相应的版本
-wget -t 20 -O /tmp/cloud-file.tar.gz https://github.com/zhangzj97/cloud-file/archive/refs/tags/v$CloudFileVersion.tar.gz
-tar -xvf /tmp/cloud-file.tar.gz -C /tmp/
-rm -fr /tmp/cloud-file
-mv /tmp/cloud-file-$CloudFileVersion /tmp/cloud-file
-rm -f /tmp/cloud-file.tar.gz
-
-# 修改权限
-chmod -R 755 /tmp/cloud-file
-
-# 添加常用的 Alias
-source /tmp/cloud-file/CentOS7/001All/volume/tmp/dz-cloud-cli/src/dz-alias.sh
-echo 'Add Alias Successfully!'
+# AddSoftware | Add some software
+## [Install] wget
+echo 检查 wget
+[[ ! $(wget --version) ]] && yum install -y -q wget
+## [Install] vim
+echo 检查 wget
+[[ ! $(vim --version) ]] && yum install -y -q vim
+## [Install] jq
+echo 检查 jq
+[[ ! $(jq --version) ]] && yum install -y -q jq
+## [Result]
+logResult AddDNS
