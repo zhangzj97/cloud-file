@@ -3,6 +3,8 @@
 # Step 参数
 StepMap=(
     AddDNS: "1"
+    AddRepo: "2"
+    AddSoftware: "3"
 )
 
 logStep() {
@@ -28,12 +30,16 @@ echo '# </Dz> GitHub' >>/etc/hosts
 logResult AddDNS
 
 # AddRepo | Add some repo source
+logStep AddRepo
 ## [Install] epel
 yum install -y -q epel-release
 ## [AddFile] repos
 mv /tmp/cloud-file/CentOS7/001All/volume/etc/yum.repos.d/*.repo /etc/yum.repos.d/
+## [Result]
+logResult AddRepo
 
 # AddSoftware | Add some software
+logStep AddSoftware
 ## [Install] wget
 echo 检查 wget
 [[ ! $(wget --version) ]] && yum install -y -q wget
@@ -44,4 +50,4 @@ echo 检查 wget
 echo 检查 jq
 [[ ! $(jq --version) ]] && yum install -y -q jq
 ## [Result]
-logResult AddDNS
+logResult AddSoftware
