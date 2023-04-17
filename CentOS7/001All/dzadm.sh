@@ -7,7 +7,7 @@ StepMap=(
 
 logStep() {
     echo ===========================
-    echo "[Step:" $StepMap[$1] "]"
+    echo "[Step:" $StepMap{$1} "]"
     echo ===========================
 }
 
@@ -38,7 +38,7 @@ mv /tmp/cloud-file/CentOS7/001All/volume/etc/yum.repos.d/*.repo /etc/yum.repos.d
 echo 检查 wget
 [[ ! $(wget --version) ]] && yum install -y -q wget
 ## [Install] vim
-echo 检查 wget
+echo 检查 vim
 [[ ! $(vim --version) ]] && yum install -y -q vim
 ## [Install] jq
 echo 检查 jq
