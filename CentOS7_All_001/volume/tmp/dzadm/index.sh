@@ -109,4 +109,4 @@ lnCli /tmp/dzctl/index.sh dzctl
 
 # Other
 echo ""
-echo "2"
+echo "3"
