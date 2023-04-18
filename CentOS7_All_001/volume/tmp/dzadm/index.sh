@@ -30,7 +30,7 @@ logErrorResult() {
 
 cpDir() {
   rm -fr $2
-  mkdir -r $2
+  mkdir -p $2
   /bin/cp -fa $1 $2
 }
 
@@ -109,4 +109,4 @@ lnCli /tmp/dzctl/index.sh dzctl
 
 # Other
 echo ""
-echo "3"
+echo "4"
