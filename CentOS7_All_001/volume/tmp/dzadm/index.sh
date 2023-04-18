@@ -63,6 +63,8 @@ logStep "Install: check package jq"
 
 # AddDzCloud | Add dz-cloud from remote
 logStage "${StageRemark[3]}"
+DzAdmDirName=/tmp/cloud-file/CentOS7_All_001/volume/tmp/dzadm/
+DzCtlDirName=/tmp/cloud-file/CentOS7_All_001/volume/tmp/dzctl/
 # [Install] dz-ctl
 logStep "Install: get latest version"
 DzCloudVersion=$(wget -O- -q https://api.github.com/repos/zhangzj97/cloud-file/releases/latest | jq -r '.tag_name')
@@ -83,13 +85,13 @@ mv /tmp/${DzCloudDirName} /tmp/cloud-file
 # [Edit] dzadm
 logStep "Install: register dzadm"
 rm -fr /tmp/dzadm
-mv /tmp/cloud-file/CentOS7/001All/volume/tmp/dzadm/ /tmp/dzadm
+mv $DzAdmDirName/* /tmp/dzadm
 chmod u+x /tmp/dzadm/index.sh
 ln /tmp/dzadm/index.sh /bin/dzadm
 # [Edit] dzctl
 logStep "Install: register dzctl"
 rm -fr /tmp/dzctl
-mv /tmp/cloud-file/CentOS7/001All/volume/tmp/dzctl/ /tmp/dzctl
+mv $DzCtlDirName/* /tmp/dzctl
 chmod u+x /tmp/dzctl/index.sh
 ln /tmp/dzctl/index.sh /bin/dzctl
 

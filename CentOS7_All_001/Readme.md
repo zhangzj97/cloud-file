@@ -7,7 +7,8 @@
 ```bash
 
 # Download Install file
-wget -O /tmp/dzadm.sh https://raw.fastgit.org/zhangzj97/cloud-file/CentOS7/001All/volume/tmp/dzadm/index.sh --no-check-certificate | chmod u+x /tmp/dzadm.sh | ln /tmp/dzadm.sh /bin/dzadm
+w
+wget -O /tmp/dzadm.sh https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7_All_001/volume/tmp/dzadm/index.sh --no-check-certificate | chmod u+x /tmp/dzadm.sh | ln /tmp/dzadm.sh /bin/dzadm
 dzadm
 
 ```
