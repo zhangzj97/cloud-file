@@ -31,7 +31,7 @@ logErrorResult() {
 cpDir() {
   rm -fr $2
   mkdir -p $2
-  /bin/cp -fa $1 $2
+  /bin/cp -fa $1/* $2
 }
 
 lnCli() {
