@@ -60,6 +60,9 @@ logStep "Install: check package vim"
 # [Install] jq
 logStep "Install: check package jq"
 [[ ! $(jq --version) ]] && yum install -y -q jq
+# [Install] git
+logStep "Install: check package git"
+[[ ! $(git --version) ]] && yum install -y -q git
 
 # AddDzCloud | Add dz-cloud from remote
 logStage "${StageRemark[3]}"
