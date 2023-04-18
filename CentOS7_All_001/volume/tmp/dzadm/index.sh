@@ -28,6 +28,17 @@ logErrorResult() {
   echo ""
 }
 
+cpDir() {
+  rm -f $2
+  mkdir -r $2
+  /bin/cp -fa $1 $2
+}
+
+lnCli() {
+  chmod u+x $1
+  ln -fs $1 /bin/$2
+}
+
 StageRemark=(
   "[Stage00]"
   "[Stage01] AddDNS      | Add DNS host"
@@ -83,21 +94,18 @@ fi
 logStep "Install: setup dz-cloud"
 tar -xvf /tmp/$DzCloudTarName -C /tmp/ >/tmp/null
 logStep "Install: add dir /tmp/cloud-file"
-rm -fr /tmp/cloud-file
-/bin/cp -fa /tmp/${DzCloudDirName} /tmp/cloud-file
+cpDir /tmp/${DzCloudDirName} /tmp/cloud-file
 rm -fr /tmp/${DzCloudDirName}
 # [Edit] dzadm
 logStep "Install: add dir /tmp/dzadm"
-/bin/cp -fa $DzAdmDirName /tmp/dzadm
+cpDir $DzAdmDirName /tmp/dzadm
 logStep "Install: register dzadm"
-chmod u+x /tmp/dzadm/index.sh
-ln -fs /tmp/dzadm/index.sh /bin/dzadm
+lnCli /tmp/dzadm/index.sh dzadm
 # [Edit] dzctl
 logStep "Install: add dir /tmp/dzctl"
-/bin/cp -fa $DzCtlDirName /tmp/dzctl
+cpDir $DzCtlDirName /tmp/dzctl
 logStep "Install: register dzctl"
-chmod u+x /tmp/dzctl/index.sh
-ln -fs /tmp/dzctl/index.sh /bin/dzctl
+lnCli /tmp/dzctl/index.sh dzctl
 
 # Other
 echo ""
