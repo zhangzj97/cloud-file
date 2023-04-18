@@ -29,7 +29,7 @@ logErrorResult() {
 }
 
 cpDir() {
-  rm -f $2
+  rm -fr $2
   mkdir -r $2
   /bin/cp -fa $1 $2
 }
