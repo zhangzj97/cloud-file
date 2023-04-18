@@ -80,10 +80,18 @@ tar -xvf /tmp/$DzCloudTarName -C /tmp/ >/tmp/null
 logStep "Install: reset dz-cloud dirs & files"
 rm -fr /tmp/cloud-file
 mv /tmp/${DzCloudDirName} /tmp/cloud-file
+# [Edit] dzadm
+logStep "Install: register dzadm"
+rm -fr /tmp/dzadm
+mv /tmp/cloud-file/CentOS7/001All/volume/tmp/dzadm/ /tmp/dzadm
+chmod u+x /tmp/dzadm/index.sh
+ln /tmp/dzadm/index.sh /bin/dzadm
 # [Edit] dzctl
 logStep "Install: register dzctl"
-chmod u+x /tmp/cloud-file/CentOS7/001All/volume/tmp/dzctl/index.sh
-ln /tmp/cloud-file/CentOS7/001All/volume/tmp/dzctl/index.sh /bin/dzctl
+rm -fr /tmp/dzctl
+mv /tmp/cloud-file/CentOS7/001All/volume/tmp/dzctl/ /tmp/dzctl
+chmod u+x /tmp/dzctl/index.sh
+ln /tmp/dzctl/index.sh /bin/dzctl
 
 # Other
 echo ""
