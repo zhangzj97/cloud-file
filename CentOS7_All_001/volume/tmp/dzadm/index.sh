@@ -63,37 +63,37 @@ logStep "Install: check package jq"
 
 # AddDzCloud | Add dz-cloud from remote
 logStage "${StageRemark[3]}"
-DzAdmDirName=/tmp/cloud-file/CentOS7_All_001/volume/tmp/dzadm/
-DzCtlDirName=/tmp/cloud-file/CentOS7_All_001/volume/tmp/dzctl/
+DzAdmDirName=/tmp/cloud-file/CentOS7_All_001/volume/tmp/dzadm
+DzCtlDirName=/tmp/cloud-file/CentOS7_All_001/volume/tmp/dzctl
 # [Install] dz-ctl
 logStep "Install: get latest version"
 DzCloudVersion=$(wget -O- -q https://api.github.com/repos/zhangzj97/cloud-file/releases/latest | jq -r '.tag_name')
 DzCloudDirName=cloud-file-${DzCloudVersion:1}
 DzCloudTarName=cloud-file-${DzCloudVersion:1}.tar.gz
 logStep "Install: check latest version tar ===> ${DzCloudTarName}"
-if [[ -f /tmp/$DzCloudTarName ]]; then
-  logStep "Install: file exists"
+if [[ -f /tmp/$DzCloudTarName && $(tar -tf /tmp/$DzCloudTarName) ]]; then
+  logStep "Install: file exists ===> /tmp/${DzCloudTarName}"
 else
   logStep "Install: download dz-cloud"
-  wget -t0 -T5 -O /tmp/$DzCloudTarName https://github.com/zhangzj97/cloud-file/archive/refs/tags/$DzCloudVersion.tar.gz
+  wget -t0 -T5 -O /tmp/$DzCloudTarName https://github.com/zhangzj97/cloud-file/archive/refs/tags/$DzCloudVersion.tar.gz --no-check-certificate
 fi
 logStep "Install: setup dz-cloud"
 tar -xvf /tmp/$DzCloudTarName -C /tmp/ >/tmp/null
-logStep "Install: reset dz-cloud dirs & files"
-rm -fr /tmp/cloud-file
-mv /tmp/${DzCloudDirName} /tmp/cloud-file
+logStep "Install: add dir /tmp/cloud-file"
+/bin/cp -fa /tmp/${DzCloudDirName} /tmp/cloud-file
+rm -fr /tmp/${DzCloudDirName}
 # [Edit] dzadm
+logStep "Install: add dir /tmp/dzadm"
+/bin/cp -fa $DzAdmDirName /tmp/dzadm
 logStep "Install: register dzadm"
-rm -fr /tmp/dzadm
-mv $DzAdmDirName/* /tmp/dzadm
 chmod u+x /tmp/dzadm/index.sh
-ln /tmp/dzadm/index.sh /bin/dzadm
+ln -fs /tmp/dzadm/index.sh /bin/dzadm
 # [Edit] dzctl
+logStep "Install: add dir /tmp/dzctl"
+/bin/cp -fa $DzCtlDirName /tmp/dzctl
 logStep "Install: register dzctl"
-rm -fr /tmp/dzctl
-mv $DzCtlDirName/* /tmp/dzctl
 chmod u+x /tmp/dzctl/index.sh
-ln /tmp/dzctl/index.sh /bin/dzctl
+ln -fs /tmp/dzctl/index.sh /bin/dzctl
 
 # Other
 echo ""
