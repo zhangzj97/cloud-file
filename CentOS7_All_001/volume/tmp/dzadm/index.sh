@@ -80,6 +80,7 @@ fi
 logStep "Install: setup dz-cloud"
 tar -xvf /tmp/$DzCloudTarName -C /tmp/ >/tmp/null
 logStep "Install: add dir /tmp/cloud-file"
+rm -fr /tmp/cloud-file
 /bin/cp -fa /tmp/${DzCloudDirName} /tmp/cloud-file
 rm -fr /tmp/${DzCloudDirName}
 # [Edit] dzadm
