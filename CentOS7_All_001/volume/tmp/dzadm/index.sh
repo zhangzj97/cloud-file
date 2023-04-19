@@ -24,7 +24,7 @@ logResult() {
 }
 
 logErrorResult() {
-  echo -e "${GREEN}                [Error] $1 ${RES}"
+  echo -e "${RED}                [Error] $1 ${RES}"
   echo ""
 }
 
