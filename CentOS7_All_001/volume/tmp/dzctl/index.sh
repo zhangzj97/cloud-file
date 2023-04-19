@@ -5,6 +5,8 @@ PluginPath=/tmp/dzctl/src/plugins
 PluginCode=$1
 PluginActionCode=$2
 
+# Todo 如何 是由
+
 case $PluginCode in
 host)
   source $PluginPath/dz-host/index.sh $PluginActionCode
