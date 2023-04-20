@@ -82,8 +82,8 @@ DzCtlDirName=/tmp/cloud-file/CentOS7_All_001/volume/tmp/dzctl
 # [Install] dz-ctl
 logStep "Install: get latest version"
 DzCloudVersion=$(wget -O- -q https://api.github.com/repos/zhangzj97/cloud-file/releases/latest | jq -r '.tag_name')
-DzCloudDirName=cloud-file-${DzCloudVersion:1}
-DzCloudTarName=cloud-file-${DzCloudVersion:1}.tar.gz
+DzCloudDirName=cloud-file-${DzCloudVersion}
+DzCloudTarName=cloud-file-${DzCloudVersion}.tar.gz
 logStep "Install: check latest version tar ===> ${DzCloudTarName}"
 if [[ -f /tmp/$DzCloudTarName && $(tar -tf /tmp/$DzCloudTarName) ]]; then
   logStep "Install: file exists ===> /tmp/${DzCloudTarName}"
