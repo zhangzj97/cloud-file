@@ -79,6 +79,10 @@ logStep "Install: check package git"
 logStage "${StageRemark[3]}"
 DzAdmDirName=/tmp/cloud-file/CentOS7_All_001/volume/tmp/dzadm
 DzCtlDirName=/tmp/cloud-file/CentOS7_All_001/volume/tmp/dzctl
+if [[ $1 =~ git ]] ;then 
+DzAdmDirName=/tmp/cloud-file-git/CentOS7_All_001/volume/tmp/dzadm
+DzCtlDirName=/tmp/cloud-file-git/CentOS7_All_001/volume/tmp/dzctl
+fi
 # [Install] dz-ctl
 logStep "Install: get latest version"
 DzCloudVersion=$(wget -O- -q https://api.github.com/repos/zhangzj97/cloud-file/releases/latest | jq -r '.tag_name')
@@ -105,4 +109,4 @@ lnCli $DzCtlDirName/index.sh dzctl
 
 # Other
 echo ""
-echo "5"
+echo "7"
