@@ -1,7 +1,7 @@
 #!/bin/bash -i
 
 # Dispatch
-PluginPath=/tmp/dzctl/src/plugins
+PluginPath=/tmp/cloud-file/CentOS7_All_001/volume/tmp/dzctl/src/plugins
 PluginCode=$1
 PluginArgument=${*/$1/}
 [[ ! -f $PluginPath/dz-$PluginCode/index.sh ]] && echo Error plugin && exit
