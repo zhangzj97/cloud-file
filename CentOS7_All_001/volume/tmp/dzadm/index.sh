@@ -97,15 +97,11 @@ logStep "Install: add dir /tmp/cloud-file"
 cpDir /tmp/${DzCloudDirName} /tmp/cloud-file
 rm -fr /tmp/${DzCloudDirName}
 # [Edit] dzadm
-logStep "Install: add dir /tmp/dzadm"
-cpDir $DzAdmDirName /tmp/dzadm
 logStep "Install: register dzadm"
-lnCli /tmp/dzadm/index.sh dzadm
+lnCli $DzAdmDirName/index.sh dzadm
 # [Edit] dzctl
-logStep "Install: add dir /tmp/dzctl"
-cpDir $DzCtlDirName /tmp/dzctl
 logStep "Install: register dzctl"
-lnCli /tmp/dzctl/index.sh dzctl
+lnCli $DzCtlDirName/index.sh dzctl
 
 # Other
 echo ""
