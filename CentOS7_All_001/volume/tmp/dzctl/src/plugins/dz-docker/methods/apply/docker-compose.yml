@@ -1,0 +1,29 @@
+version: 3.8
+service: 
+  dz-dashboard-docker.ui:
+    image: dz-dashboard-docker.ui:1.0.0
+    container_name:  dz-dashboard-docker.ui
+    restart: always
+    environment:
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+    ports: 
+      - 8901:8999
+  # dz-dashboard-lazydocker:
+  #   image: dz-dashboard-lazydocker:1.0.0
+  #   container_name:  dz-dashboard-lazydocker
+  #   restart: always
+  #   environment:
+  #   volumes: 
+  #     - /var/run/docker.sock:/var/run/docker.sock
+  #   ports: 
+  dz-dashboard-portainer:
+    image: dz-dashboard-portainer:1.0.0
+    container_name:  dz-dashboard-portainer
+    restart: always
+    environment:
+    volumes: 
+      - /var/run/docker.sock:/var/run/docker.sock
+      - dz-dashboard-lazydocker-volume:/data
+    ports: 
+      - 8902:9443

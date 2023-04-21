@@ -71,29 +71,9 @@ logStage "${StageRemark[4]}"
 
 # [Stage05] InstallDashboard | Install docker dashboard
 logStage "${StageRemark[5]}"
-# https://hub.docker.com/r/joinsunsoft/docker.ui#!
-if [[ ! `docker images | grep joinsunsoft/docker.ui`  ]] ; then
-docker pull joinsunsoft/docker.ui
-fi
-DzBashboardDockerUIPort=8901
-DzBashboardDockerUIName=dz-dashboard-docker.ui
-docker tag joinsunsoft/docker.ui $DzBashboardDockerUIName:1.0.0
-docker run -d --name=$DzBashboardDockerUIName --restart=always -v /var/run/docker.sock:/var/run/docker.sock -p $DzBashboardDockerUIPort:8999 $DzBashboardDockerUIName:1.0.0
-if [[ ! `docker images | grep portainer/portainer-ce`  ]] ; then
-docker pull portainer/portainer-ce
-fi
-DzBashboardPortainerPort=8902
-DzBashboardPortainerName=dz-dashboard-portainer
-docker tag portainer/portainer-ce $DzBashboardPortainerName:1.0.0
-# -p 8000:8000
-docker run -d --name=$DzBashboardPortainerName --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v dz-dashboard-lazydocker-volume:/data -p $DzBashboardPortainerPort:9443 $DzBashboardPortainerName:1.0.0
-if [[ ! `docker images | grep lazyteam/lazydocker`  ]] ; then
-docker pull lazyteam/lazydocker
-fi
-DzBashboardLazyDockerPort=8903
-DzBashboardLazyDockerName=dz-dashboard-lazydocker
-docker tag lazyteam/lazydocker $DzBashboardLazyDockerName:1.0.0
-docker run --rm -it -d --name=$DzBashboardLazyDockerName -v /var/run/docker.sock:/var/run/docker.sock -v dz-dashboard-lazydocker-volume:/.config/jesseduffield/lazydocker -p $DzBashboardLazyDockerPort:8999 $DzBashboardLazyDockerName:1.0.0
+# [Docker]
+docker compose -f /tmp/cloud-file-git/CentOS7_All_001/volume/tmp/dzctl/src/plugins/dz-docker/methods/apply/dz-dashboard-docker.ui/docker-compose.yml up -d
+docker compose -f /tmp/cloud-file-git/CentOS7_All_001/volume/tmp/dzctl/src/plugins/dz-docker/methods/apply/dz-dashboard-portainer/docker-compose.yml up -d
 
 # [Stage06] InstallTest | Install test for docker
 logStage "${StageRemark[6]}"
