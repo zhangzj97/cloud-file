@@ -41,17 +41,18 @@ lnCli() {
 
 StageNo=1
 
-logStage $StageNo "Register param in /etc/bashrc"
+logStage $StageNo "Register param in /etc/profile.d/dz.sh"
 DZ_CLOUD_PATH=/tmp
 [[ ! $1 =~ ^\/ ]] && logErrorResult "DZ_CLOUD_PATH is invalid" && exit 0
 [[ $1 ]] && DZ_CLOUD_PATH=$1
 [[ ! -d $DZ_CLOUD_PATH ]] && mkdir -p $DZ_CLOUD_PATH
-sed -i '/# <Dz> Dz/,/# <\/Dz> Dz/d' /etc/bashrc
-echo '# <Dz> Dz' >>/etc/bashrc
-echo "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}" >>/etc/bashrc
-echo 'export DZ_CLOUD_PATH' >>/etc/bashrc
-echo '# </Dz> Dz' >>/etc/bashrc
-source /etc/bashrc
+[[ ! -f /etc/profile.d/dz.sh ]] && touch /etc/profile.d/dz.sh
+sed -i '/# <Dz> Dz/,/# <\/Dz> Dz/d' /etc/profile.d/dz.sh
+echo '# <Dz> Dz' >>/etc/profile.d/dz.sh
+echo "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}" >>/etc/profile.d/dz.sh
+echo 'export DZ_CLOUD_PATH' >>/etc/profile.d/dz.sh
+echo '# </Dz> Dz' >>/etc/profile.d/dz.sh
+source /etc/profile
 let StageNo+=1
 
 logStage $StageNo "Add DNS in /etc/hosts"
@@ -81,7 +82,7 @@ logStage $StageNo "Install dz-cloud-cli"
 DzCloudVersion=$(wget -O- -q https://api.github.com/repos/zhangzj97/cloud-file/releases/latest | jq -r '.tag_name')
 DzCloudInstallerPath=$DZ_CLOUD_PATH/cloud-file-${DzCloudVersion}.tar.gz
 logStep "Check dz-cloud-cli latest version ==> ${DzCloudInstallerPath}"
-if [[ -f $DzCloudInstallerPath || $(tar -tf ${DzCloudInstallerPath}) ]]; then
+if [[ -f $DzCloudInstallerPath && $(tar -tf ${DzCloudInstallerPath}) ]]; then
   logStep "Find dz-cloud-cli installer in ${DzCloudInstallerPath}"
 else
   logStep "Download dz-cloud-cli installer"
