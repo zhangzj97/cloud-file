@@ -1,30 +1,39 @@
 #!/bin/bash -i
 
-RED='\e[1;31m'    # 红
-GREEN='\e[1;32m'  # 绿
-YELLOW='\e[1;33m' # 黄
-BLUE='\e[1;34m'   # 蓝
-PINK='\e[1;35m'   # 粉红
-RES='\e[0m'       # 清除颜色
+TextRed='\e[1;31m'
+TextGreen='\e[1;32m'
+TextYellow='\e[1;33m'
+TextBlue='\e[1;34m'
+TextPink='\e[1;35m'
+TextClear='\e[0m'
+
+Space04="    "
+Space08=$Space04$Space04
+Space12=$Space08$Space04
+Space16=$Space08$Space08
+Space20=$Space16$Space04
+Space24=$Space20$Space08
+Space28=$Space24$Space04
+Space32=$Space28$Space04
 
 logStage() {
   echo ""
   echo ""
-  echo -e "${BLUE}                ============================================================"
-  echo -e "${BLUE}                [Stage$2] $1 ${RES}"
+  echo -e "${Space16}${TextBlue}============================================================"
+  echo -e "${Space16}${TextBlue}[Stage$2] $1 ${TextClear}"
 }
 
 logStep() {
-  echo -e "                    $1"
+  echo -e "${Space16}$1"
 }
 
 logResult() {
-  echo -e "${GREEN}                                [RESULT] Finish Stage Successfully! ${RES}"
+  echo -e "${Space32}${TextGreen}[RESULT] Finish Stage Successfully! ${TextClear}"
   echo ""
 }
 
 logErrorResult() {
-  echo -e "${RED}                [Error] $1 ${RES}"
+  echo -e "${Space16}${TextRed}[Error] $1 ${RES}"
   echo ""
 }
 
@@ -50,7 +59,8 @@ DZ_CLOUD_PATH=/tmp
 sed -i '/# <Dz> Dz/,/# <\/Dz> Dz/d' /etc/profile.d/dz.sh
 echo '# <Dz> Dz' >>/etc/profile.d/dz.sh
 echo "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}" >>/etc/profile.d/dz.sh
-echo 'export DZ_CLOUD_PATH' >>/etc/profile.d/dz.sh
+echo "DZ_TOOL_PATH=${DZ_CLOUD_PATH}/cloud-file/CentOS7/volume/tmp/dztool/index.sh" >>/etc/profile.d/dz.sh
+echo 'export DZ_CLOUD_PATH,DZ_TOOL_PATH' >>/etc/profile.d/dz.sh
 echo '# </Dz> Dz' >>/etc/profile.d/dz.sh
 source /etc/profile
 let StageNo+=1
@@ -88,7 +98,7 @@ else
   logStep "Download dz-cloud-cli installer"
   wget -t0 -T5 -O $DzCloudInstallerPath https://github.com/zhangzj97/cloud-file/archive/refs/tags/$DzCloudVersion.tar.gz --no-check-certificate
 fi
-logStep "Register dzadm and dzctl"
+logStep "Register dzadm & dzctl"
 tar -xf $DzCloudInstallerPath -C $DZ_CLOUD_PATH/
 cpDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion $DZ_CLOUD_PATH/cloud-file
 rm -fr $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion
