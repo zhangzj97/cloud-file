@@ -45,7 +45,7 @@ logStage $StageNo "Register param in /etc/bashrc"
 DZ_CLOUD_PATH=/tmp
 [[ ! $1 =~ ^\/ ]] && logErrorResult "DZ_CLOUD_PATH is invalid" && exit 0
 [[ $1 ]] && DZ_CLOUD_PATH=$1
-[[ -d $DZ_CLOUD_PATH ]] && mkdir -p $DZ_CLOUD_PATH
+[[ ! -d $DZ_CLOUD_PATH ]] && mkdir -p $DZ_CLOUD_PATH
 sed -i '/# <Dz> Dz/,/# <\/Dz> Dz/d' /etc/bashrc
 echo '# <Dz> Dz' >>/etc/bashrc
 echo "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}" >>/etc/bashrc
