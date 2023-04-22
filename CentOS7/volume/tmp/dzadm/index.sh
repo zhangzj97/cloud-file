@@ -39,14 +39,20 @@ lnCli() {
   ln -fs $1 /bin/$2
 }
 
-StageRemark=(
-  "[Stage00]"
-  "[Stage01] AddDNS      | Add DNS host"
-  "[Stage02] AddSoftware | Add some software"
-  "[Stage03] AddDzCTL    | Add dz-ctl"
-)
-
 StageNo=1
+
+logStage $StageNo "Register param in /etc/bashrc"
+DZ_CLOUD_PATH=/tmp
+[[ !$1 =~ ^\/ ]] && logErrorResult "DZ_CLOUD_PATH is invalid"
+[[ $1 ]] && DZ_CLOUD_PATH=$1
+[[ -d $DZ_CLOUD_PATH ]] && mkdir -p $DZ_CLOUD_PATH
+sed -i '/# <Dz> Dz/,/# <\/Dz> Dz/d' /etc/bashrc
+echo '# <Dz> Dz' >>/etc/bashrc
+echo "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}" >>/etc/bashrc
+echo 'export DZ_CLOUD_PATH' >>/etc/bashrc
+echo '# </Dz> Dz' >>/etc/bashrc
+source /etc/bashrc
+StageNo = $StageNo + 1
 
 logStage $StageNo "Add DNS in /etc/hosts"
 sed -i '/# <Dz> GitHub/,/# <\/Dz> GitHub/d' /etc/hosts
@@ -71,22 +77,20 @@ logStep "Checking package git"
 StageNo = $StageNo + 1
 
 logStage $StageNo "Install dz-cloud-cli"
-DzadmDirPath=/tmp/cloud-file/CentOS7/volume/tmp/dzadm
-DzctlDirPath=/tmp/cloud-file/CentOS7/volume/tmp/dzctl
 # get latest version
 DzCloudVersion=$(wget -O- -q https://api.github.com/repos/zhangzj97/cloud-file/releases/latest | jq -r '.tag_name')
-DzCloudInstallerPath=/tmp/cloud-file-${DzCloudVersion}.tar.gz
+DzCloudInstallerPath=$DZ_CLOUD_PATH/cloud-file-${DzCloudVersion}.tar.gz
 logStep "Check dz-cloud-cli latest version ==> ${DzCloudTarName}"
 if [[ -f $DzCloudInstallerPath && $(tar -tf ${DzCloudInstallerPath}) ]]; then
   logStep "Download dz-cloud-cli installer"
   wget -t0 -T5 -O $DzCloudInstallerPath https://github.com/zhangzj97/cloud-file/archive/refs/tags/$DzCloudVersion.tar.gz --no-check-certificate
 fi
 logStep "Register dzadm and dzctl"
-tar -xvf $DzCloudInstallerPath -C /tmp/ >/tmp/null
-cpDir /tmp/cloud-file-${DzCloudVersion} /tmp/cloud-file
-rm -fr /tmp/cloud-file-${DzCloudVersion}
-lnCli $DzadmDirPath/index.sh dzadm
-lnCli $DzctlDirPath/index.sh dzctl
+tar -xvf $DzCloudInstallerPath -C $DZ_CLOUD_PATH/ >$DZ_CLOUD_PATH/null
+cpDir $DZ_CLOUD_PATH/cloud-file* /tmp/cloud-file
+rm -fr $DZ_CLOUD_PATH/cloud-file*
+lnCli $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzadm/index.sh dzadm
+lnCli $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/index.sh dzctl
 
 # Other
 echo ""
