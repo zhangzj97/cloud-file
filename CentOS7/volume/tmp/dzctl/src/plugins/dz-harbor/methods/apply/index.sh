@@ -37,7 +37,7 @@ StageRemark=(
 logStage "${StageRemark[1]}"
 # [[ $* =~ get ]] && echo Error get && exit
 
-# Certificate | Generate Certificate 
+# Certificate | Generate Certificate
 logStage "${StageRemark[2]}"
 # Generate a Certificate Authority Certificate
 logStep "[Certificate] Config path"
@@ -53,17 +53,17 @@ HarborKeyPath=/tmp/harbor-access/harbor.key
 HarborCsrPath=/tmp/harbor-access/harbor.csr
 HarborCrtPath=/tmp/harbor-access/harbor.crt
 openssl genrsa -out $HarborKeyPath 4096
-openssl req -sha512 -new -subj "/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=zhangzejie.top"  -key $HarborKeyPath  -out $HarborCsrPath
+openssl req -sha512 -new -subj "/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=zhangzejie.top" -key $HarborKeyPath -out $HarborCsrPath
 # Generate an x509 v3 extension file
 logStep "[Certificate] Generate an x509 v3 extension file"
 V3ExtPath=/tmp/harbor-access/v3.ext
-/bin/cp -fa /tmp/cloud-file-git/CentOS7_All_001/volume/tmp/harbor/v3.ext $V3ExtPath
+/bin/cp -fa /tmp/cloud-file/CentOS7_All_001/volume/tmp/harbor/v3.ext $V3ExtPath
 openssl x509 -req -sha512 -days 3650 -extfile $V3ExtPath -CA $CaCrtPath -CAkey $CaKeyPath -CAcreateserial -in $HarborCsrPath -out $HarborCrtPath
 
 # InstallHarbor | Install harbor
 # wget -O /tmp/harbor.installer.tgz https://kgithub.com/goharbor/harbor/releases/download/v2.8.0/harbor-offline-installer-v2.8.0.tgz --no-check-certificate
 # wget -O /tmp/harbor.installer2.tgz https://kgithub.com/goharbor/harbor/releases/download/v2.8.0/harbor-online-installer-v2.8.0.tgz --no-check-certificate
-if [[ ! -f /tmp/harbor.tgz ]] ; then 
+if [[ ! -f /tmp/harbor.tgz ]]; then
   logErrorResult "Need /tmp/harbor.tgz"
 fi
 tar -xvf /tmp/harbor.tgz -C /tmp/ >/tmp/null
