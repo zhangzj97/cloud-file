@@ -20,7 +20,7 @@ logStage() {
   echo ""
   echo ""
   echo -e "${Space16}${TextBlue}============================================================"
-  echo -e "${Space16}${TextBlue}[Stage$2] $1 ${TextClear}"
+  echo -e "${Space16}${TextBlue}[Stage$2] $1${TextClear}"
 }
 
 logStep() {
@@ -28,12 +28,12 @@ logStep() {
 }
 
 logResult() {
-  echo -e "${Space32}${TextGreen}[RESULT] Finish Stage Successfully! ${TextClear}"
+  echo -e "${Space32}${TextGreen}[RESULT] Finish Stage Successfully!${TextClear}"
   echo ""
 }
 
 logErrorResult() {
-  echo -e "${Space16}${TextRed}[Error] $1 ${RES}"
+  echo -e "${Space16}${TextRed}[Error] $1${TextClear}"
   echo ""
 }
 
