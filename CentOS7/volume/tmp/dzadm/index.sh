@@ -20,7 +20,7 @@ logStage() {
   echo ""
   echo ""
   echo -e "${Space16}${TextBlue}============================================================"
-  echo -e "${Space16}${TextBlue}[Stage$2] $1 ${TextClear}"
+  echo -e "${Space16}${TextBlue}[Stage$1] $2 ${TextClear}"
 }
 
 logStep() {
