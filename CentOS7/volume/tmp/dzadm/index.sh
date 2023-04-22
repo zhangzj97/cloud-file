@@ -80,15 +80,15 @@ logStage $StageNo "Install dz-cloud-cli"
 # get latest version
 DzCloudVersion=$(wget -O- -q https://api.github.com/repos/zhangzj97/cloud-file/releases/latest | jq -r '.tag_name')
 DzCloudInstallerPath=$DZ_CLOUD_PATH/cloud-file-${DzCloudVersion}.tar.gz
-logStep "Check dz-cloud-cli latest version ==> ${DzCloudTarName}"
+logStep "Check dz-cloud-cli latest version ==> ${DzCloudInstallerPath}"
 if [[ -f $DzCloudInstallerPath && $(tar -tf ${DzCloudInstallerPath}) ]]; then
   logStep "Download dz-cloud-cli installer"
   wget -t0 -T5 -O $DzCloudInstallerPath https://github.com/zhangzj97/cloud-file/archive/refs/tags/$DzCloudVersion.tar.gz --no-check-certificate
 fi
 logStep "Register dzadm and dzctl"
 tar -xvf $DzCloudInstallerPath -C $DZ_CLOUD_PATH/ >$DZ_CLOUD_PATH/null
-cpDir $DZ_CLOUD_PATH/cloud-file* /tmp/cloud-file
-rm -fr $DZ_CLOUD_PATH/cloud-file*
+cpDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion /tmp/cloud-file
+rm -fr $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion
 lnCli $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzadm/index.sh dzadm
 lnCli $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/index.sh dzctl
 
