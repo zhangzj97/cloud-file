@@ -54,7 +54,7 @@ logStage "${StageRemark[3]}"
 # [Install] docker
 logStep "Install: add docker repo"
 if [[ ! $(docker --version) ]]; then
-  cp /tmp/cloud-file/CentOS7/volume/etc/yum.repos.d/dz-docker.repo /etc/yum.repos.d/dz-docker.repo
+  cp $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/yum.repos.d/dz-docker.repo /etc/yum.repos.d/dz-docker.repo
   yum install -y -q docker-ce
 fi
 # [Install] Docker service
@@ -62,7 +62,7 @@ logStep "Install: enable docker"
 systemctl enable --now docker
 # [Install] Update daemon.json
 logStep "Install: update /etc/docker/daemon.json"
-/bin/cp -fa /tmp/cloud-file/CentOS7/volume/etc/docker/daemon.json /etc/docker/daemon.json
+/bin/cp -fa $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/docker/daemon.json /etc/docker/daemon.json
 systemctl daemon-reload
 systemctl restart docker
 
@@ -72,8 +72,8 @@ logStage "${StageRemark[4]}"
 # [Stage05] InstallDashboard | Install docker dashboard
 logStage "${StageRemark[5]}"
 # [Docker]
-docker compose -f /tmp/cloud-file/CentOS7/volume/tmp/dzctl/src/plugins/dz-docker/methods/apply/dz-dashboard-docker.ui/docker-compose.yml up -d
-docker compose -f /tmp/cloud-file/CentOS7/volume/tmp/dzctl/src/plugins/dz-docker/methods/apply/dz-dashboard-portainer/docker-compose.yml up -d
+docker compose -f $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/src/plugins/dz-docker/methods/apply/dz-dashboard-docker.ui/docker-compose.yml up -d
+docker compose -f $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/src/plugins/dz-docker/methods/apply/dz-dashboard-portainer/docker-compose.yml up -d
 
 # [Stage06] InstallTest | Install test for docker
 logStage "${StageRemark[6]}"
