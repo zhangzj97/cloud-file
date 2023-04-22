@@ -7,7 +7,13 @@
 ```bash
 
 # Download Install file
-wget -O /tmp/dzinit.sh https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7_All_001/volume/tmp/dzadm/index.sh --no-check-certificate | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
+yum instal wget
+wget -O /tmp/dzinit.sh https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh --no-check-certificate | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
+
+
+curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzinit.sh
+curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
+
 dzinit
 
 ```
