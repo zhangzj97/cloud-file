@@ -1,10 +1,10 @@
 #!/bin/bash -i
 
-# Validate
-[[ $* =~ host ]] && echo Error host : need action && exit
+PluginCode=host
 
-# Dispatch
-MethodPath=$DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/src/plugins/dz-host/methods
+[[ $* =~ $PluginCode ]] && echo Error PluginCode && exit
+MethodDirPath=$DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/src/plugins/dz-$PluginCode/methods
 MethodCode=$1
-[[ ! -f $MethodPath/$MethodCode/index.sh ]] && echo Error code && exit
-source $MethodPath/$MethodCode/index.sh $MethodArgument
+MethodIndexShPath=$MethodDirPath/$MethodCode/index.sh
+[[ ! -f $MethodIndexShPath ]] && echo Error MethodCode && exit 0
+source $MethodIndexShPath $MethodArgument
