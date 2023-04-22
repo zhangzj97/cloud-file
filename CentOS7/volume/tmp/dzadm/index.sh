@@ -52,7 +52,7 @@ echo "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}" >>/etc/bashrc
 echo 'export DZ_CLOUD_PATH' >>/etc/bashrc
 echo '# </Dz> Dz' >>/etc/bashrc
 source /etc/bashrc
-StageNo=$StageNo + 1
+let StageNo+=1
 
 logStage $StageNo "Add DNS in /etc/hosts"
 sed -i '/# <Dz> GitHub/,/# <\/Dz> GitHub/d' /etc/hosts
@@ -61,7 +61,7 @@ echo '185.199.110.133 raw.githubusercontent.com' >>/etc/hosts
 echo '140.82.113.3    raw.github.com' >>/etc/hosts
 echo '140.82.112.4    raw.github.com' >>/etc/hosts
 echo '# </Dz> GitHub' >>/etc/hosts
-StageNo=$StageNo + 1
+let StageNo+=1
 
 logStage $StageNo "Install some softwares"
 logStep "Checking package epel"
@@ -74,7 +74,7 @@ logStep "Checking package jq"
 [[ ! $(jq --version) ]] && yum install -y -q jq
 logStep "Checking package git"
 [[ ! $(git --version) ]] && yum install -y -q git
-StageNo=$StageNo + 1
+let StageNo+=1
 
 logStage $StageNo "Install dz-cloud-cli"
 # get latest version

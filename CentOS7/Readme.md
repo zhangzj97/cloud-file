@@ -13,6 +13,7 @@ wget -O /tmp/dzinit.sh https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7
 
 curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzinit.sh
 curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
+curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
 
 dzinit
 
@@ -28,7 +29,7 @@ echo '185.199.110.133 raw.githubusercontent.com' >>/etc/hosts
 echo '140.82.113.3    raw.github.com' >>/etc/hosts
 echo '140.82.112.4    raw.github.com' >>/etc/hosts
 echo '# </Dz> GitHub' >>/etc/hosts
-curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/001All/install.sh > /tmp/dzadm.sh
+curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzadm.sh
 source /tmp/dz-install.sh 0.2.0
 
 ```
