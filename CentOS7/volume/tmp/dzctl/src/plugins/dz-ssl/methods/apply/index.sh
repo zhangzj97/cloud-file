@@ -67,7 +67,7 @@ openssl req -sha512 -new -subj "/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal
 # Generate an x509 v3 extension file
 logStep "[Certificate] Generate an x509 v3 extension file"
 V3ExtPath=$TargetCertsdPath/v3.ext
-/bin/cp -fa /tmp/cloud-file/CentOS7_All_001/volume/etc/dz/certs.d/v3.ext $V3ExtPath
+/bin/cp -fa /tmp/cloud-file/CentOS7/volume/etc/dz/certs.d/v3.ext $V3ExtPath
 openssl x509 -req -sha512 -days 3650 -extfile $V3ExtPath -CA $CaCrtPath -CAkey $CaKeyPath -CAcreateserial -in $TargetCsrPath -out $TargetCrtPath
 openssl x509 -inform PEM -in $TargetCrtPath -out $TargetCertPath
 # Copy dir
