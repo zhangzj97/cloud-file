@@ -1,4 +1,5 @@
 #!/bin/bash -i
 
-# Validate
-[[ $* =~ apply ]] && echo Error apply && exit
+source $DZ_TOOL_PATH
+
+logErrorResult "!23"
