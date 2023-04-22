@@ -60,7 +60,7 @@ sed -i '/# <Dz> Dz/,/# <\/Dz> Dz/d' /etc/profile.d/dz.sh
 echo '# <Dz> Dz' >>/etc/profile.d/dz.sh
 echo "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}" >>/etc/profile.d/dz.sh
 echo "DZ_TOOL_PATH=${DZ_CLOUD_PATH}/cloud-file/CentOS7/volume/tmp/dztool/index.sh" >>/etc/profile.d/dz.sh
-echo 'export DZ_CLOUD_PATH,DZ_TOOL_PATH' >>/etc/profile.d/dz.sh
+echo 'export DZ_CLOUD_PATH DZ_TOOL_PATH' >>/etc/profile.d/dz.sh
 echo '# </Dz> Dz' >>/etc/profile.d/dz.sh
 source /etc/profile
 let StageNo+=1
