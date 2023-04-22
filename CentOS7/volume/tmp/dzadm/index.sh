@@ -89,7 +89,7 @@ else
 fi
 logStep "Register dzadm and dzctl"
 tar -xf $DzCloudInstallerPath -C $DZ_CLOUD_PATH/
-cpDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion /tmp/cloud-file
+cpDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion $DZ_CLOUD_PATH/cloud-file
 rm -fr $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion
 lnCli $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzadm/index.sh dzadm
 lnCli $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/index.sh dzctl
