@@ -70,7 +70,6 @@ logStep "Checking package git"
 [[ ! $(git --version) ]] && yum install -y -q git
 StageNo = $StageNo + 1
 
-# AddDzCloud | Add dz-cloud from remote
 logStage $StageNo "Install dz-cloud-cli"
 DzadmDirPath=/tmp/cloud-file/CentOS7/volume/tmp/dzadm
 DzctlDirPath=/tmp/cloud-file/CentOS7/volume/tmp/dzctl
