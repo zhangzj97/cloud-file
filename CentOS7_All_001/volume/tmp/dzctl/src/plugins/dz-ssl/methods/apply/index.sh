@@ -63,7 +63,7 @@ TargetCsrPath=$TargetCertsdPath/localhost.csr
 TargetCrtPath=$TargetCertsdPath/localhost.crt
 TargetCertPath=$TargetCertsdPath/localhost.cert
 openssl genrsa -out $TargetKeyPath 4096
-openssl req -sha512 -new -subj "/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=zhangzejie.top" -key $TargetKeyPath  -out $TargetCsrPath
+openssl req -sha512 -new -subj "/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=192.168.226.100" -key $TargetKeyPath  -out $TargetCsrPath
 # Generate an x509 v3 extension file
 logStep "[Certificate] Generate an x509 v3 extension file"
 V3ExtPath=$TargetCertsdPath/v3.ext
