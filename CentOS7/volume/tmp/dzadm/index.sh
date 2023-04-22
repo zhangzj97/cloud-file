@@ -43,7 +43,7 @@ StageNo=1
 
 logStage $StageNo "Register param in /etc/bashrc"
 DZ_CLOUD_PATH=/tmp
-[[ !$1 =~ ^\/ ]] && logErrorResult "DZ_CLOUD_PATH is invalid"
+[[ ! $1 =~ ^\/ ]] && logErrorResult "DZ_CLOUD_PATH is invalid" && exit 0
 [[ $1 ]] && DZ_CLOUD_PATH=$1
 [[ -d $DZ_CLOUD_PATH ]] && mkdir -p $DZ_CLOUD_PATH
 sed -i '/# <Dz> Dz/,/# <\/Dz> Dz/d' /etc/bashrc
@@ -52,7 +52,7 @@ echo "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}" >>/etc/bashrc
 echo 'export DZ_CLOUD_PATH' >>/etc/bashrc
 echo '# </Dz> Dz' >>/etc/bashrc
 source /etc/bashrc
-StageNo = $StageNo + 1
+StageNo=$StageNo + 1
 
 logStage $StageNo "Add DNS in /etc/hosts"
 sed -i '/# <Dz> GitHub/,/# <\/Dz> GitHub/d' /etc/hosts
@@ -61,7 +61,7 @@ echo '185.199.110.133 raw.githubusercontent.com' >>/etc/hosts
 echo '140.82.113.3    raw.github.com' >>/etc/hosts
 echo '140.82.112.4    raw.github.com' >>/etc/hosts
 echo '# </Dz> GitHub' >>/etc/hosts
-StageNo = $StageNo + 1
+StageNo=$StageNo + 1
 
 logStage $StageNo "Install some softwares"
 logStep "Checking package epel"
@@ -74,7 +74,7 @@ logStep "Checking package jq"
 [[ ! $(jq --version) ]] && yum install -y -q jq
 logStep "Checking package git"
 [[ ! $(git --version) ]] && yum install -y -q git
-StageNo = $StageNo + 1
+StageNo=$StageNo + 1
 
 logStage $StageNo "Install dz-cloud-cli"
 # get latest version
