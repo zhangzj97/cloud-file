@@ -86,7 +86,7 @@ if [[ -f $DzCloudInstallerPath && $(tar -tf ${DzCloudInstallerPath}) ]]; then
   wget -t0 -T5 -O $DzCloudInstallerPath https://github.com/zhangzj97/cloud-file/archive/refs/tags/$DzCloudVersion.tar.gz --no-check-certificate
 fi
 logStep "Register dzadm and dzctl"
-tar -xvf $DzCloudInstallerPath -C $DZ_CLOUD_PATH/ >$DZ_CLOUD_PATH/null
+tar -xf $DzCloudInstallerPath -C $DZ_CLOUD_PATH/
 cpDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion /tmp/cloud-file
 rm -fr $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion
 lnCli $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzadm/index.sh dzadm
