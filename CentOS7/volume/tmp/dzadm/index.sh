@@ -81,7 +81,9 @@ logStage $StageNo "Install dz-cloud-cli"
 DzCloudVersion=$(wget -O- -q https://api.github.com/repos/zhangzj97/cloud-file/releases/latest | jq -r '.tag_name')
 DzCloudInstallerPath=$DZ_CLOUD_PATH/cloud-file-${DzCloudVersion}.tar.gz
 logStep "Check dz-cloud-cli latest version ==> ${DzCloudInstallerPath}"
-if [[ -f $DzCloudInstallerPath && $(tar -tf ${DzCloudInstallerPath}) ]]; then
+if [[ -f $DzCloudInstallerPath || $(tar -tf ${DzCloudInstallerPath}) ]]; then
+  logStep "Find dz-cloud-cli installer in ${DzCloudInstallerPath}"
+else
   logStep "Download dz-cloud-cli installer"
   wget -t0 -T5 -O $DzCloudInstallerPath https://github.com/zhangzj97/cloud-file/archive/refs/tags/$DzCloudVersion.tar.gz --no-check-certificate
 fi
