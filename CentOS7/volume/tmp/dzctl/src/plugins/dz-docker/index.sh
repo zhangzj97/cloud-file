@@ -1,10 +1,8 @@
 #!/bin/bash -i
 
-# Validate
-[[ $* =~ host ]] && echo Error dcoker : need action && exit
+PluginCode=docker
 
-# Dispatch
-MethodPath=$DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/src/plugins/dz-docker/methods
+MethodDirPath=$DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/src/plugins/dz-$PluginCode/methods
 MethodCode=$1
-[[ ! -f $MethodPath/$MethodCode/index.sh ]] && echo Error code1 && exit
-source $MethodPath/$MethodCode/index.sh $MethodArgument
+Argument=${*/$1/}
+source $MethodDirPath/$MethodCode/index.sh $Argument
