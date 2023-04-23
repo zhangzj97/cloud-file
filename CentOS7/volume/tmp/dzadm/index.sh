@@ -86,7 +86,8 @@ dzTarc() {
 dzTarx() {
   echo 1
   mkdir -p $2
-  echo 2
+  echo $1
+  echo $2
   tar -xzv $1 -C $2
 }
 
