@@ -43,68 +43,84 @@ cpDir() {
   /bin/cp -fa $1/* $2
 }
 
-lnCli() {
+lnSh() {
   chmod u+x $1
   ln -fs $1 /bin/$2
+}
+
+dzYum() {
+  if [[ ! $(rpm -qa | grep $1) ]]; then
+    yum install -y -q $1
+  fi
+}
+
+dzTextRemove() {
+  sed -i "/# <Dz> $2/,/# <\/Dz> $2/d" $1
+}
+
+dzTextAppend() {
+  echo $2 >>$1
+}
+
+dzTarc() {
+  tar -czv $1 $2
+}
+
+dzTarx() {
+  mkdir -p $2
+  tar -xzv $1 -C $2
+}
+
+dzWget() {
+  wget -t0 -T5 -O $1 $2 --no-check-certificate
 }
 
 StageNo=1
 
 logStage $StageNo "Register param in /etc/profile.d/dz.sh"
-DZ_CLOUD_PATH=/tmp
 [[ ! $1 =~ ^\/ ]] && logErrorResult "DZ_CLOUD_PATH is invalid" && exit 0
-[[ $1 ]] && DZ_CLOUD_PATH=$1
-[[ ! -d $DZ_CLOUD_PATH ]] && mkdir -p $DZ_CLOUD_PATH
-[[ ! -f /etc/profile.d/dz.sh ]] && touch /etc/profile.d/dz.sh
-sed -i '/# <Dz> Dz/,/# <\/Dz> Dz/d' /etc/profile.d/dz.sh
-echo '# <Dz> Dz' >>/etc/profile.d/dz.sh
-echo "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}" >>/etc/profile.d/dz.sh
-echo "DZ_TOOL_PATH=${DZ_CLOUD_PATH}/cloud-file/CentOS7/volume/tmp/dztool/index.sh" >>/etc/profile.d/dz.sh
-echo 'export DZ_CLOUD_PATH DZ_TOOL_PATH' >>/etc/profile.d/dz.sh
-echo '# </Dz> Dz' >>/etc/profile.d/dz.sh
+DZ_CLOUD_PATH=${1:-"/tmp"}
+mkdir -p $DZ_CLOUD_PATH
+touch /etc/profile.d/dz.sh
+dzTextRemove /etc/profile.d/dz.sh "DzSh"
+dzTextAppend /etc/profile.d/dz.sh "# <Dz> DzSh"
+dzTextAppend /etc/profile.d/dz.sh "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}"
+dzTextAppend /etc/profile.d/dz.sh "DZ_TOOL_PATH=${DZ_CLOUD_PATH}/cloud-file/CentOS7/volume/tmp/dztool/index.sh"
+dzTextAppend /etc/profile.d/dz.sh "export DZ_CLOUD_PATH DZ_TOOL_PATH"
+dzTextAppend /etc/profile.d/dz.sh "# </Dz> DzSh"
 source /etc/profile
 let StageNo+=1
 
 logStage $StageNo "Add DNS in /etc/hosts"
-sed -i '/# <Dz> GitHub/,/# <\/Dz> GitHub/d' /etc/hosts
-echo '# <Dz> GitHub' >>/etc/hosts
-echo '185.199.110.133 raw.githubusercontent.com' >>/etc/hosts
-echo '140.82.113.3    raw.github.com' >>/etc/hosts
-echo '140.82.112.4    raw.github.com' >>/etc/hosts
-echo '# </Dz> GitHub' >>/etc/hosts
+touch /etc/hosts
+dzTextRemove /etc/hosts "GitHub"
+dzTextAppend /etc/hosts "# <Dz> GitHub"
+dzTextAppend /etc/hosts "185.199.110.133 raw.githubusercontent.com"
+dzTextAppend /etc/hosts "140.82.113.3    raw.github.com"
+dzTextAppend /etc/hosts "140.82.112.4    raw.github.com"
+dzTextAppend /etc/hosts "# </Dz> GitHub"
 let StageNo+=1
 
 logStage $StageNo "Install some softwares"
-logStep "Checking package epel"
-[[ ! $(rpm -qa | grep epel-release) ]] && yum install -y -q epel-release
-logStep "Checking package wget"
-[[ ! $(wget --version) ]] && yum install -y -q wget
-logStep "Checking package vim"
-[[ ! $(vim --version) ]] && yum install -y -q vim
-logStep "Checking package jq"
-[[ ! $(jq --version) ]] && yum install -y -q jq
-logStep "Checking package git"
-[[ ! $(git --version) ]] && yum install -y -q git
+logStep "Checking Package epel-release" && dzYum epel-release
+logStep "Checking Package yum-utils   " && dzYum yum-utils
+logStep "Checking Package wget        " && dzYum wget
+logStep "Checking Package vim         " && dzYum vim
+logStep "Checking Package jq          " && dzYum jq
+logStep "Checking Package git         " && dzYum git
 let StageNo+=1
 
 logStage $StageNo "Install dz-cloud-cli"
-# get latest version
 DzCloudVersion=$(wget -O- -q https://api.github.com/repos/zhangzj97/cloud-file/releases/latest | jq -r '.tag_name')
 DzCloudInstallerPath=$DZ_CLOUD_PATH/cloud-file-${DzCloudVersion}.tar.gz
-logStep "Check dz-cloud-cli latest version ==> ${DzCloudInstallerPath}"
-if [[ -f $DzCloudInstallerPath && $(tar -tf ${DzCloudInstallerPath}) ]]; then
-  logStep "Find dz-cloud-cli installer in ${DzCloudInstallerPath}"
-else
+logStep "Checking dz-cloud-cli latest version ==> ${DzCloudInstallerPath}"
+if [[ ! -f $DzCloudInstallerPath || ! $(tar -tf ${DzCloudInstallerPath}) ]]; then
   logStep "Download dz-cloud-cli installer"
-  wget -t0 -T5 -O $DzCloudInstallerPath https://github.com/zhangzj97/cloud-file/archive/refs/tags/$DzCloudVersion.tar.gz --no-check-certificate
+  dzWget $DzCloudInstallerPath https://github.com/zhangzj97/cloud-file/archive/refs/tags/$DzCloudVersion.tar.gz
 fi
 logStep "Register dzadm & dzctl"
-tar -xf $DzCloudInstallerPath -C $DZ_CLOUD_PATH/
+dzTarx $DzCloudInstallerPath $DZ_CLOUD_PATH
 cpDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion $DZ_CLOUD_PATH/cloud-file
 rm -fr $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion
-lnCli $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzadm/index.sh dzadm
-lnCli $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/index.sh dzctl
-
-# Other
-echo ""
-echo "7"
+lnSh $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzadm/index.sh dzadm
+lnSh $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/index.sh dzctl

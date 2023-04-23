@@ -43,7 +43,34 @@ cpDir() {
   /bin/cp -fa $1/* $2
 }
 
-lnCli() {
+lnSh() {
   chmod u+x $1
   ln -fs $1 /bin/$2
+}
+
+dzYum() {
+  if [[ ! $(rpm -qa | grep $1) ]]; then
+    yum install -y -q $1
+  fi
+}
+
+dzTextRemove() {
+  sed -i "/# <Dz> $2/,/# <\/Dz> $2/d" $1
+}
+
+dzTextAppend() {
+  echo $2 >>$1
+}
+
+dzTarc() {
+  tar -czv $1 $2
+}
+
+dzTarx() {
+  mkdir -p $2
+  tar -xzv $1 -C $2
+}
+
+dzWget() {
+  wget -t0 -T5 -O $1 $2 --no-check-certificate
 }
