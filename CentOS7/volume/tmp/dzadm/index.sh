@@ -84,7 +84,9 @@ dzTarc() {
 
 # dzTarc file dir
 dzTarx() {
+  echo 1
   mkdir -p $2
+  echo 2
   tar -xzv $1 -C $2
 }
 
