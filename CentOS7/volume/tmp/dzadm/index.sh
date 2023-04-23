@@ -134,14 +134,14 @@ DzCloudInstallerPath=$DZ_CLOUD_PATH/cloud-file-${DzCloudVersion}.tar.gz
 logStep "Checking dz-cloud-cli latest version ==> ${DzCloudInstallerPath}"
 if [[ ! -f $DzCloudInstallerPath || ! $(tar -tf ${DzCloudInstallerPath}) ]]; then
   logStep "Download dz-cloud-cli installer"
-  logFile $DzCloudInstallerPath
-  dzWget $DzCloudInstallerPath https://github.com/zhangzj97/cloud-file/archive/refs/tags/$DzCloudVersion.tar.gz
+  dzWget $DzCloudInstallerPath https://github.com/zhangzj97/cloud-file/archive/refs/tags/$DzCloudVersion.tar.gz && logFile $DzCloudInstallerPath
 fi
 logStep "Register dzadm & dzctl"
-logDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion
-logDir $DZ_CLOUD_PATH/cloud-file
 dzTarx $DzCloudInstallerPath $DZ_CLOUD_PATH &&
   cpDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion $DZ_CLOUD_PATH/cloud-file &&
-  rm -fr $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion
+  rm -fr $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion &&
+  logDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion &&
+  logDir $DZ_CLOUD_PATH/cloud-file &&
+  logDir $DZ_CLOUD_PATH
 lnSh $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzadm/index.sh dzadm
 lnSh $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/index.sh dzctl
