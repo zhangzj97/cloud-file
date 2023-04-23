@@ -29,18 +29,17 @@ logStep() {
 
 # logValue CurrentValue PrevValue Label
 logValue() {
-  echo -e "${Space16}[$3] Form $2"
-  echo -e "${Space16}[$3] To   ${TextBlue}$1${TextClear}"
+  echo -e "${Space16}[$3] $2 => ${TextBlue}$1${TextClear}"
 }
 
 # logFile file
 logFile() {
-  echo -e "${Space16}${TextBlue}[Changed] $1"
+  echo -e "${Space16}${TextBlue}[Relative] $1"
 }
 
 # logDir dir
 logFile() {
-  echo -e "${Space16}${TextBlue}[Changed] $1"
+  echo -e "${Space16}${TextBlue}[Relative] $1"
 }
 
 logErrorResult() {

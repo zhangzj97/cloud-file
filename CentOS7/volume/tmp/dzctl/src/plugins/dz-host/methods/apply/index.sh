@@ -43,25 +43,17 @@ let StageNo+=1
 logStage $StageNo "Set info and restart service"
 NetworkRestartFlag=false
 if [[ $StaticIpNew ]]; then
-  logStep "[Set] Static Ip"
-  logStep "$Space04$StaticIp ==> $StaticIpNew"
-  logStep "${Space04}In $ifcfgPath"
-  sed -i 's/IPADDR=.*//' $ifcfgPath
-  echo "IPADDR=\"${StaticIpNew}\"" >>$ifcfgPath
+  logFile $ifcfgPath && logValue "Static Ip" $StaticIpNew $StaticIp
+  sed -i 's/IPADDR=.*//' $ifcfgPath && dzTextAppend $ifcfgPath "IPADDR=${StaticIpNew}"
   NetworkRestartFlag=true
 fi
 if [[ $GatewayNew ]]; then
-  logStep "[Set] Gateway"
-  logStep "$Space04$Gateway ==> $GatewayNew"
-  logStep "${Space04}In $ifcfgPath"
-  sed -i 's/GATEWAY=.*//' $ifcfgPath
-  echo "GATEWAY=\"${GatewayNew}\"" >>$ifcfgPath
+  logFile $ifcfgPath && logValue "Gateway  " $GatewayNew $Gateway
+  sed -i 's/GATEWAY=.*//' $ifcfgPath && dzTextAppend $ifcfgPath "GATEWAY=${GatewayNew}"
   NetworkRestartFlag=true
 fi
 if [[ $HostnameNew ]]; then
-  logStep "[Set] Hostname"
-  logStep "$Space04$Hostname ==> $HostnameNew"
-  logStep "${Space04}hostnamectl set-hostname $HostnameNew"
+  logFile "hostname" && logValue "Hostname " $HostnameNew $Hostname
   hostnamectl set-hostname $HostnameNew
 fi
 [[ $NetworkRestartFlag = true ]] && systemctl restart network

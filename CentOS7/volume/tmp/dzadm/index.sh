@@ -29,18 +29,17 @@ logStep() {
 
 # logValue CurrentValue PrevValue Label
 logValue() {
-  echo -e "${Space16}[$3] Form $2"
-  echo -e "${Space16}[$3] To   ${TextBlue}$1${TextClear}"
+  echo -e "${Space16}[$3] $2 => ${TextBlue}$1${TextClear}"
 }
 
 # logFile file
 logFile() {
-  echo -e "${Space16}${TextBlue}[Changed] $1"
+  echo -e "${Space16}${TextBlue}[Relative] $1"
 }
 
 # logDir dir
 logFile() {
-  echo -e "${Space16}${TextBlue}[Changed] $1"
+  echo -e "${Space16}${TextBlue}[Relative] $1"
 }
 
 logErrorResult() {
@@ -101,23 +100,23 @@ logStage $StageNo "Register param in /etc/profile.d/dz.sh"
 DZ_CLOUD_PATH=${1:-"/tmp"}
 logDir $DZ_CLOUD_PATH && mkdir -p $DZ_CLOUD_PATH
 logFile /etc/profile.d/dz.sh && touch /etc/profile.d/dz.sh
-dzTextRemove /etc/profile.d/dz.sh "DzSh"
-dzTextAppend /etc/profile.d/dz.sh "# <Dz> DzSh"
-dzTextAppend /etc/profile.d/dz.sh "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}"
-dzTextAppend /etc/profile.d/dz.sh "DZ_TOOL_PATH=${DZ_CLOUD_PATH}/cloud-file/CentOS7/volume/tmp/dztool/index.sh"
-dzTextAppend /etc/profile.d/dz.sh "export DZ_CLOUD_PATH DZ_TOOL_PATH"
-dzTextAppend /etc/profile.d/dz.sh "# </Dz> DzSh"
+dzTextRemove /etc/profile.d/dz.sh "DzSh" &&
+  dzTextAppend /etc/profile.d/dz.sh "# <Dz> DzSh" &&
+  dzTextAppend /etc/profile.d/dz.sh "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}" &&
+  dzTextAppend /etc/profile.d/dz.sh "DZ_TOOL_PATH=${DZ_CLOUD_PATH}/cloud-file/CentOS7/volume/tmp/dztool/index.sh" &&
+  dzTextAppend /etc/profile.d/dz.sh "export DZ_CLOUD_PATH DZ_TOOL_PATH" &&
+  dzTextAppend /etc/profile.d/dz.sh "# </Dz> DzSh"
 source /etc/profile
 let StageNo+=1
 
 logStage $StageNo "Add DNS in /etc/hosts"
 logFile /etc/hosts && touch /etc/hosts
-dzTextRemove /etc/hosts "GitHub"
-dzTextAppend /etc/hosts "# <Dz> GitHub"
-dzTextAppend /etc/hosts "185.199.110.133 raw.githubusercontent.com"
-dzTextAppend /etc/hosts "140.82.113.3    raw.github.com"
-dzTextAppend /etc/hosts "140.82.112.4    raw.github.com"
-dzTextAppend /etc/hosts "# </Dz> GitHub"
+dzTextRemove /etc/hosts "GitHub" &&
+  dzTextAppend /etc/hosts "# <Dz> GitHub" &&
+  dzTextAppend /etc/hosts "185.199.110.133 raw.githubusercontent.com" &&
+  dzTextAppend /etc/hosts "140.82.113.3    raw.github.com" &&
+  dzTextAppend /etc/hosts "140.82.112.4    raw.github.com" &&
+  dzTextAppend /etc/hosts "# </Dz> GitHub"
 let StageNo+=1
 
 logStage $StageNo "Install some softwares"
@@ -141,8 +140,8 @@ fi
 logStep "Register dzadm & dzctl"
 logDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion
 logDir $DZ_CLOUD_PATH/cloud-file
-dzTarx $DzCloudInstallerPath $DZ_CLOUD_PATH
-cpDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion $DZ_CLOUD_PATH/cloud-file
-rm -fr $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion
+dzTarx $DzCloudInstallerPath $DZ_CLOUD_PATH &&
+  cpDir $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion $DZ_CLOUD_PATH/cloud-file &&
+  rm -fr $DZ_CLOUD_PATH/cloud-file-$DzCloudVersion
 lnSh $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzadm/index.sh dzadm
 lnSh $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/index.sh dzctl

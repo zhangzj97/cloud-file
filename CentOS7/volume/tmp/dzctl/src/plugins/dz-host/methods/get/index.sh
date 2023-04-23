@@ -29,10 +29,8 @@ Hostname=$(hostname)
 let StageNo+=1
 
 logStage $StageNo "Show"
-logStep "[Get] Network info"
-logStep "${Space04}From $ifcfgPath"
-logStep "${Space04}Static Ip ==> $StaticIp"
-logStep "${Space04}Gateway   ==> $Gateway"
-logStep "[Get] Host info"
-logStep "${Space04}From hostname"
-logStep "${Space04}Hostname  ==> $Hostname"
+logFile $ifcfgPath &&
+  logValue "Static Ip" $StaticIpNew $StaticIp &&
+  logValue "Gateway  " $GatewayNew $Gateway
+logFile "hostname" &&
+  logValue "Hostname " $HostnameNew $Hostname
