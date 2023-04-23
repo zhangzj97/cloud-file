@@ -34,12 +34,12 @@ logValue() {
 
 # logFile file
 logFile() {
-  echo -e "${Space16}${TextBlue}[Relative] $1"
+  echo -e "${Space16}${TextBlue}[Relative] $1${TextClear}"
 }
 
 # logDir dir
 logDir() {
-  echo -e "${Space16}${TextBlue}[Relative] $1"
+  echo -e "${Space16}${TextBlue}[Relative] $1${TextClear}"
 }
 
 logErrorResult() {
@@ -85,7 +85,7 @@ dzTarc() {
 # dzTarc file dir
 dzTarx() {
   mkdir -p $2
-  tar -xzf $1 -C $2
+  tar -xzv $1 -C $2
 }
 
 # dzTarc file url

@@ -34,12 +34,12 @@ logValue() {
 
 # logFile file
 logFile() {
-  echo -e "${Space16}${TextBlue}[Relative] $1"
+  echo -e "${Space16}${TextBlue}[Relative] $1${TextClear}"
 }
 
 # logDir dir
 logDir() {
-  echo -e "${Space16}${TextBlue}[Relative] $1"
+  echo -e "${Space16}${TextBlue}[Relative] $1${TextClear}"
 }
 
 logErrorResult() {
