@@ -119,14 +119,8 @@ dzTextRemove /etc/hosts "GitHub" &&
   dzTextAppend /etc/hosts "# </Dz> GitHub"
 let StageNo+=1
 
-logStage $StageNo "Install some softwares"
-/bin/cp -fa $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/yum.repos.d/* /etc/yum.repos.d/ && logDir /etc/yum.repos.d/
-logStep "Checking Package epel-release" && dzYum epel-release
-logStep "Checking Package yum-utils   " && dzYum yum-utils
+logStage $StageNo "Install wget"
 logStep "Checking Package wget        " && dzYum wget
-logStep "Checking Package vim         " && dzYum vim
-logStep "Checking Package jq          " && dzYum jq
-logStep "Checking Package git         " && dzYum git
 let StageNo+=1
 
 logStage $StageNo "Install dz-cloud-cli"
@@ -146,3 +140,12 @@ dzTarx $DzCloudInstallerPath $DZ_CLOUD_PATH &&
   logDir $DZ_CLOUD_PATH
 lnSh $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzadm/index.sh dzadm
 lnSh $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/index.sh dzctl
+let StageNo+=1
+
+logStage $StageNo "Install some software"
+/bin/cp -fa $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/yum.repos.d/* /etc/yum.repos.d/ && logDir /etc/yum.repos.d/
+logStep "Checking Package epel-release" && dzYum epel-release
+logStep "Checking Package yum-utils   " && dzYum yum-utils
+logStep "Checking Package vim         " && dzYum vim
+logStep "Checking Package jq          " && dzYum jq
+logStep "Checking Package git         " && dzYum git
