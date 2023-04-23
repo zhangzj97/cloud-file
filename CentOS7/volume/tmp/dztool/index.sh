@@ -29,7 +29,7 @@ logStep() {
 
 # logValue CurrentValue PrevValue Label
 logValue() {
-  echo -e "${Space16}[$3] $2 => ${TextBlue}$1${TextClear}"
+  echo -e "${Space16}[$1] $2 => ${TextBlue}$3${TextClear}"
 }
 
 # logFile file
@@ -79,13 +79,13 @@ dzTextAppend() {
 
 # dzTarc file dir
 dzTarc() {
-  tar -czv $1 $2
+  tar -czf $1 $2
 }
 
 # dzTarc file dir
 dzTarx() {
   mkdir -p $2
-  tar -xzv $1 -C $2
+  tar -xzf $1 -C $2
 }
 
 # dzTarc file url
