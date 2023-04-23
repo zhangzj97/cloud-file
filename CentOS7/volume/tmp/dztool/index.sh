@@ -38,7 +38,7 @@ logFile() {
 }
 
 # logDir dir
-logFile() {
+logDir() {
   echo -e "${Space16}${TextBlue}[Relative] $1"
 }
 
