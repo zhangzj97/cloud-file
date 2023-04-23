@@ -98,8 +98,8 @@ StageNo=1
 logStage $StageNo "Register param in /etc/profile.d/dz.sh"
 [[ ! $1 =~ ^\/ ]] && logErrorResult "DZ_CLOUD_PATH is invalid" && exit 0
 DZ_CLOUD_PATH=${1:-"/tmp"}
-logDir $DZ_CLOUD_PATH && mkdir -p $DZ_CLOUD_PATH
-logFile /etc/profile.d/dz.sh && touch /etc/profile.d/dz.sh
+mkdir -p $DZ_CLOUD_PATH && logDir $DZ_CLOUD_PATH
+touch /etc/profile.d/dz.sh && logFile /etc/profile.d/dz.sh
 dzTextRemove /etc/profile.d/dz.sh "DzSh" &&
   dzTextAppend /etc/profile.d/dz.sh "# <Dz> DzSh" &&
   dzTextAppend /etc/profile.d/dz.sh "DZ_CLOUD_PATH=${DZ_CLOUD_PATH}" &&
@@ -110,7 +110,7 @@ source /etc/profile
 let StageNo+=1
 
 logStage $StageNo "Add DNS in /etc/hosts"
-logFile /etc/hosts && touch /etc/hosts
+touch /etc/hosts && logFile /etc/hosts
 dzTextRemove /etc/hosts "GitHub" &&
   dzTextAppend /etc/hosts "# <Dz> GitHub" &&
   dzTextAppend /etc/hosts "185.199.110.133 raw.githubusercontent.com" &&
