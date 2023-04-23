@@ -120,6 +120,7 @@ dzTextRemove /etc/hosts "GitHub" &&
 let StageNo+=1
 
 logStage $StageNo "Install some softwares"
+/bin/cp -fa $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/yum.repos.d/* /etc/yum.repos.d/ && logDir /etc/yum.repos.d/
 logStep "Checking Package epel-release" && dzYum epel-release
 logStep "Checking Package yum-utils   " && dzYum yum-utils
 logStep "Checking Package wget        " && dzYum wget
