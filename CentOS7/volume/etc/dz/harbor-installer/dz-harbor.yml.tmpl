@@ -2,20 +2,20 @@
 
 # The IP address or hostname to access admin UI and registry service.
 # DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
-hostname: 192.168.226.100
+hostname: { hostname } # hostname: reg.mydomain.com
 
 # http related config
 http:
   # port for http, default is 80. If https enabled, this port will redirect to https port
-  # port: 80
+  port: # port: 80
 
 # https related config
 https:
   # https port for harbor, default is 443
-  port: 8905
+  port: { https_port } # port: 443
   # The path of cert and key files for nginx
-  certificate: /etc/docker/certs.d/localhost/localhost.cert
-  private_key: /etc/docker/certs.d/localhost/localhost.key
+  certificate: { https_certificate }
+  private_key: { https_private_key }
 
 # # Uncomment following will enable tls communication between all harbor components
 # internal_tls:
@@ -31,7 +31,7 @@ https:
 # The initial password of Harbor admin
 # It only works in first time to install harbor
 # Remember Change the admin password from UI after launching Harbor.
-harbor_admin_password: Harbor12345
+harbor_admin_password: 123123 # harbor_admin_password: Harbor12345
 
 # Harbor DB configuration
 database:
@@ -50,7 +50,7 @@ database:
   conn_max_idle_time: 0
 
 # The default data volume
-data_volume: /data
+data_volume: /var/lib/docker/volumes/dz-harbor-data # data_volume: /data
 
 # Harbor Storage settings by default is using /data dir on local filesystem
 # Uncomment storage_service setting If you want to using external storage
@@ -181,7 +181,7 @@ _version: 2.8.0
 #   # host for redis+sentinel:
 #   #  <host_sentinel1>:<port_sentinel1>,<host_sentinel2>:<port_sentinel2>,<host_sentinel3>:<port_sentinel3>
 #   host: redis:6379
-#   password: 
+#   password:
 #   # Redis AUTH command was extended in Redis 6, it is possible to use it in the two-arguments AUTH <username> <password> form.
 #   # username:
 #   # sentinel_master_set must be set to support redis+sentinel
