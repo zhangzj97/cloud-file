@@ -119,8 +119,10 @@ dzTextRemove /etc/hosts "GitHub" &&
   dzTextAppend /etc/hosts "# </Dz> GitHub"
 let StageNo+=1
 
-logStage $StageNo "Install wget"
+logStage $StageNo "Install wget & epel-release & jq"
 logStep "Checking Package wget        " && dzYum wget
+logStep "Checking Package epel-release" && dzYum epel-release
+logStep "Checking Package jq          " && dzYum jq
 let StageNo+=1
 
 logStage $StageNo "Install dz-cloud-cli"
@@ -144,8 +146,6 @@ let StageNo+=1
 
 logStage $StageNo "Install some software"
 /bin/cp -fa $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/yum.repos.d/* /etc/yum.repos.d/ && logDir /etc/yum.repos.d/
-logStep "Checking Package epel-release" && dzYum epel-release
 logStep "Checking Package yum-utils   " && dzYum yum-utils
 logStep "Checking Package vim         " && dzYum vim
-logStep "Checking Package jq          " && dzYum jq
 logStep "Checking Package git         " && dzYum git
