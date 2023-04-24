@@ -7,10 +7,10 @@ ARGS=$(getopt -l web:,cli: -n 'dzctl' -- "$@")
 eval set -- "${ARGS}"
 while true; do
   case $1 in
-  web)
+  --web)
     WebMode=$2 && shift 2
     ;;
-  cli)
+  --cli)
     CliMode=$2 && shift 2
     ;;
   --)

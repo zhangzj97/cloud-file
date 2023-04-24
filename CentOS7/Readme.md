@@ -12,7 +12,7 @@ wget -O /tmp/dzinit.sh https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7
 
 
 curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzinit.sh
-curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
+curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh           > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
 curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
 
 source dzinit /demopath
