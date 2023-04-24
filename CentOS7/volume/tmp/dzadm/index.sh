@@ -27,9 +27,9 @@ logStep() {
   echo -e "${Space16}$1"
 }
 
-# logValue CurrentValue PrevValue Label
+# logValue Label CurrentValue PrevValue
 logValue() {
-  echo -e "${Space16}[$1] $2 => ${TextBlue}$3${TextClear}"
+  echo -e "${Space16}[$1] $3 => ${TextBlue}$2${TextClear}"
 }
 
 # logFile file

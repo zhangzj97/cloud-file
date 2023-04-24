@@ -20,8 +20,8 @@ StageNo=0
 
 logStage $StageNo "Get network info"
 ifcfgPath=/etc/sysconfig/network-scripts/ifcfg-ens33
-StaticIp=$(cat ${ifcfgPath} | grep IPADDR | sed -e 's/IPADDR="\([0-9\.]*\)"/\1/g')
-Gateway=$(cat ${ifcfgPath} | grep GATEWAY | sed -e 's/IPADDR="\([0-9\.]*\)"/\1/g')
+StaticIp=$(cat ${ifcfgPath} | grep IPADDR | sed -e 's/IPADDR="*\([[:alnum:]\.]*\)"*/\1/g')
+Gateway=$(cat ${ifcfgPath} | grep GATEWAY | sed -e 's/GATEWAY="*\([[:alnum:]\.]*\)"*/\1/g')
 let StageNo+=1
 
 logStage $StageNo "Get host info"
