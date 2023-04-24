@@ -2,7 +2,7 @@
 
 # The IP address or hostname to access admin UI and registry service.
 # DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
-hostname: { hostname } # hostname: reg.mydomain.com
+hostname: __hostname__ # hostname: reg.mydomain.com
 
 # http related config
 http:
@@ -12,10 +12,10 @@ http:
 # https related config
 https:
   # https port for harbor, default is 443
-  port: { https_port } # port: 443
+  port: __https_port__ # port: 443
   # The path of cert and key files for nginx
-  certificate: { https_certificate }
-  private_key: { https_private_key }
+  certificate: __https_certificate__
+  private_key: __https_private_key__
 
 # # Uncomment following will enable tls communication between all harbor components
 # internal_tls:

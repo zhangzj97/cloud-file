@@ -35,9 +35,12 @@ ServerDomainPort=$DomainNew:$PortNew
 DzCertsdPath=/etc/dz/certs.d
 ServerCertsdPath=$DzCertsdPath/$ServerDomainPort
 [[ ! -d $ServerCertsdPath ]] && logErrorResult "No $ServerCertsdPath" && exit
-/bin/cp -fa /etc/dz/harbor-installer/dz-harbor.yml.tmpl /etc/dz/harbor-installer/dz-harbor.yml
-sed -i "s/{ hostname }/${domain}" /etc/dz/harbor-installer/dz-harbor.yml
-sed -i "s/{ port }/${port}" /etc/dz/harbor-installer/dz-harbor.yml
-sed -i "s/{ https_certificate }/${ServerCertsdPath}/server.cert" /etc/dz/harbor-installer/dz-harbor.yml
-sed -i "s/{ https_private_key }/${ServerCertsdPath}/server.key" /etc/dz/harbor-installer/dz-harbor.yml
-source /etc/dz/harbor-installer/install.sh
+DzHarborYmlTmpl=$DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/dz/harbor-installer/dz-harbor.yml.tmpl
+DzHarborYml=$DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/dz/harbor-installer/dz-harbor.yml
+/bin/cp -fa $DzHarborYmlTmpl $DzHarborYml && logFile $DzHarborYml
+sed -i "s/__hostname__/$DomainNew/" $DzHarborYml
+sed -i "s/__https_port__/${PortNew}/" $DzHarborYml
+sed -i "s#__https_certificate__#${ServerCertsdPath}/server.cert#" $DzHarborYml
+sed -i "s#__https_private_key__#${ServerCertsdPath}/server.key#" $DzHarborYml
+cat $DzHarborYml | grep :
+source $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/dz/harbor-installer/install.sh
