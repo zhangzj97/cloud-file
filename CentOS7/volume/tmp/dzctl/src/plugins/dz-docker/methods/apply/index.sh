@@ -18,33 +18,18 @@ done
 
 StageNo=0
 
-logStage $StageNo "First Stage Description"
-
-if [[ ! $(docker --version) ]]; then
-  /bin/cp -fa $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/yum.repos.d/dz-docker.repo /etc/yum.repos.d/dz-docker.repo
-  yum install -y -q docker-ce
-fi
-logStep "Install: enable docker"
+logStage $StageNo "Install Docker"
+dzYum docker-ce
 systemctl enable --now docker
-logStep "Install: update /etc/docker/daemon.json"
-/bin/cp -fa $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/docker/daemon.json /etc/docker/daemon.json
-systemctl daemon-reload
-systemctl restart docker
+/bin/cp -fa $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/docker/daemon.json /etc/docker/daemon.json &&
+  systemctl daemon-reload &&
+  systemctl restart docker &&
+  logFile /etc/docker/daemon.json
 
-# [Stage04] InstallCompose | Install docker compose
-logStage "${StageRemark[4]}"
-
-# [Stage05] InstallDashboard | Install docker dashboard
-logStage "${StageRemark[5]}"
-# [Docker]
-docker compose -f $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/src/plugins/dz-docker/methods/apply/dz-dashboard-docker.ui/docker-compose.yml up -d
-docker compose -f $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/src/plugins/dz-docker/methods/apply/dz-dashboard-portainer/docker-compose.yml up -d
-
-# [Stage06] InstallTest | Install test for docker
-logStage "${StageRemark[6]}"
-
-# Other
-echo ""
-echo ""
-
-[[ ! $(docker images | grep joinsunsoft/docker.ui) ]] && echo 1
+logStage $StageNo "Deploy Docker Dashboard"
+docker pull joinsunsoft/docker.ui &&
+  docker tag joinsunsoft/docker.ui dz-dashboard-docker.ui:1.0.0
+docker pull portainer/portainer-ce &&
+  docker tag portainer/portainer-ce dz-dashboard-portainer-ce:1.0.0
+docker compose -f $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/docker-compose/dz-dashboard/docker-compose.yml up -d &&
+  logFile $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/docker-compose/dz-dashboard/docker-compose.yml
