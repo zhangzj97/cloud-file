@@ -42,4 +42,5 @@ sed -i "s/__hostname__/$DomainNew/" $DzHarborYml
 sed -i "s/__https_port__/${PortNew}/" $DzHarborYml
 sed -i "s#__https_certificate__#${ServerCertsdPath}/server.cert#" $DzHarborYml
 sed -i "s#__https_private_key__#${ServerCertsdPath}/server.key#" $DzHarborYml
-source $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/dz/harbor-installer/install.sh
+source $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/dz/harbor-installer/install.sh &&
+  logStep "$DomainNew:$PortNew ==> "
