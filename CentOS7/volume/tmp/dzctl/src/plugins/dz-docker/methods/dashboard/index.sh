@@ -41,7 +41,7 @@ if [[ $CliMode ]]; then
   logStage $StageNo "Deploy Docker Dashboard CliMode"
   docker pull lazyteam/lazydocker &&
     docker tag lazyteam/lazydocker dz-dashboard-lazydocker:1.0.0
-  docker compose -f $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/docker-compose/dz-dashboard-lazydocker/docker-compose.yml up &&
-    logFile $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/docker-compose/dz-dashboard-lazydocker/docker-compose.yml
+  docker compose -f $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/dz/docker-compose/dz-dashboard-lazydocker/docker-compose.yml up &&
+    logFile $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/dz/docker-compose/dz-dashboard-lazydocker/docker-compose.yml
   let StageNo+=1
 fi

@@ -17,17 +17,9 @@ services:
     environment: {}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - dz-dashboard-lazydocker-volume:/data
+      - dz-dashboard-portainer-ce-data:/data
     ports:
       - 9002:9443
-  # dz-dashboard-lazydocker:
-  #   image: dz-dashboard-lazydocker:1.0.0
-  #   container_name: dz-dashboard-lazydocker
-  #   restart: always
-  #   environment: {}
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   ports: []
 
 volumes:
   dz-dashboard-portainer-ce-data:

@@ -1,4 +1,4 @@
-version: "3.8"
+version: "3"
 
 services:
   dz-dashboard-lazydocker:
@@ -8,6 +8,17 @@ services:
     environment: {}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - dz-dashboard-lazydocker-config:/.config/jesseduffield/lazydocker
     ports: []
+    stdin_open: true
+    tty: true
+    build:
+      context: https://github.com/jesseduffield/lazydocker.git
+      args:
+        BASE_IMAGE_BUILDER: golang
+        GOARCH: amd64
+        GOARM:
 
-volumes: {}
+
+volumes:
+  dz-dashboard-lazydocker-config:
