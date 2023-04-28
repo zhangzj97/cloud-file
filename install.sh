@@ -82,7 +82,7 @@ registeBin() {
   $CliName=$1
   $Source=$2
 
-  [[ ! -f $Source ]] && dzLogError "${Source} is not found" && exit 0
+  [[ ! -f $Source ]] && dzLogError "${Source} is not found" && exit
 
   chmod u+x $Source
   ln -fs $Source /bin/$CliName
@@ -90,8 +90,11 @@ registeBin() {
 
 # 该脚本是用来拉取安装包的
 
+logStage $StageNo "设置 DzCloudPath"
 DzCloudPath=$1
 [[ ! $DzCloudPath =~ ^\/ ]] && dzLogError "DzCloudPath is invalid" && exit 0
+mkdir -p $DzCloudPath
+let StageNo+=1
 
 logStage $StageNo "获取包信息"
 DzCloudGitApiJson=$DzCloudPath/dz-cloud.git.json
