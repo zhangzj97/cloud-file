@@ -33,6 +33,32 @@ dzLogError() {
   echo ""
 }
 
+# 日志
+# dzLogFs $FsPath $FsMethodCode
+dzLogFs() {
+  FsPath=$1
+  FsMethodCode=$2
+  FsMethodLabel=""
+
+  FsExist=0
+
+  [[ -f $1 ]] && FsExist=1
+  [[ -d $1 ]] && FsExist=1
+
+  [[ ! $FsExist && ! $FsMethodCode ]] && FsMethodLabel="未发现 -> 涉及"
+  [[ ! $FsExist && $FsMethodCode = "Relate" ]] && FsMethodLabel="未发现 -> 涉及"
+  [[ ! $FsExist && $FsMethodCode = "Handle" ]] && FsMethodLabel="未发现 -> 添加"
+  [[ ! $FsExist && $FsMethodCode = "Remove" ]] && FsMethodLabel="未发现 -> 删除"
+
+  [[ $FsExist && ! $FsMethodCode ]] && FsMethodLabel="已发现 -> 涉及"
+  [[ $FsExist && $FsMethodCode = "Relate" ]] && FsMethodLabel="已发现 -> 涉及"
+  [[ $FsExist && $FsMethodCode = "Handle" ]] && FsMethodLabel="已发现 -> 备份 -> 修改"
+  [[ $FsExist && $FsMethodCode = "Remove" ]] && FsMethodLabel="已发现 -> 备份 -> 删除"
+
+  echo -e "${Space16}[FS] [${FsMethodLabel}] $FsPath"
+  echo ""
+}
+
 # 解析文本 获取数据
 # dzFsMatch $FilePath $Sed
 dzFsMatch() {
