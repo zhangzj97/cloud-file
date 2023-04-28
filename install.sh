@@ -24,39 +24,36 @@ logStage() {
 }
 
 dzLogInfo() {
-  echo -e "${Space16}[INFO] $1"
-  echo ""
+  echo -e "${Space16}[INFO ] $1"
 }
 
 dzLogError() {
   echo -e "${Space16}${TextRed}[ERROR] $1${TextClear}"
-  echo ""
 }
 
 # 日志
-# dzLogFs $FsPath $FsMethodCode
+# dzLogFs $FsPath $FileMethodCode
 dzLogFs() {
-  FsPath=$1
-  FsMethodCode=$2
-  FsMethodLabel=""
+  FilePath=$1
+  FileMethodCode=$2
+  FileMethodLabel=""
 
-  FsExist=0
+  FileExist=
 
-  [[ -f $1 ]] && FsExist=1
-  [[ -d $1 ]] && FsExist=1
+  [[ -f $FilePath ]] && FileExist=1
+  [[ -d $FilePath ]] && FileExist=1
 
-  [[ ! $FsExist && ! $FsMethodCode ]] && FsMethodLabel="未发现 -> 涉及"
-  [[ ! $FsExist && $FsMethodCode = "Relate" ]] && FsMethodLabel="未发现 -> 涉及"
-  [[ ! $FsExist && $FsMethodCode = "Handle" ]] && FsMethodLabel="未发现 -> 添加"
-  [[ ! $FsExist && $FsMethodCode = "Remove" ]] && FsMethodLabel="未发现 -> 删除"
+  [[ ! $FileExist && ! $FileMethodCode ]] && FileMethodLabel="未发现 -> 涉及"
+  [[ ! $FileExist && $FileMethodCode = "Relate" ]] && FileMethodLabel="未发现 -> 涉及"
+  [[ ! $FileExist && $FileMethodCode = "Handle" ]] && FileMethodLabel="未发现 -> 添加"
+  [[ ! $FileExist && $FileMethodCode = "Remove" ]] && FileMethodLabel="未发现 -> 删除"
 
-  [[ $FsExist && ! $FsMethodCode ]] && FsMethodLabel="已发现 -> 涉及"
-  [[ $FsExist && $FsMethodCode = "Relate" ]] && FsMethodLabel="已发现 -> 涉及"
-  [[ $FsExist && $FsMethodCode = "Handle" ]] && FsMethodLabel="已发现 -> 备份 -> 修改"
-  [[ $FsExist && $FsMethodCode = "Remove" ]] && FsMethodLabel="已发现 -> 备份 -> 删除"
+  [[ $FileExist && ! $FileMethodCode ]] && FileMethodLabel="已发现 -> 涉及"
+  [[ $FileExist && $FileMethodCode = "Relate" ]] && FileMethodLabel="已发现 -> 涉及"
+  [[ $FileExist && $FileMethodCode = "Handle" ]] && FileMethodLabel="已发现 -> 备份 -> 修改"
+  [[ $FileExist && $FileMethodCode = "Remove" ]] && FileMethodLabel="已发现 -> 备份 -> 删除"
 
-  echo -e "${Space16}[FS] [${FsMethodLabel}] $FsPath"
-  echo ""
+  echo -e "${Space16}[FS    ] [${FileMethodLabel}] $FilePath"
 }
 
 # 解析文本 获取数据
@@ -65,7 +62,7 @@ dzFsMatch() {
   FilePath=$1
   Sed=$2
 
-  sed -rz -e $Sed $FilePath
+  sed -rz -e "$Sed" $FilePath
 }
 
 # 在系统中 获取文件
@@ -74,26 +71,57 @@ dzFsGet() {
   FilePath=$1
   Source=$2
 
-  if [[ $Source =~ ^Http ]]; then
+  if [[ $Source =~ ^http ]]; then
     if [[ $(rpm -qa | grep wget) ]]; then
       wget -t0 -T5 -O $FilePath $Source --no-check-certificate
     else
       curl -fsSL $Source >$FilePath
     fi
   else
-    [[ ! -f $Source ]] && dzLogError "${Source} is not found" && exit 0
-    /bin/cp -fa $Source $FilePath
+    [[ ! -f $Source && ! -d $Source ]] && dzLogError "${Source} is not found" && exit 0
+
+    if [[ -f $Source ]]; then
+      /bin/cp -fa $Source $FilePath
+    fi
+
+    if [[ -d $Source ]]; then
+      rm -rf $FilePath
+      mkdir -p $FilePath
+      /bin/cp -fa $Source/* $FilePath
+    fi
   fi
 }
 
+# 在系统中 备份并删除文件
+# dzFsRm $FilePath
+dzFsRm() {
+  FilePath=$1
+
+  TimeFlag=$(date "+%Y-%m-%d%H:%M:%S")
+
+  [[ ! -f $FilePath && ! -d $FilePath ]] && dzLogError "dzFsRm: ${FilePath} is not found"
+
+  if [[ -f $FilePath ]]; then
+    mv $FilePath $FilePath-$TimeFlag.dzdel.bak
+  fi
+
+  if [[ -d $FilePath ]]; then
+    tar -czPf $FilePath.tar.gz-$TimeFlag.dzdel.bak $FilePath &&
+      rm -rf $FilePath
+  fi
+
+}
+
+# 压缩
 # dzTarC $FilePath $Dir
 dzTarC() {
   FilePath=$1
   Dir=$2
 
-  tar -czf $FilePath $Dir
+  tar -czvPf $FilePath $Dir
 }
 
+# 解压
 # dzTarX $FilePath $Dir
 dzTarX() {
   FilePath=$1
@@ -105,14 +133,27 @@ dzTarX() {
 
 # registeBin $CliName $Source
 registeBin() {
-  $CliName=$1
-  $Source=$2
+  CliName=$1
+  Source=$2
 
   [[ ! -f $Source ]] && dzLogError "${Source} is not found" && exit
 
   chmod u+x $Source
   ln -fs $Source /bin/$CliName
 }
+
+# [TODO] 复制目录
+# cpDir $Source $Target
+cpDir() {
+  Source=$1
+  Target=$2
+
+  rm -fr $Target
+  mkdir -p $Target
+  /bin/cp -fa $Source/* $Target
+}
+
+StageNo=1
 
 # 该脚本是用来拉取安装包的
 
@@ -136,23 +177,27 @@ let StageNo+=1
 
 logStage $StageNo "获取包"
 DzCloudTar=$DzCloudPath/dz-cloud.tar.gz
-DzCloudPackageRaw=$DzCloudPath/zhangzj97-cloud-file-*
+DzCloudPackageRaw=$DzCloudPath/zhangzj97-cloud-file-*[^.dzdel.bak]
 DzCloudPackage=$DzCloudPath/cloud-file
 DzCloudTarSource=$(dzFsMatch $DzCloudGitApiJson 's|^.*"tarball_url": "([^"]*)".*$|\1|g')
 dzLogFs $DzCloudTar "Handle" &&
   dzFsGet $DzCloudTar $DzCloudTarSource &&
-  dzTarC $DzCloudTar $DzCloudPath
+  dzTarX $DzCloudTar $DzCloudPath
 dzLogFs $DzCloudPackage "Handle" &&
-  mv $DzCloudPackageRaw $DzCloudPackage
+  dzFsGet $DzCloudPackage $DzCloudPackageRaw
 let StageNo+=1
 
 logStage $StageNo "注册 /bin"
 DzAdmSh=$DzCloudPackage/CentOS7/volume/tmp/dzadm/index.sh
 DzCtlSh=$DzCloudPackage/CentOS7/volume/tmp/dzctl/index.sh
-registeBin dzadm $DzAdmSh
-registeBin dzctl $DzCtlSh
+
+dzLogInfo "注册 dzadm" && registeBin dzadm $DzAdmSh
+dzLogInfo "注册 dzctl" && registeBin dzctl $DzCtlSh
 let StageNo+=1
 
 # 清理
-rm -rf /tmp/dz-cloud.git.json
+logStage $StageNo "清理"
+dzLogFs $DzCloudGitApiJson "Remove" && dzFsRm $DzCloudGitApiJson
+dzLogFs $DzCloudPackageRaw "Remove" && dzFsRm $DzCloudPackageRaw
+dzLogFs $DzCloudTar "Remove" && dzFsRm $DzCloudTar
 let StageNo+=1
