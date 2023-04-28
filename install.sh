@@ -28,6 +28,11 @@ dzLogInfo() {
   echo ""
 }
 
+dzLogError() {
+  echo -e "${Space16}${TextRed}[ERROR] $1${TextClear}"
+  echo ""
+}
+
 # 解析文本 获取数据
 # dzFsMatch $FilePath $Sed
 dzFsMatch() {
@@ -86,7 +91,7 @@ registeBin() {
 # 该脚本是用来拉取安装包的
 
 DzCloudPath=$1
-[[ ! $DzCloudPath =~ ^\/ ]] && logError "DzCloudPath is invalid" && exit 0
+[[ ! $DzCloudPath =~ ^\/ ]] && dzLogError "DzCloudPath is invalid" && exit 0
 
 logStage $StageNo "获取包信息"
 DzCloudGitApiJson=$DzCloudPath/dz-cloud.git.json
