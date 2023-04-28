@@ -36,8 +36,14 @@ logStep "Checking Package kubelet" && dzYum kubelet
 logStep "Checking Package kubectl" && dzYum kubectl
 logStep "Checking Package ipset  " && dzYum ipset
 logStep "Checking Package ipvsadm" && dzYum ipvsadm
-
 let StageNo+=1
+
+logStage $StageNo "Install Cri-docker"
+[[ ! -f /tmp/cri-dockerd.rpm ]] && dzWget /tmp/cri-dockerd.rpm https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.1/cri-dockerd-0.3.1-3.el7.x86_64.rpm
+rpm -ivh /tmp/cri-dockerd.rpm
+systemctl enable --now cri-docker
+sed -i 's#ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd://#ExecStart=/usr/bin/cri-dockerd --network-plugin=cni --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.8 --container-runtime-endpoint fd://#' /usr/lib/systemd/system/cri-docker.service
+systemctl daemon-reload
 
 logStage $StageNo "Config Linux"
 KubernetesConf=/etc/sysctl.d/kubernetes.conf
@@ -58,6 +64,9 @@ let StageNo+=1
 logStage $StageNo "Config kubelet"
 KubeletModules=/etc/sysconfig/kubelet
 /bin/cp -fa $DZ_CLOUD_PATH/cloud-file/CentOS7/volume/$KubeletModules $KubeletModules && logFile $KubeletModules
+systemctl enable --now kubelet
+sed -i '/disabled_plugins/s/^\(.*\)$/# \1/g' /etc/containerd/config.toml && logFile /etc/containerd/config.toml
+systemctl restart containerd
 let StageNo+=1
 
 logStage $StageNo "Config Service"
@@ -74,7 +83,7 @@ setenforce 0
 sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux && logFile /etc/sysconfig/selinux
 logStep "swap"
 swapoff -a
-sed -i '/ swap / s/^\(.\*\)$/#\1/g' /etc/fstab && logFile /etc/fstab
+sed -i '/ swap /s/^\(.*\)$/# \1/g' /etc/fstab && logFile /etc/fstab
 logStep "k8s"
 systemctl enable --now kubelet
 let StageNo+=1
