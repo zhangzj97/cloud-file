@@ -7,13 +7,8 @@
 ```bash
 
 # Download Install file
-yum instal wget
-wget -O /tmp/dzinit.sh https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh --no-check-certificate | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
-
-
-curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzinit.sh
-curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh           > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
-curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
+curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/install.sh           > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
+curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/install.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
 
 source dzinit /demopath
 
@@ -42,7 +37,5 @@ source /tmp/dz-install.sh 0.2.0
 kubectl create deployment nginxtest --image=nginx
 kubectl expose deployment nginxtest --port=80 --type=NodePort
 kubectl get pods,service
-
-
 
 ```
