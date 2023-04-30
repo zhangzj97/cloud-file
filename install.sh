@@ -161,9 +161,9 @@ dzTmpFsMatch() {
   DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
   Sed=$2
 
-  [[ ! -f $FilePath ]] && dzLogError "dzTmpFsMatch => ${DzBakFsFilePath} is not found" && exit
+  [[ ! -f $FilePath ]] && dzLogError "dzTmpFsMatch => ${DzTmpFsFilePath} is not found" && exit
 
-  sed -rz -e "$Sed" $DzBakFsFilePath
+  sed -rz -e "$Sed" $DzTmpFsFilePath
 }
 
 # 从 TmpFs 获取内容 并 记录与备份 (仅仅支持获取同名文件)
