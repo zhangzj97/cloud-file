@@ -120,6 +120,9 @@ dzTmpFsEdit() {
   FilePath=$1
   Sed=$2
 
+  [[ ! -f $FilePath ]] && dzLogError "dzTmpFsEdit => ${FilePath} is not found" && exit
+  [[ ! -n $FilePath ]] && echo "    " >$FilePath
+
   sed -r -i "$Sed" $FilePath
 }
 
@@ -128,6 +131,8 @@ dzTmpFsEdit() {
 dzTmpFsMatch() {
   FilePath=$1
   Sed=$2
+
+  [[ ! -f $FilePath ]] && dzLogError "dzTmpFsEdit => ${FilePath} is not found" && exit
 
   sed -rz -e "$Sed" $FilePath
 }
