@@ -92,8 +92,8 @@ dzTmpFsPush() {
   FilePath=$1
   FilePathDir=${FilePath%/*}
   FilePathFileName=${FilePath##*/}
-  DzTmpFsFilePath=$DzTmpFsPath/$FilePath
-  DzTmpFsFilePathDir=$DzTmpFsPath/$FilePathDir
+  DzTmpFsFilePath=$DzTmpFsPath$FilePath
+  DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
 
   [[ ! $FilePath ]] && dzLogError "dzTmpFsPush => FilePath is required" && exit
   [[ $FilePathDir = / ]] && dzLogError "dzTmpFsPush => FilePathDir is /, please change another" && exit
@@ -170,8 +170,8 @@ dzTmpFsPull() {
   FilePath=$1
   FilePathDir=${FilePath%/*}
   FilePathFileName=${FilePath##*/}
-  DzTmpFsFilePath=$DzTmpFsPath/$FilePath
-  DzTmpFsFilePathDir=$DzTmpFsPath/$FilePathDir
+  DzTmpFsFilePath=$DzTmpFsPath$FilePath
+  DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
   TmpFsCode=$2
 
   # 验证 TmpFsCode
@@ -181,9 +181,9 @@ dzTmpFsPull() {
     return
   elif [[ $TmpFsCode = TmpFsRemove && -f $FilePath ]]; then
     TimeFlag=$(date "+%Y-%m-%d%H:%M:%S")
-    /bin/cp -fa $FilePath $DzBakFsPath/$FilePath-$TimeFlag.bak
+    /bin/cp -fa $FilePath $DzBakFsPath$FilePath-$TimeFlag.bak
     rm -rf $FilePath
-    dzLogInfo "删除文件 => $FilePath, 备份 Path => $DzBakFsPath/$FilePath-$TimeFlag.bak"
+    dzLogInfo "删除文件 => $FilePath, 备份 Path => $DzBakFsPath$FilePath-$TimeFlag.bak"
     return
   fi
 
@@ -201,10 +201,10 @@ dzTmpFsPull() {
     dzLogInfo "新增文件 => $FilePath"
   elif [[ -f $DzTmpFsFilePath && -f $FilePath ]]; then
     TimeFlag=$(date "+%Y-%m-%d%H:%M:%S")
-    /bin/cp -fa $FilePath $DzBakFsPath/$FilePath-$TimeFlag.bak
+    /bin/cp -fa $FilePath $DzBakFsPath$FilePath-$TimeFlag.bak
     rm -rf $FilePath
     /bin/cp -fa $DzTmpFsFilePath $FilePath
-    dzLogInfo "修改文件 => $FilePath, 备份 Path => $DzBakFsPath/$FilePath-$TimeFlag.bak"
+    dzLogInfo "修改文件 => $FilePath, 备份 Path => $DzBakFsPath$FilePath-$TimeFlag.bak"
   fi
 }
 
@@ -269,8 +269,8 @@ dzRpm() {
 # 关联
 # dzLinkFile $BinName $Source
 dzLinkFile() {
-  $BinName=$1
-  $Source=$2
+  BinName=$1
+  Source=$2
 
   [[ ! -f $Source ]] && dzLogError "${Source} is not found" && exit 0
 
