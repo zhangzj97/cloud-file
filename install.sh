@@ -37,7 +37,6 @@ dzLogInfo() {
   Description=$1
 
   echo -e "${Space16}[INFO   ] $Description"
-  echo ""
 }
 
 # 日志 - Level Warning
@@ -46,7 +45,6 @@ dzLogWarning() {
   Description=$1
 
   echo -e "${Space16}${TextYellow}[WARNING] $Description${TextClear}"
-  echo ""
 }
 
 # 日志 - Level Error
@@ -55,7 +53,6 @@ dzLogError() {
   Description=$1
 
   echo -e "${Space16}${TextRed}[ERROR  ] $Description${TextClear}"
-  echo ""
 }
 
 ###################################################################################################
@@ -277,7 +274,7 @@ DzCloudPath=$1
 DzTmpFsPath=$DzCloudPath/.tmpfs
 DzBakFsPath=$DzCloudPath/.bakfs
 
-logStage $StageNo "设置 DzCloudPath"
+dzLogStage $StageNo "设置 DzCloudPath"
 [[ ! $DzCloudPath =~ ^\/ ]] && dzLogError "DzCloudPath is invalid" && exit 0
 dzLogInfo "DzCloudPath => $DzCloudPath"
 dzLogInfo "DzTmpFsPath => $DzTmpFsPath"
@@ -287,7 +284,7 @@ mkdir -p $DzTmpFsPath
 mkdir -p $DzBakFsPath
 let StageNo+=1
 
-logStage $StageNo "获取相关信息"
+dzLogStage $StageNo "获取相关信息"
 DzCloudGitApiJson=$DzCloudPath/dz-cloud.git.json
 DzCloudGitApiJsonSource=https://api.github.com/repos/zhangzj97/cloud-file/releases/latest
 dzTmpFsPush $DzCloudGitApiJson $DzCloudGitApiJsonSource &&
@@ -297,7 +294,7 @@ TagName=$(dzFsMatch $DzCloudGitApiJson 's|^.*"tag_name": "([^"]*)".*$|\1|g')
 dzLogInfo "最新版本 => $TagName"
 let StageNo+=1
 
-logStage $StageNo "获取包"
+dzLogStage $StageNo "获取包"
 DzCloudTar=$DzCloudPath/dz-cloud.tar.gz
 DzCloudPackageRaw=$DzCloudPath/zhangzj97-cloud-file-*
 DzCloudPackage=$DzCloudPath/cloud-file
@@ -309,14 +306,14 @@ dzTarX $DzCloudTar $DzCloudPath
 rm -rf $DzCloudPackageRaw
 let StageNo+=1
 
-logStage $StageNo "注册全局指令 /bin"
+dzLogStage $StageNo "注册全局指令 /bin"
 DzAdmIndexSh=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dzadm/index.sh
 DzCtlIndexSh=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dzctl/index.sh
 dzLinkFile dzadm $DzAdmIndexSh
 dzLinkFile dzctl $DzCtlIndexSh
 let StageNo+=1
 
-logStage $StageNo "注册全局参数 /etc/profile.d/dzadm.sh"
+dzLogStage $StageNo "注册全局参数 /etc/profile.d/dzadm.sh"
 TagName=$(dzFsMatch $DzCloudGitApiJson 's|^.*"tag_name": "([^"]*)".*$|\1|g')
 
 ProfileDDzAdmSh=/etc/profile.d/dzadm.sh
@@ -337,7 +334,7 @@ dzTmpFsPush $ProfileDDzAdmSh &&
 source /etc/profile
 let StageNo+=1
 
-logStage $StageNo "清理"
+dzLogStage $StageNo "清理"
 dzTmpFsPush $DzCloudGitApiJson && dzTmpFsPull $DzCloudGitApiJson "TmpFsRemove"
 dzTmpFsPush $DzCloudTar && dzTmpFsPull $DzCloudTar "TmpFsRemove"
 let StageNo+=1
