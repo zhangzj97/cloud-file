@@ -37,7 +37,6 @@ dzLogInfo() {
   Description=$1
 
   echo -e "${Space16}[INFO   ] $Description"
-  echo ""
 }
 
 # 日志 - Level Warning
@@ -46,7 +45,6 @@ dzLogWarning() {
   Description=$1
 
   echo -e "${Space16}${TextYellow}[WARNING] $Description${TextClear}"
-  echo ""
 }
 
 # 日志 - Level Error
@@ -55,7 +53,6 @@ dzLogError() {
   Description=$1
 
   echo -e "${Space16}${TextRed}[ERROR  ] $Description${TextClear}"
-  echo ""
 }
 
 ###################################################################################################
@@ -79,8 +76,10 @@ dzTmpFsPush() {
   FilePath=$1
   FilePathDir=${FilePath%/*}
   FilePathFileName=${FilePath##*/}
-  DzTmpFsFilePath=$DzTmpFsPath/$FilePath
-  DzTmpFsFilePathDir=$DzTmpFsPath/$FilePathDir
+  DzTmpFsFilePath=$DzTmpFsPath$FilePath
+  DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
+  DzBakFsFilePath=$DzBakFsPath$FilePath
+  DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
 
   [[ ! $FilePath ]] && dzLogError "dzTmpFsPush => FilePath is required" && exit
   [[ $FilePathDir = / ]] && dzLogError "dzTmpFsPush => FilePathDir is /, please change another" && exit
@@ -105,8 +104,10 @@ dzTmpFsPush() {
   # 获取 Source
   if [[ $RemoteFlag && ! $(rpm -qa | grep wget) ]]; then
     curl -fsSL $Source >$DzTmpFsFilePath
+    dzLogInfo "[下载文件] $DzTmpFsFilePath"
   elif [[ $RemoteFlag && $(rpm -qa | grep wget) ]]; then
     wget -t0 -T5 -O $DzTmpFsFilePath $Source --no-check-certificate
+    dzLogInfo "[下载文件] $DzTmpFsFilePath"
   elif [[ ! $RemoteFlag && ! -f $Source ]]; then
     touch $DzTmpFsFilePath
   elif [[ ! $RemoteFlag && -f $Source ]]; then
@@ -118,23 +119,35 @@ dzTmpFsPush() {
 # dzTmpFsEdit $FilePath $Sed
 dzTmpFsEdit() {
   FilePath=$1
+  FilePathDir=${FilePath%/*}
+  FilePathFileName=${FilePath##*/}
+  DzTmpFsFilePath=$DzTmpFsPath$FilePath
+  DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
+  DzBakFsFilePath=$DzBakFsPath$FilePath
+  DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
   Sed=$2
 
-  [[ ! -f $FilePath ]] && dzLogError "dzTmpFsEdit => ${FilePath} is not found" && exit
-  [[ ! -n $FilePath ]] && echo "    " >$FilePath
+  [[ ! -f $DzTmpFsFilePath ]] && dzLogError "dzTmpFsEdit => ${DzTmpFsFilePath} is not found" && exit
+  [[ ! -s $DzTmpFsFilePath ]] && echo "    " >$DzTmpFsFilePath && echo "" >$DzTmpFsFilePath
 
-  sed -r -i "$Sed" $FilePath
+  sed -r -i "$Sed" $DzTmpFsFilePath
 }
 
 # 正则匹配内容获取字段
 # dzTmpFsMatch $FilePath $Sed
 dzTmpFsMatch() {
   FilePath=$1
+  FilePathDir=${FilePath%/*}
+  FilePathFileName=${FilePath##*/}
+  DzTmpFsFilePath=$DzTmpFsPath$FilePath
+  DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
+  DzBakFsFilePath=$DzBakFsPath$FilePath
+  DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
   Sed=$2
 
-  [[ ! -f $FilePath ]] && dzLogError "dzTmpFsEdit => ${FilePath} is not found" && exit
+  [[ ! -f $FilePath ]] && dzLogError "dzTmpFsMatch => ${DzTmpFsFilePath} is not found" && exit
 
-  sed -rz -e "$Sed" $FilePath
+  sed -rz -e "$Sed" $DzTmpFsFilePath
 }
 
 # 从 TmpFs 获取内容 并 记录与备份 (仅仅支持获取同名文件)
@@ -155,8 +168,10 @@ dzTmpFsPull() {
   FilePath=$1
   FilePathDir=${FilePath%/*}
   FilePathFileName=${FilePath##*/}
-  DzTmpFsFilePath=$DzTmpFsPath/$FilePath
-  DzTmpFsFilePathDir=$DzTmpFsPath/$FilePathDir
+  DzTmpFsFilePath=$DzTmpFsPath$FilePath
+  DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
+  DzBakFsFilePath=$DzBakFsPath$FilePath
+  DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
   TmpFsCode=$2
 
   # 验证 TmpFsCode
@@ -165,10 +180,11 @@ dzTmpFsPull() {
     dzLogInfo "删除文件 => $FilePath, 不存在"
     return
   elif [[ $TmpFsCode = TmpFsRemove && -f $FilePath ]]; then
+    mkdir -p $DzBakFsFilePathDir
     TimeFlag=$(date "+%Y-%m-%d%H:%M:%S")
-    /bin/cp -fa $FilePath $DzBakFsPath/$FilePath-$TimeFlag.bak
+    /bin/cp -fa $FilePath $DzBakFsPath$FilePath-$TimeFlag.bak
     rm -rf $FilePath
-    dzLogInfo "删除文件 => $FilePath, 备份 Path => $DzBakFsPath/$FilePath-$TimeFlag.bak"
+    dzLogInfo "删除文件 => $FilePath, 备份 Path => $DzBakFsPath$FilePath-$TimeFlag.bak"
     return
   fi
 
@@ -185,11 +201,12 @@ dzTmpFsPull() {
     /bin/cp -fa $DzTmpFsFilePath $FilePath
     dzLogInfo "新增文件 => $FilePath"
   elif [[ -f $DzTmpFsFilePath && -f $FilePath ]]; then
+    mkdir -p $DzBakFsFilePathDir
     TimeFlag=$(date "+%Y-%m-%d%H:%M:%S")
-    /bin/cp -fa $FilePath $DzBakFsPath/$FilePath-$TimeFlag.bak
+    /bin/cp -fa $FilePath $DzBakFsPath$FilePath-$TimeFlag.bak
     rm -rf $FilePath
     /bin/cp -fa $DzTmpFsFilePath $FilePath
-    dzLogInfo "修改文件 => $FilePath, 备份 Path => $DzBakFsPath/$FilePath-$TimeFlag.bak"
+    dzLogInfo "修改文件 => $FilePath, 备份 Path => $DzBakFsPath$FilePath-$TimeFlag.bak"
   fi
 }
 
@@ -254,8 +271,8 @@ dzRpm() {
 # 关联
 # dzLinkFile $BinName $Source
 dzLinkFile() {
-  $BinName=$1
-  $Source=$2
+  BinName=$1
+  Source=$2
 
   [[ ! -f $Source ]] && dzLogError "${Source} is not found" && exit 0
 
