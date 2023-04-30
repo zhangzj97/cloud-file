@@ -90,7 +90,7 @@ dzTmpFsPull () {}
 
 - dzTarC $FilePath $Source
 - dzTarX $FilePath $Target
-- dzRpmYum $RpmName $CheckName
+- dzRpm $RpmName $CheckName
 - dzLinkFile $FilePath $BinName
 
 ```bash
@@ -103,11 +103,11 @@ dzTarC () {}
 dzTarX () {}
 
 # Rpm
-# dzRpmYum $RpmName $CheckName
-dzRpmYum () {}
+# dzRpm $RpmName $Source
+dzRpm() {}
 
 # 关联
-# dzLinkFile $FilePath $BinName
+# dzLinkFile $BinName $Source
 dzLinkFile () {}
 
 ```

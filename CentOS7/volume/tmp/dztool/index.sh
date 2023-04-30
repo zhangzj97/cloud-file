@@ -190,7 +190,7 @@ dzTmpFsPull() {
 }
 
 ###################################################################################################
-## 临时空间文件模块 dz-tmp-fs
+## 未分类模块 dz-other
 ###################################################################################################
 
 # Tar 压缩
@@ -213,9 +213,52 @@ dzTarX() {
 }
 
 # Rpm
-# dzRpmYum $RpmName $CheckName
-dzRpmYum() {}
+# dzRpm $RpmName $Source
+dzRpm() {
+  DzTmpFsPath=$DZ_TMP_FS_PATH
+  DzBakFsPath=$DZ_BAK_FS_PATH
+
+  RpmName=$1
+  Source=$2
+
+  DzTmpFsRpmName=$DzTmpFsPath/$RpmName.rpm
+
+  RemoteFlag=
+  [[ ! $Source ]] && Source=$RpmName
+  [[ $Source =~ http ]] && RemoteFlag=1
+
+  if [[ $(rpm -qa | grep $RpmName) ]]; then
+    dzLogInfo "[已安装] => $RpmName "
+    return
+  fi
+
+  if [[ $RemoteFlag && ! -f $DzTmpFsRpmName && ! $(rpm -qa | grep wget) ]]; then
+    curl -fsSL $Source >$DzTmpFsRpmName
+  elif [[ $RemoteFlag && ! -f $DzTmpFsRpmName && $(rpm -qa | grep wget) ]]; then
+    wget -t0 -T5 -O $DzTmpFsRpmName $Source --no-check-certificate
+  fi
+
+  if [[ $RemoteFlag ]]; then
+    rpm -ivh $DzTmpFsRpmName
+  elif [[ ! $RemoteFlag ]]; then
+    yum -y -q $RpmName
+  fi
+
+  dzLogInfo "[新安装] => $RpmName "
+}
 
 # 关联
-# dzLinkFile $FilePath $BinName
-dzLinkFile() {}
+# dzLinkFile $BinName $Source
+dzLinkFile() {
+  $BinName=$1
+  $Source=$2
+
+  [[ ! -f $Source ]] && dzLogError "${Source} is not found" && exit 0
+
+  chmod u+x $Source
+  ln -fs $Source /bin/$BinName
+}
+
+###################################################################################################
+## 业务
+###################################################################################################
