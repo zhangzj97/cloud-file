@@ -186,7 +186,6 @@ dzTmpFsPull() {
     /bin/cp -fa $DzTmpFsFilePath $FilePath
     dzLogInfo "修改文件 => $FilePath, 备份 Path => $DzBakFsPath/$FilePath-$TimeFlag.bak"
   fi
-
 }
 
 ###################################################################################################
@@ -244,7 +243,7 @@ dzRpm() {
     yum -y -q $RpmName
   fi
 
-  dzLogInfo "[新安装] => $RpmName "
+  dzLogInfo "[新安装] => $RpmName"
 }
 
 # 关联
@@ -257,6 +256,8 @@ dzLinkFile() {
 
   chmod u+x $Source
   ln -fs $Source /bin/$BinName
+
+  dzLogInfo "[链接] $BinName => $Source"
 }
 
 ###################################################################################################
