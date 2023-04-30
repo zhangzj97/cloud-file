@@ -144,7 +144,7 @@ dzTmpFsEdit() {
   Sed=$2
 
   [[ ! -f $DzTmpFsFilePath ]] && dzLogError "dzTmpFsEdit => ${DzTmpFsFilePath} is not found" && exit
-  [[ -n $DzTmpFsFilePath ]] && echo "    " >$DzTmpFsFilePath
+  [[ ! -n $DzTmpFsFilePath ]] && echo "    " >$DzTmpFsFilePath && echo "" >$DzTmpFsFilePath
 
   sed -r -i "$Sed" $DzTmpFsFilePath
 }
