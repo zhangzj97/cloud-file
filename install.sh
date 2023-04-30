@@ -144,7 +144,7 @@ dzTmpFsEdit() {
   Sed=$2
 
   [[ ! -f $DzTmpFsFilePath ]] && dzLogError "dzTmpFsEdit => ${DzTmpFsFilePath} is not found" && exit
-  [[ ! -n $DzTmpFsFilePath ]] && echo "    " >$DzTmpFsFilePath && echo "" >$DzTmpFsFilePath
+  [[ ! -s $DzTmpFsFilePath ]] && echo "    " >$DzTmpFsFilePath && echo "" >$DzTmpFsFilePath
 
   sed -r -i "$Sed" $DzTmpFsFilePath
 }
@@ -354,18 +354,18 @@ TagName=$(dzTmpFsMatch $DzCloudGitApiJson 's|^.*"tag_name": "([^"]*)".*$|\1|g')
 
 ProfileDDzAdmSh=/etc/profile.d/dzadm.sh
 dzTmpFsPush $ProfileDDzAdmSh &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|^*$|   |g" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|$|#!/bin/bash -i|g" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|$|DZ_CLOUD_VERSION=${TagName}|g" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|$|DZ_CLOUD_PATH=${DzCloudPath}|g" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|$|DZ_TMP_FS_PATH=${DzTmpFsPath}|g" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|$|DZ_BAK_FS_PATH=${DzBakFsPath}|g" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|$|DZ_TOOL_PATH=${DzCloudPath}/tmp/dztool/index.sh|g" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|$|export DZ_CLOUD_VERSION|g" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|$|export DZ_CLOUD_PATH|g" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|$|export DZ_TMP_FS_PATH|g" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|$|export DZ_BAK_FS_PATH|g" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "s|$|export DZ_TOOL_PATH|g" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "/^.*$/d" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a #!/bin/bash -i" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_CLOUD_VERSION=${TagName}" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_CLOUD_PATH=${DzCloudPath}" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_TMP_FS_PATH=${DzTmpFsPath}" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_BAK_FS_PATH=${DzBakFsPath}" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_TOOL_PATH=${DzCloudPath}/tmp/dztool/index.sh" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_CLOUD_VERSION" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_CLOUD_PATH" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_TMP_FS_PATH" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_BAK_FS_PATH" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_TOOL_PATH" &&
   dzTmpFsPull $ProfileDDzAdmSh
 source /etc/profile
 let StageNo+=1
