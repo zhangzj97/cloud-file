@@ -135,23 +135,35 @@ dzTmpFsPush() {
 # dzTmpFsEdit $FilePath $Sed
 dzTmpFsEdit() {
   FilePath=$1
+  FilePathDir=${FilePath%/*}
+  FilePathFileName=${FilePath##*/}
+  DzTmpFsFilePath=$DzTmpFsPath$FilePath
+  DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
+  DzBakFsFilePath=$DzBakFsPath$FilePath
+  DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
   Sed=$2
 
-  [[ ! -f $FilePath ]] && dzLogError "dzTmpFsEdit => ${FilePath} is not found" && exit
-  [[ ! -n $FilePath ]] && echo "    " >$FilePath
+  [[ ! -f $DzTmpFsFilePath ]] && dzLogError "dzTmpFsEdit => ${DzTmpFsFilePath} is not found" && exit
+  [[ -n $DzTmpFsFilePath ]] && echo "    " >$DzTmpFsFilePath
 
-  sed -r -i "$Sed" $FilePath
+  sed -r -i "$Sed" $DzTmpFsFilePath
 }
 
 # 正则匹配内容获取字段
 # dzTmpFsMatch $FilePath $Sed
 dzTmpFsMatch() {
   FilePath=$1
+  FilePathDir=${FilePath%/*}
+  FilePathFileName=${FilePath##*/}
+  DzTmpFsFilePath=$DzTmpFsPath$FilePath
+  DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
+  DzBakFsFilePath=$DzBakFsPath$FilePath
+  DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
   Sed=$2
 
-  [[ ! -f $FilePath ]] && dzLogError "dzTmpFsEdit => ${FilePath} is not found" && exit
+  [[ ! -f $FilePath ]] && dzLogError "dzTmpFsMatch => ${DzBakFsFilePath} is not found" && exit
 
-  sed -rz -e "$Sed" $FilePath
+  sed -rz -e "$Sed" $DzBakFsFilePath
 }
 
 # 从 TmpFs 获取内容 并 记录与备份 (仅仅支持获取同名文件)
