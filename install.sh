@@ -65,30 +65,39 @@ dzFsMatch() {
   sed -rz -e "$Sed" $FilePath
 }
 
+# 修改文件
+# dzFsEdit $FilePath $Sed
+dzFsEdit() {
+  FilePath=$1
+  Sed=$2
+  echo $2
+  sed -r -i "$Sed" $FilePath
+}
+
 # 在系统中 获取文件
 # dzFsGet $FilePath $Source
 dzFsGet() {
   FilePath=$1
   Source=$2
 
-  if [[ $Source =~ ^http ]]; then
-    if [[ $(rpm -qa | grep wget) ]]; then
-      wget -t0 -T5 -O $FilePath $Source --no-check-certificate
-    else
-      curl -fsSL $Source >$FilePath
-    fi
-  else
-    [[ ! -f $Source && ! -d $Source ]] && dzLogError "${Source} is not found" && exit 0
+  Dir=${FilePath%/*}
+  FileName=${FilePath##*/}
 
-    if [[ -f $Source ]]; then
-      /bin/cp -fa $Source $FilePath
-    fi
-
-    if [[ -d $Source ]]; then
-      rm -rf $FilePath
-      mkdir -p $FilePath
+  if [[ $FilePath = $Source && ! -f $Source ]]; then # 两个参数相同且没有 $Source  => 创建
+    mkdir -p $Dir && echo "#" >$FilePath
+  elif [[ $FilePath = $Source && -f $Source ]]; then # 两个参数相同且有 $Source => Skip
+    echo ""
+  elif [[ ! $FilePath = $Source && $Source =~ ^http ]]; then # 两个参数不相同且 $Source 远程 => 下载
+    [[ $(rpm -qa | grep wget) ]] && wget -t0 -T5 -O $FilePath $Source --no-check-certificate
+    [[ ! $(rpm -qa | grep wget) ]] && curl -fsSL $Source >$FilePath
+  elif [[ ! $FilePath = $Source && ! -f $Source && ! -d $Source ]]; then # 两个参数不相同且 $Source 本地文件 不存在 => 报错
+    dzLogError "${Source} is not found" && exit 0
+  elif [[ ! $FilePath = $Source && -f $Source ]]; then # 两个参数不相同且 $Source 本地文件 存在 且 file => 复制
+    /bin/cp -fa $Source $FilePath
+  elif [[ ! $FilePath = $Source && -d $Source ]]; then # 两个参数不相同且 $Source 本地文件 存在 且 dir =>  复制
+    rm -rf $FilePath &&
+      mkdir -p $FilePath &&
       /bin/cp -fa $Source/* $FilePath
-    fi
   fi
 }
 
@@ -160,6 +169,7 @@ StageNo=1
 logStage $StageNo "设置 DzCloudPath"
 DzCloudPath=$1
 [[ ! $DzCloudPath =~ ^\/ ]] && dzLogError "DzCloudPath is invalid" && exit 0
+dzLogInfo "DzCloudPath = $DzCloudPath"
 mkdir -p $DzCloudPath
 let StageNo+=1
 
@@ -187,15 +197,28 @@ dzLogFs $DzCloudPackage "Handle" &&
   dzFsGet $DzCloudPackage $DzCloudPackageRaw
 let StageNo+=1
 
-logStage $StageNo "注册 /bin"
-DzAdmSh=$DzCloudPackage/CentOS7/volume/tmp/dzadm/index.sh
-DzCtlSh=$DzCloudPackage/CentOS7/volume/tmp/dzctl/index.sh
-
-dzLogInfo "注册 dzadm" && registeBin dzadm $DzAdmSh
-dzLogInfo "注册 dzctl" && registeBin dzctl $DzCtlSh
+logStage $StageNo "注册全局指令 /bin"
+DzAdmIndexSh=$DzCloudPackage/CentOS7/volume/tmp/dzadm/index.sh
+DzCtlIndexSh=$DzCloudPackage/CentOS7/volume/tmp/dzctl/index.sh
+dzLogInfo "注册 dzadm" && registeBin dzadm $DzAdmIndexSh
+dzLogInfo "注册 dzctl" && registeBin dzctl $DzCtlIndexSh
 let StageNo+=1
 
-# 清理
+logStage $StageNo "注册全局参数 /etc/profile.d/dzadm.sh"
+ProfileDDzAdmSh=/etc/profile.d/dzadm.sh
+dzLogFs $ProfileDDzAdmSh "Handle" &&
+  dzFsGet $ProfileDDzAdmSh $ProfileDDzAdmSh &&
+  dzFsEdit $ProfileDDzAdmSh "s|^*$||g" &&
+  dzFsEdit $ProfileDDzAdmSh "s|$|#!/bin/bash -i|g" &&
+  dzFsEdit $ProfileDDzAdmSh "s|$|# <Dz> Dz|g" &&
+  dzFsEdit $ProfileDDzAdmSh "s|$|DZ_CLOUD_VERSION=${TagName}|g" &&
+  dzFsEdit $ProfileDDzAdmSh "s|$|DZ_CLOUD_PATH=${DzCloudPath}|g" &&
+  dzFsEdit $ProfileDDzAdmSh "s|$|DZ_TMPFS_PATH=${DzCloudPath}/.tmpfs|g" &&
+  dzFsEdit $ProfileDDzAdmSh "s|$|DZ_TOOL_PATH=${DZ_CLOUD_VOLUME}/tmp/dztool/index.sh|g" &&
+  dzFsEdit $ProfileDDzAdmSh "s|$|# <\Dz> Dz|g"
+source /etc/profile
+let StageNo+=1
+
 logStage $StageNo "清理"
 dzLogFs $DzCloudGitApiJson "Remove" && dzFsRm $DzCloudGitApiJson
 dzLogFs $DzCloudPackageRaw "Remove" && dzFsRm $DzCloudPackageRaw
