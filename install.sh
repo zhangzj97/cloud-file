@@ -290,7 +290,7 @@ DzCloudGitApiJsonSource=https://api.github.com/repos/zhangzj97/cloud-file/releas
 dzTmpFsPush $DzCloudGitApiJson $DzCloudGitApiJsonSource &&
   dzTmpFsPull $DzCloudGitApiJson
 dzLogInfo "获取版本信息"
-TagName=$(dzFsMatch $DzCloudGitApiJson 's|^.*"tag_name": "([^"]*)".*$|\1|g')
+TagName=$(dzTmpFsMatch $DzCloudGitApiJson 's|^.*"tag_name": "([^"]*)".*$|\1|g')
 dzLogInfo "最新版本 => $TagName"
 let StageNo+=1
 
@@ -298,7 +298,7 @@ dzLogStage $StageNo "获取包"
 DzCloudTar=$DzCloudPath/dz-cloud.tar.gz
 DzCloudPackageRaw=$DzCloudPath/zhangzj97-cloud-file-*
 DzCloudPackage=$DzCloudPath/cloud-file
-DzCloudTarSource=$(dzFsMatch $DzCloudGitApiJson 's|^.*"tarball_url": "([^"]*)".*$|\1|g')
+DzCloudTarSource=$(dzTmpFsMatch $DzCloudGitApiJson 's|^.*"tarball_url": "([^"]*)".*$|\1|g')
 dzTmpFsPush $DzCloudTar $DzCloudTarSource &&
   dzTmpFsPull $DzCloudTar
 dzTarX $DzCloudTar $DzCloudPath
@@ -314,7 +314,7 @@ dzLinkFile dzctl $DzCtlIndexSh
 let StageNo+=1
 
 dzLogStage $StageNo "注册全局参数 /etc/profile.d/dzadm.sh"
-TagName=$(dzFsMatch $DzCloudGitApiJson 's|^.*"tag_name": "([^"]*)".*$|\1|g')
+TagName=$(dzTmpFsMatch $DzCloudGitApiJson 's|^.*"tag_name": "([^"]*)".*$|\1|g')
 
 ProfileDDzAdmSh=/etc/profile.d/dzadm.sh
 dzTmpFsPush $ProfileDDzAdmSh &&
