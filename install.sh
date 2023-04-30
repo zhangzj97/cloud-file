@@ -1,5 +1,21 @@
 #!/bin/bash -i
 
+DzCloudPath=$1
+DzTmpFsPath=$DzCloudPath/.tmpfs
+DzBakFsPath=$DzCloudPath/.bakfs
+
+DZ_CLOUD_PATH=$DzCloudPath
+DZ_TMP_FS_PATH=$DzTmpFsPath
+DZ_BAK_FS_PATH=$DzBakFsPath
+
+[[ ! $DzCloudPath =~ ^\/ ]] && echo "DzCloudPath is invalid" && exit 0
+echo "DzCloudPath => $DzCloudPath"
+echo "DzTmpFsPath => $DzTmpFsPath"
+echo "DzBakFsPath => $DzBakFsPath"
+mkdir -p $DzCloudPath
+mkdir -p $DzTmpFsPath
+mkdir -p $DzBakFsPath
+
 ###################################################################################################
 ## 日志模块 dz-log
 ###################################################################################################
@@ -102,8 +118,10 @@ dzTmpFsPush() {
   # 获取 Source
   if [[ $RemoteFlag && ! $(rpm -qa | grep wget) ]]; then
     curl -fsSL $Source >$DzTmpFsFilePath
+    dzLogInfo "[下载文件] $DzTmpFsFilePath"
   elif [[ $RemoteFlag && $(rpm -qa | grep wget) ]]; then
     wget -t0 -T5 -O $DzTmpFsFilePath $Source --no-check-certificate
+    dzLogInfo "[下载文件] $DzTmpFsFilePath"
   elif [[ ! $RemoteFlag && ! -f $Source ]]; then
     touch $DzTmpFsFilePath
   elif [[ ! $RemoteFlag && -f $Source ]]; then
