@@ -94,6 +94,8 @@ dzTmpFsPush() {
   FilePathFileName=${FilePath##*/}
   DzTmpFsFilePath=$DzTmpFsPath$FilePath
   DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
+  DzBakFsFilePath=$DzBakFsPath$FilePath
+  DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
 
   [[ ! $FilePath ]] && dzLogError "dzTmpFsPush => FilePath is required" && exit
   [[ $FilePathDir = / ]] && dzLogError "dzTmpFsPush => FilePathDir is /, please change another" && exit
@@ -172,6 +174,8 @@ dzTmpFsPull() {
   FilePathFileName=${FilePath##*/}
   DzTmpFsFilePath=$DzTmpFsPath$FilePath
   DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
+  DzBakFsFilePath=$DzBakFsPath$FilePath
+  DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
   TmpFsCode=$2
 
   # 验证 TmpFsCode
@@ -180,6 +184,7 @@ dzTmpFsPull() {
     dzLogInfo "删除文件 => $FilePath, 不存在"
     return
   elif [[ $TmpFsCode = TmpFsRemove && -f $FilePath ]]; then
+    mkdir -p $DzBakFsFilePathDir
     TimeFlag=$(date "+%Y-%m-%d%H:%M:%S")
     /bin/cp -fa $FilePath $DzBakFsPath$FilePath-$TimeFlag.bak
     rm -rf $FilePath
@@ -200,6 +205,7 @@ dzTmpFsPull() {
     /bin/cp -fa $DzTmpFsFilePath $FilePath
     dzLogInfo "新增文件 => $FilePath"
   elif [[ -f $DzTmpFsFilePath && -f $FilePath ]]; then
+    mkdir -p $DzBakFsFilePathDir
     TimeFlag=$(date "+%Y-%m-%d%H:%M:%S")
     /bin/cp -fa $FilePath $DzBakFsPath$FilePath-$TimeFlag.bak
     rm -rf $FilePath
