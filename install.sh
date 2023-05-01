@@ -266,8 +266,9 @@ dzRpm() {
   [[ ! $Source ]] && Source=$RpmName
   [[ $Source =~ http ]] && RemoteFlag=1
 
-  if [[ $(rpm -qa | grep $RpmName) ]]; then
-    dzLogInfo "[已安装] $RpmName => $(rpm -qa | grep $RpmName)"
+  RpmVersion=$(rpm -qa | grep $RpmName)
+  if [[ RpmVersion ]]; then
+    dzLogInfo "[已安装] $RpmName => $RpmVersion"
     return
   fi
 
@@ -280,10 +281,11 @@ dzRpm() {
   if [[ $RemoteFlag ]]; then
     rpm -ivh $DzTmpFsRpmName
   elif [[ ! $RemoteFlag ]]; then
-    yum -y -q $RpmName
+    yum install -y -q $RpmName
   fi
 
-  dzLogInfo "[新安装] => $RpmName => $(rpm -qa | grep $RpmName)"
+  RpmVersion=$(rpm -qa | grep $RpmName)
+  dzLogInfo "[新安装] => $RpmName => $RpmVersion"
 }
 
 # 关联
