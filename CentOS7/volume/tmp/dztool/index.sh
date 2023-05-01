@@ -112,9 +112,9 @@ dzTmpFsPush() {
   fi
 
   # 寻找
-  if [[ ! -f $Source && ! $DzVolFsFilePath ]]; then
+  if [[ ! -f $Source && ! -f $DzVolFsFilePath ]]; then
     touch $DzTmpFsFilePath
-  elif [[ ! -f $Source && $DzVolFsFilePath ]]; then
+  elif [[ ! -f $Source && -f $DzVolFsFilePath ]]; then
     /bin/cp -fa $DzVolFsFilePath $DzTmpFsFilePath
   elif [[ -f $Source ]]; then
     /bin/cp -fa $Source $DzTmpFsFilePath

@@ -26,7 +26,7 @@ done
 StageNo=1
 
 dzLogStage $StageNo "安装 Docker"
-dzRpm docker
+dzRpm docker-ce
 systemctl enable --now docker
 DaemonJson=/etc/docker/daemon.json
 dzTmpFsPush $DaemonJson &&
