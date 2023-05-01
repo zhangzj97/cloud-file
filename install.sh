@@ -11,9 +11,6 @@ DZ_BAK_FS_PATH=$DzBakFsPath
 DZ_VOL_FS_PATH=$DzVolFsPath
 
 [[ ! $DzCloudPath =~ ^\/ ]] && echo "DzCloudPath is invalid" && exit 0
-echo "DzCloudPath => $DzCloudPath"
-echo "DzTmpFsPath => $DzTmpFsPath"
-echo "DzBakFsPath => $DzBakFsPath"
 mkdir -p $DzCloudPath
 mkdir -p $DzTmpFsPath
 mkdir -p $DzBakFsPath
@@ -267,7 +264,7 @@ dzRpm() {
   [[ $Source =~ http ]] && RemoteFlag=1
 
   RpmVersion=$(rpm -qa | grep $RpmName)
-  if [[ RpmVersion ]]; then
+  if [[ $RpmVersion ]]; then
     dzLogInfo "[已安装] $RpmName => $RpmVersion"
     return
   fi
