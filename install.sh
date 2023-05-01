@@ -1,23 +1,5 @@
 #!/bin/bash -i
 
-DzCloudPath=$1
-DzCtlPath=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dzctl
-DzAdmPath=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dzadm
-DzToolPath=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dztool
-DzTmpFsPath=$DzCloudPath/.tmpfs
-DzBakFsPath=$DzCloudPath/.bakfs
-DzVolFsPath=$DzCloudPath/.volfs
-
-DZ_CLOUD_PATH=$DzCloudPath
-DZ_TMP_FS_PATH=$DzTmpFsPath
-DZ_BAK_FS_PATH=$DzBakFsPath
-DZ_VOL_FS_PATH=$DzVolFsPath
-
-[[ ! $DzCloudPath =~ ^\/ ]] && echo "DzCloudPath is invalid" && exit 0
-mkdir -p $DzCloudPath
-mkdir -p $DzTmpFsPath
-mkdir -p $DzBakFsPath
-
 ###################################################################################################
 ## 日志模块 dz-log
 ###################################################################################################
@@ -130,9 +112,9 @@ dzTmpFsPush() {
   fi
 
   # 寻找
-  if [[ ! -f $Source && ! $DzVolFsFilePath ]]; then
+  if [[ ! -f $Source && ! -f $DzVolFsFilePath ]]; then
     touch $DzTmpFsFilePath
-  elif [[ ! -f $Source && $DzVolFsFilePath ]]; then
+  elif [[ ! -f $Source && -f $DzVolFsFilePath ]]; then
     /bin/cp -fa $DzVolFsFilePath $DzTmpFsFilePath
   elif [[ -f $Source ]]; then
     /bin/cp -fa $Source $DzTmpFsFilePath
