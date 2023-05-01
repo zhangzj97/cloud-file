@@ -26,8 +26,8 @@ dzLogStage $StageNo "获取信息"
 dzLogInfo "获取网络信息"
 IfcfgPath=/etc/sysconfig/network-scripts/ifcfg-ens33
 dzTmpFsPush $IfcfgPath &&
-  StaticIp=$(dzTmpFsMatch $IfcfgPath 's/IPADDR="*([[:alnum:].]*)"*/1/g') &&
-  Gateway=$(dzTmpFsMatch $IfcfgPath 's/GATEWAY="*([[:alnum:].]*)"*/1/g') &&
+  StaticIp=$(dzTmpFsMatch $IfcfgPath 's|^.*IPADDR="?([^"]*)"?.*$|\1|g') &&
+  Gateway=$(dzTmpFsMatch $IfcfgPath 's|^.*GATEWAY="?([^"]*)"?.*$|\1|g') &&
   dzTmpFsPull $IfcfgPath
 dzLogInfo "获取主机信息"
 Hostname=$(hostname)

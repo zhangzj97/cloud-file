@@ -35,8 +35,8 @@ IfcfgPath=/etc/sysconfig/network-scripts/ifcfg-ens33
 NetworkRestartFlag=
 if [[ $StaticIp ]]; then
   dzTmpFsPush $IfcfgPath &&
-    StaticIpPrev=$(dzTmpFsMatch $IfcfgPath 's/IPADDR="*([[:alnum:].]*)"*/1/g') &&
-    dzTmpFsEdit $IfcfgPath "s|IPADDR=.*||g" &&
+    StaticIpPrev=$(dzTmpFsMatch $IfcfgPath 's|^.*IPADDR="?([^"]*)"?.*$|\1|g') &&
+    dzTmpFsEdit $IfcfgPath "/IPADDR=.*/d" &&
     dzTmpFsEdit $IfcfgPath "\$a IPADDR=${StaticIp}" &&
     dzTmpFsPull $IfcfgPath
   dzLogInfo "StaticIp : $StaticIpPrev => $StaticIp"
@@ -44,14 +44,14 @@ if [[ $StaticIp ]]; then
 fi
 if [[ $Gateway ]]; then
   dzTmpFsPush $IfcfgPath &&
-    GatewayPrev=$(dzTmpFsMatch $IfcfgPath 's/GATEWAY="*([[:alnum:].]*)"*/1/g') &&
-    dzTmpFsEdit $IfcfgPath "s|GATEWAY=.*||g" &&
+    GatewayPrev=$(dzTmpFsMatch $IfcfgPath 's|^.*GATEWAY="?([^"]*)"?.*$|\1|g') &&
+    dzTmpFsEdit $IfcfgPath "/GATEWAY=.*/d" &&
     dzTmpFsEdit $IfcfgPath "\$a GATEWAY=${Gateway}" &&
     dzTmpFsPull $IfcfgPath
   dzLogInfo "Gateway : $GatewayPrev => $Gateway"
   NetworkRestartFlag=1
 fi
-[[ $NetworkRestartFlag = true ]] && systemctl restart network
+[[ $NetworkRestartFlag ]] && systemctl restart network
 let StageNo+=1
 
 dzLogStage $StageNo "修改主机信息"
