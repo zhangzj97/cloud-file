@@ -17,16 +17,16 @@ while true; do
     break
     ;;
   *)
-    logErrorResult "Internal error!" && exit 1
+    dzLogError "Internal error!" && exit
     ;;
   esac
 done
-[[ ! $DomainNew ]] && logErrorResult "option --domain is invalid" && exit 0
-[[ ! $PortNew ]] && logErrorResult "option --port is invalid" && exit 0
+[[ ! $DomainNew ]] && dzLogError "option --domain is invalid" && exit
+[[ ! $PortNew ]] && dzLogError "option --port is invalid" && exit
 
 StageNo=0
 
-logStage $StageNo "Check Certificate Authority"
+logStage $StageNo "Certificate Authority"
 ServerDomainPort=$DomainNew:$PortNew
 DzCertsdPath=/etc/dz/certs.d
 ServerCertsdPath=$DzCertsdPath/$ServerDomainPort

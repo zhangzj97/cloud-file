@@ -8,7 +8,7 @@ eval set -- "${ARGS}"
 while true; do
   case $1 in
   --web)
-    WebMode=$1 && shift 2
+    WebMode=$2 && shift 2
     ;;
   --)
     break
