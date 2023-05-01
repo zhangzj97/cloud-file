@@ -3,10 +3,12 @@
 DzCloudPath=$1
 DzTmpFsPath=$DzCloudPath/.tmpfs
 DzBakFsPath=$DzCloudPath/.bakfs
+DzVolFsPath=$DzCloudPath/.volfs
 
 DZ_CLOUD_PATH=$DzCloudPath
 DZ_TMP_FS_PATH=$DzTmpFsPath
 DZ_BAK_FS_PATH=$DzBakFsPath
+DZ_VOL_FS_PATH=$DzVolFsPath
 
 [[ ! $DzCloudPath =~ ^\/ ]] && echo "DzCloudPath is invalid" && exit 0
 echo "DzCloudPath => $DzCloudPath"
@@ -315,9 +317,11 @@ dzLogStage $StageNo "设置 DzCloudPath"
 dzLogInfo "DzCloudPath => $DzCloudPath"
 dzLogInfo "DzTmpFsPath => $DzTmpFsPath"
 dzLogInfo "DzBakFsPath => $DzBakFsPath"
+dzLogInfo "DzVolFsPath => $DzVolFsPath"
 mkdir -p $DzCloudPath
 mkdir -p $DzTmpFsPath
 mkdir -p $DzBakFsPath
+mkdir -p $DzVolFsPath
 let StageNo+=1
 
 dzLogStage $StageNo "获取相关信息"
@@ -339,6 +343,7 @@ dzTmpFsPush $DzCloudTar $DzCloudTarSource &&
   dzTmpFsPull $DzCloudTar
 dzTarX $DzCloudTar $DzCloudPath
 /bin/cp -fa $DzCloudPackageRaw $DzCloudPackage
+/bin/cp -fa $DzCloudPackage/CentOS7/volume/* $DzVolFsPath
 rm -rf $DzCloudPackageRaw
 let StageNo+=1
 
@@ -360,11 +365,13 @@ dzTmpFsPush $ProfileDDzAdmSh &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_CLOUD_PATH=${DzCloudPath}" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_TMP_FS_PATH=${DzTmpFsPath}" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_BAK_FS_PATH=${DzBakFsPath}" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_TOOL_PATH=${DzCloudPath}/tmp/dztool/index.sh" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_VOL_FS_PATH=${DzVolFsPath}" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_TOOL_PATH=${DzCloudPath}/cloud-file/CentOS7/volume/tmp/dztool/index.sh" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_CLOUD_VERSION" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_CLOUD_PATH" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_TMP_FS_PATH" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_BAK_FS_PATH" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_VOL_FS_PATH" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_TOOL_PATH" &&
   dzTmpFsPull $ProfileDDzAdmSh
 source /etc/profile
