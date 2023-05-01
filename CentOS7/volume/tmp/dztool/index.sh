@@ -263,7 +263,7 @@ dzRpm() {
   if [[ $RemoteFlag ]]; then
     rpm -ivh $DzTmpFsRpmName
   elif [[ ! $RemoteFlag ]]; then
-    yum install -y -q $RpmName
+    yum install -y -q $Source
   fi
 
   RpmVersion=$(rpm -qa | grep $RpmName)
