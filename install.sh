@@ -124,7 +124,7 @@ dzTmpFsPush() {
     curl -fsSL $Source >$DzTmpFsFilePath
     dzLogInfo "[下载文件] $DzTmpFsFilePath"
   elif [[ $RemoteFlag && $(rpm -qa | grep wget) ]]; then
-    wget -t0 -T5 -O $DzTmpFsFilePath $Source --no-check-certificate
+    wget -q -t0 -T5 -O $DzTmpFsFilePath $Source --no-check-certificate
     dzLogInfo "[下载文件] $DzTmpFsFilePath"
   elif [[ ! $RemoteFlag && ! -f $Source ]]; then
     touch $DzTmpFsFilePath
@@ -267,14 +267,14 @@ dzRpm() {
   [[ $Source =~ http ]] && RemoteFlag=1
 
   if [[ $(rpm -qa | grep $RpmName) ]]; then
-    dzLogInfo "[已安装] => $RpmName "
+    dzLogInfo "[已安装] $RpmName => $(rpm -qa | grep $RpmName)"
     return
   fi
 
   if [[ $RemoteFlag && ! -f $DzTmpFsRpmName && ! $(rpm -qa | grep wget) ]]; then
     curl -fsSL $Source >$DzTmpFsRpmName
   elif [[ $RemoteFlag && ! -f $DzTmpFsRpmName && $(rpm -qa | grep wget) ]]; then
-    wget -t0 -T5 -O $DzTmpFsRpmName $Source --no-check-certificate
+    wget -q -t0 -T5 -O $DzTmpFsRpmName $Source --no-check-certificate
   fi
 
   if [[ $RemoteFlag ]]; then
@@ -283,7 +283,7 @@ dzRpm() {
     yum -y -q $RpmName
   fi
 
-  dzLogInfo "[新安装] => $RpmName"
+  dzLogInfo "[新安装] => $RpmName => $(rpm -qa | grep $RpmName)"
 }
 
 # 关联
@@ -380,10 +380,15 @@ let StageNo+=1
 # 第三方软件 repo 源
 dzLogStage $StageNo "第三方软件 repo 源"
 YumReposD=/etc/yum.repos.d
-for file in $(ls $DzVolFsPath$YumReposD); do
-  dzTmpFsPush $file &&
-    dzTmpFsPull $file
+for FileName in $(ls $DzVolFsPath/$YumReposD); do
+  dzTmpFsPush $YumReposD/$FileName &&
+    dzTmpFsPull $YumReposD/$FileName
 done
+let StageNo+=1
+
+# 安装常用第三方软件
+dzRpm vim-enhanced vim
+dzRpm wget
 
 dzLogStage $StageNo "清理"
 dzTmpFsPush $DzCloudGitApiJson &&
