@@ -1,5 +1,20 @@
 #!/bin/bash -i
 
+DzCloudPath=$1
+DzTmpFsPath=$DzCloudPath/.tmpfs
+DzBakFsPath=$DzCloudPath/.bakfs
+DzVolFsPath=$DzCloudPath/.volfs
+
+DZ_CLOUD_PATH=$DzCloudPath
+DZ_TMP_FS_PATH=$DzTmpFsPath
+DZ_BAK_FS_PATH=$DzBakFsPath
+DZ_VOL_FS_PATH=$DzVolFsPath
+
+[[ ! $DzCloudPath =~ ^\/ ]] && echo "DzCloudPath is invalid" && exit 0
+mkdir -p $DzCloudPath
+mkdir -p $DzTmpFsPath
+mkdir -p $DzBakFsPath
+
 ###################################################################################################
 ## 日志模块 dz-log
 ###################################################################################################
@@ -106,7 +121,7 @@ dzTmpFsPush() {
     curl -fsSL $Source >$DzTmpFsFilePath
     dzLogInfo "[下载文件] $DzTmpFsFilePath"
   elif [[ $RemoteFlag && $(rpm -qa | grep wget) ]]; then
-    wget -t0 -T5 -O $DzTmpFsFilePath $Source --no-check-certificate
+    wget -q -t0 -T5 -O $DzTmpFsFilePath $Source --no-check-certificate
     dzLogInfo "[下载文件] $DzTmpFsFilePath"
   elif [[ ! $RemoteFlag && ! -f $Source ]]; then
     touch $DzTmpFsFilePath
@@ -248,24 +263,26 @@ dzRpm() {
   [[ ! $Source ]] && Source=$RpmName
   [[ $Source =~ http ]] && RemoteFlag=1
 
-  if [[ $(rpm -qa | grep $RpmName) ]]; then
-    dzLogInfo "[已安装] => $RpmName "
+  RpmVersion=$(rpm -qa | grep $RpmName)
+  if [[ $RpmVersion ]]; then
+    dzLogInfo "[已安装] $RpmName => $RpmVersion"
     return
   fi
 
   if [[ $RemoteFlag && ! -f $DzTmpFsRpmName && ! $(rpm -qa | grep wget) ]]; then
     curl -fsSL $Source >$DzTmpFsRpmName
   elif [[ $RemoteFlag && ! -f $DzTmpFsRpmName && $(rpm -qa | grep wget) ]]; then
-    wget -t0 -T5 -O $DzTmpFsRpmName $Source --no-check-certificate
+    wget -q -t0 -T5 -O $DzTmpFsRpmName $Source --no-check-certificate
   fi
 
   if [[ $RemoteFlag ]]; then
     rpm -ivh $DzTmpFsRpmName
   elif [[ ! $RemoteFlag ]]; then
-    yum -y -q $RpmName
+    yum install -y -q $RpmName
   fi
 
-  dzLogInfo "[新安装] => $RpmName"
+  RpmVersion=$(rpm -qa | grep $RpmName)
+  dzLogInfo "[新安装] => $RpmName => $RpmVersion"
 }
 
 # 关联
