@@ -30,11 +30,11 @@ done
 
 StageNo=1
 
-logStage $StageNo "Certificate Authority"
+dzLogStage $StageNo "Certificate Authority"
 CaKey=/etc/docker/certs.d/ca.key
 CaCrt=/etc/docker/certs.d/ca.crt
 if [[ ! -f $CaKey ]]; then
-  dzLogStep "[Certificate] Generate CA Certificate"
+  dzLogInfo "[Certificate] Generate CA Certificate"
   dzTmpFsPush $CaKey &&
     dzTmpFsPull $CaKey
   CaSubj="/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=zhangzejie.top"
@@ -43,20 +43,20 @@ if [[ ! -f $CaKey ]]; then
 fi
 let StageNo+=1
 
-logStage $StageNo "Server Certificate"
+dzLogStage $StageNo "Server Certificate"
 ServerDomainPort=$Domain:$Port
 ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
 ServerCsr=/etc/docker/certs.d/$ServerDomainPort/server.csr
 ServerCrt=/etc/docker/certs.d/$ServerDomainPort/server.crt
 ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
 [[ -f $ServerKey ]] && dzLogError "Doamin exists" && exit
-dzLogStep "[Certificate] Generate Server key"
+dzLogInfo "[Certificate] Generate Server key"
 dzTmpFsPush $ServerKey &&
   dzTmpFsPull $ServerKey
 ServerSubj="/C=CN/ST=Beijing/L=Beijing/O=example/OU=Personal/CN=zhangzejie.top"
 openssl genrsa -out $ServerKey 4096
 openssl req -sha512 -new -subj $ServerSubj -key $ServerKey -out $ServerCsr
-dzLogStep "[Certificate] Generate an x509 v3 extension file"
+dzLogInfo "[Certificate] Generate an x509 v3 extension file"
 V3Ext=/etc/docker/certs.d/v3.ext
 dzTmpFsPush $V3Ext &&
   dzTmpFsPull $V3Ext
