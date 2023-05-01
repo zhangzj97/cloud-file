@@ -1,14 +1,14 @@
 version: "3"
 
 services:
-  dz-dashboard-lazydocker:
-    image: dz-dashboard-lazydocker:1.0.0
-    container_name: dz-dashboard-lazydocker
+  dz-docker-dashboard-lazydocker:
+    image: dz-docker-dashboard-lazydocker:1.0.0
+    container_name: dz-docker-dashboard-lazydocker
     restart: always
     environment: {}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - dz-dashboard-lazydocker-config:/.config/jesseduffield/lazydocker
+      - dz-docker-dashboard-cli-lazydocker-data:/.config/jesseduffield/lazydocker
     ports: []
     stdin_open: true
     tty: true
@@ -21,4 +21,4 @@ services:
 
 
 volumes:
-  dz-dashboard-lazydocker-config:
+  dz-docker-dashboard-cli-lazydocker-data:
