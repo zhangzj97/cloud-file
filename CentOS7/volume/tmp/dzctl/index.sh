@@ -1,6 +1,6 @@
 #!/bin/bash -i
 
-PluginDirPath=$DZ_CLOUD_PATH/cloud-file/CentOS7/volume/tmp/dzctl/src/plugins
+PluginDirPath=$DZ_CTL_PATH/src/plugins
 PluginCode=$1
 MethodCode=$2
 Argument=${*/$1/}
