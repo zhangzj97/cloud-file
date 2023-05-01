@@ -8,52 +8,56 @@ eval set -- "${ARGS}"
 while true; do
   case $1 in
   --ip)
-    StaticIpNew=$2 && shift 2
+    StaticIp=$2 && shift 2
     ;;
   --name)
-    HostnameNew=$2 && shift 2
+    Hostname=$2 && shift 2
     ;;
   --gateway)
-    GatewayNew=$2 && shift 2
+    Gateway=$2 && shift 2
     ;;
   --)
     break
     ;;
   *)
-    logErrorResult "Internal error!" && exit 1
+    dzLogError "Internal error!" && exit
     ;;
   esac
 done
-[[ $StaticIpNew && ! $StaticIpNew =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]] && logErrorResult "option --domain is invalid" && exit 0
-# [[ ! $HostnameNew ]] && logErrorResult "option --port is invalid" && exit 0
-[[ $GatewayNew && ! $GatewayNew =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]] && logErrorResult "option --port is invalid" && exit 0
+[[ $StaticIp && ! $StaticIp =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]] && dzLogError "option --domain is invalid" && exit
+# [[ ! $Hostname ]] && dzLogError "option --port is invalid" && exit 0
+[[ $Gateway && ! $Gateway =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]] && dzLogError "option --port is invalid" && exit
 
 StageNo=0
 
-logStage $StageNo "Get network info"
-ifcfgPath=/etc/sysconfig/network-scripts/ifcfg-ens33
-StaticIp=$(cat ${ifcfgPath} | grep IPADDR | sed -e 's/IPADDR="*\([[:alnum:]\.]*\)"*/\1/g')
-Gateway=$(cat ${ifcfgPath} | grep GATEWAY | sed -e 's/GATEWAY="*\([[:alnum:]\.]*\)"*/\1/g')
-let StageNo+=1
-
-logStage $StageNo "Get host info"
-Hostname=$(hostname)
-let StageNo+=1
-
-logStage $StageNo "Set info and restart service"
-NetworkRestartFlag=false
-if [[ $StaticIpNew ]]; then
-  logFile $ifcfgPath && logValue "Static Ip" $StaticIpNew $StaticIp
-  sed -i 's/IPADDR=.*//' $ifcfgPath && dzTextAppend $ifcfgPath "IPADDR=${StaticIpNew}"
-  NetworkRestartFlag=true
+dzLogStage $StageNo "修改网络信息"
+IfcfgPath=/etc/sysconfig/network-scripts/ifcfg-ens33
+NetworkRestartFlag=
+if [[ $StaticIp ]]; then
+  dzTmpFsPush $IfcfgPath &&
+    StaticIpPrev=$(dzTmpFsMatch $IfcfgPath 's/IPADDR="*([[:alnum:].]*)"*/1/g') &&
+    dzTmpFsEdit $IfcfgPath "s|IPADDR=.*||g" &&
+    dzTmpFsEdit $IfcfgPath "\$a IPADDR=${StaticIp}" &&
+    dzTmpFsPull $IfcfgPath
+  dzLogInfo "StaticIp : $StaticIpPrev => $StaticIp"
+  NetworkRestartFlag=1
 fi
-if [[ $GatewayNew ]]; then
-  logFile $ifcfgPath && logValue "Gateway  " $GatewayNew $Gateway
-  sed -i 's/GATEWAY=.*//' $ifcfgPath && dzTextAppend $ifcfgPath "GATEWAY=${GatewayNew}"
-  NetworkRestartFlag=true
-fi
-if [[ $HostnameNew ]]; then
-  logFile "hostname" && logValue "Hostname " $HostnameNew $Hostname
-  hostnamectl set-hostname $HostnameNew
+if [[ $Gateway ]]; then
+  dzTmpFsPush $IfcfgPath &&
+    GatewayPrev=$(dzTmpFsMatch $IfcfgPath 's/GATEWAY="*([[:alnum:].]*)"*/1/g') &&
+    dzTmpFsEdit $IfcfgPath "s|GATEWAY=.*||g" &&
+    dzTmpFsEdit $IfcfgPath "\$a GATEWAY=${Gateway}" &&
+    dzTmpFsPull $IfcfgPath
+  dzLogInfo "Gateway : $GatewayPrev => $Gateway"
+  NetworkRestartFlag=1
 fi
 [[ $NetworkRestartFlag = true ]] && systemctl restart network
+let StageNo+=1
+
+dzLogStage $StageNo "修改主机信息"
+if [[ $Hostname ]]; then
+  HostnamePrev=$(hostname) &&
+    hostnamectl set-hostname $Hostname
+  dzLogInfo "Hostname : $HostnamePrev => $Hostname"
+fi
+let StageNo+=1

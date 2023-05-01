@@ -2,7 +2,7 @@
 
 source $DZ_TOOL_PATH
 
-ARGS=$(getopt -n 'dzctl' -- "$@")
+ARGS=$(getopt -l xxx: -n 'dzctl' -- "$@")
 [ $? != 0 ] && echo Erro options && exit
 eval set -- "${ARGS}"
 while true; do
@@ -11,26 +11,30 @@ while true; do
     break
     ;;
   *)
-    logErrorResult "Internal error!" && exit 1
+    dzLogError "Internal error!" && exit
     ;;
   esac
 done
 
-StageNo=0
+###################################################################################################
+## 业务
+###################################################################################################
 
-logStage $StageNo "Get network info"
-ifcfgPath=/etc/sysconfig/network-scripts/ifcfg-ens33
-StaticIp=$(cat ${ifcfgPath} | grep IPADDR | sed -e 's/IPADDR="*\([[:alnum:]\.]*\)"*/\1/g')
-Gateway=$(cat ${ifcfgPath} | grep GATEWAY | sed -e 's/GATEWAY="*\([[:alnum:]\.]*\)"*/\1/g')
-let StageNo+=1
+StageNo=1
 
-logStage $StageNo "Get host info"
+dzLogStage $StageNo "获取信息"
+dzLogInfo "获取网络信息"
+IfcfgPath=/etc/sysconfig/network-scripts/ifcfg-ens33
+dzTmpFsPush $IfcfgPath &&
+  StaticIp=$(dzTmpFsMatch $IfcfgPath 's/IPADDR="*([[:alnum:].]*)"*/1/g') &&
+  Gateway=$(dzTmpFsMatch $IfcfgPath 's/GATEWAY="*([[:alnum:].]*)"*/1/g') &&
+  dzTmpFsPull $IfcfgPath
+dzLogInfo "获取主机信息"
 Hostname=$(hostname)
 let StageNo+=1
 
-logStage $StageNo "Show"
-logFile $ifcfgPath &&
-  logValue "Static Ip" $StaticIpNew $StaticIp &&
-  logValue "Gateway  " $GatewayNew $Gateway
-logFile "hostname" &&
-  logValue "Hostname " $HostnameNew $Hostname
+dzLogStage $StageNo "信息"
+dzLogInfo "StaticIp => ${StaticIp}"
+dzLogInfo "Gateway  => ${Gateway}"
+dzLogInfo "Hostname => ${Hostname}"
+let StageNo+=1
