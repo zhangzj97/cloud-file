@@ -376,7 +376,6 @@ dzTmpFsPush $ProfileDDzAdmSh &&
 source /etc/profile
 let StageNo+=1
 
-# 第三方软件 repo 源
 dzLogStage $StageNo "第三方软件 repo 源"
 YumReposD=/etc/yum.repos.d
 for FileName in $(ls $DzVolFsPath/$YumReposD); do
@@ -385,9 +384,10 @@ for FileName in $(ls $DzVolFsPath/$YumReposD); do
 done
 let StageNo+=1
 
-# 安装常用第三方软件
+dzLogStage $StageNo "安装常用第三方软件"
 dzRpm vim-enhanced vim
 dzRpm wget
+let StageNo+=1
 
 dzLogStage $StageNo "清理"
 dzTmpFsPush $DzCloudGitApiJson &&
