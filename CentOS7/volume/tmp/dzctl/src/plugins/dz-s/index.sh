@@ -1,6 +1,6 @@
 #!/bin/bash -i
 
-PluginCode=host
+PluginCode=s
 
 MethodDirPath=$DZ_CTL_PATH/src/plugins/dz-$PluginCode/methods
 MethodCode=$1

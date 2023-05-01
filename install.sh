@@ -391,8 +391,8 @@ dzTmpFsPush $ProfileDDzAdmSh &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_TMP_FS_PATH=${DzTmpFsPath}" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_BAK_FS_PATH=${DzBakFsPath}" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_VOL_FS_PATH=${DzVolFsPath}" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_ADM_PATH=${DzAdmPath}/index.sh" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_CTL_PATH=${DzCtlPath}/index.sh" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_ADM_PATH=${DzAdmPath}" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_CTL_PATH=${DzCtlPath}" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_TOOL_PATH=${DzToolPath}/index.sh" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_CLOUD_VERSION" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_CLOUD_PATH" &&
