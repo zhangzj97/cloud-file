@@ -377,7 +377,17 @@ dzTmpFsPush $ProfileDDzAdmSh &&
 source /etc/profile
 let StageNo+=1
 
+# 第三方软件 repo 源
+dzLogStage $StageNo "第三方软件 repo 源"
+YumReposD=/etc/yum.repos.d
+for file in $(ls $DzVolFsPath$YumReposD); do
+  dzTmpFsPush $file &&
+    dzTmpFsPull $file
+done
+
 dzLogStage $StageNo "清理"
-dzTmpFsPush $DzCloudGitApiJson && dzTmpFsPull $DzCloudGitApiJson "TmpFsRemove"
-dzTmpFsPush $DzCloudTar && dzTmpFsPull $DzCloudTar "TmpFsRemove"
+dzTmpFsPush $DzCloudGitApiJson &&
+  dzTmpFsPull $DzCloudGitApiJson "TmpFsRemove"
+dzTmpFsPush $DzCloudTar &&
+  dzTmpFsPull $DzCloudTar "TmpFsRemove"
 let StageNo+=1
