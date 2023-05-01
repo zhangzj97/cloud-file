@@ -1,6 +1,9 @@
 #!/bin/bash -i
 
 DzCloudPath=$1
+DzCtlPath=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dzctl
+DzAdmPath=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dzadm
+DzToolPath=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dztool
 DzTmpFsPath=$DzCloudPath/.tmpfs
 DzBakFsPath=$DzCloudPath/.bakfs
 DzVolFsPath=$DzCloudPath/.volfs
@@ -347,8 +350,8 @@ rm -rf $DzCloudPackageRaw
 let StageNo+=1
 
 dzLogStage $StageNo "注册全局指令 /bin"
-DzAdmIndexSh=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dzadm/index.sh
-DzCtlIndexSh=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dzctl/index.sh
+DzAdmIndexSh=$DzAdmPath/index.sh
+DzCtlIndexSh=$DzCtlPath/index.sh
 dzLinkFile dzadm $DzAdmIndexSh
 dzLinkFile dzctl $DzCtlIndexSh
 let StageNo+=1
@@ -365,12 +368,16 @@ dzTmpFsPush $ProfileDDzAdmSh &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_TMP_FS_PATH=${DzTmpFsPath}" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_BAK_FS_PATH=${DzBakFsPath}" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_VOL_FS_PATH=${DzVolFsPath}" &&
-  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_TOOL_PATH=${DzCloudPath}/cloud-file/CentOS7/volume/tmp/dztool/index.sh" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_ADM_PATH=${DzAdmPath}/index.sh" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_CTL_PATH=${DzCtlPath}/index.sh" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a DZ_TOOL_PATH=${DzToolPath}/index.sh" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_CLOUD_VERSION" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_CLOUD_PATH" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_TMP_FS_PATH" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_BAK_FS_PATH" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_VOL_FS_PATH" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_ADM_PATH" &&
+  dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_CTL_PATH" &&
   dzTmpFsEdit $ProfileDDzAdmSh "\$a export DZ_TOOL_PATH" &&
   dzTmpFsPull $ProfileDDzAdmSh
 source /etc/profile
