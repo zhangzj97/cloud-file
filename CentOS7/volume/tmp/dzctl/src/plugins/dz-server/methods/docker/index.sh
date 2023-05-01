@@ -25,8 +25,8 @@ done
 
 StageNo=1
 
-logStage $StageNo "安装 Docker"
-dzRpm docker-ce
+dzLogStage $StageNo "安装 Docker"
+dzRpm docker
 systemctl enable --now docker
 DaemonJson=/etc/docker/daemon.json
 dzTmpFsPush $DaemonJson &&
@@ -35,7 +35,7 @@ systemctl daemon-reload
 systemctl restart docker
 let StageNo+=1
 
-logStage $StageNo "安装 Docker Dashboard Web"
+dzLogStage $StageNo "安装 Docker Dashboard Web"
 if [[ ! $WebMode = 0 ]]; then
   DzDockerDashboardWebDC=/etc/dz/docker-compose/dz-docker-dashboard-web/docker-compose.yml
   dzTmpFsPush $DzDockerDashboardWebDC &&
