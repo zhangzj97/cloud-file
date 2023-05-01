@@ -84,7 +84,8 @@ dzLogError() {
 # dzTmpFsPush $FilePath $Source/TmpFsKeep
 dzTmpFsPush() {
   DzTmpFsPath=$DZ_TMP_FS_PATH
-  TmpFsRemove="TmpFsRemove"
+  DzBakFsPath=$DZ_BAK_FS_PATH
+  DzVolFsPath=$DZ_VOL_FS_PATH
   TmpFsRemove="TmpFsRemove"
 
   # 验证 FilePath
@@ -98,6 +99,8 @@ dzTmpFsPush() {
   DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
   DzBakFsFilePath=$DzBakFsPath$FilePath
   DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
+  DzVolFsFilePath=$DzVolFsPath$FilePath
+  DzVolFsFilePathDir=$DzVolFsPath$FilePathDir
 
   [[ ! $FilePath ]] && dzLogError "dzTmpFsPush => FilePath is required" && exit
   [[ $FilePathDir = / ]] && dzLogError "dzTmpFsPush => FilePathDir is /, please change another" && exit
@@ -106,9 +109,7 @@ dzTmpFsPush() {
   # 验证 Source
   # 1. 如果没有, 默认 Source=FilePath
   # 2. 如果 http 开头, 远程下载
-  # 3. 如果是本地文件
-  #   3.1 如果不存在 => 在 tmpfs 新建一个空文件
-  #   3.2 如果存在 => 复制到 tmpfs
+  # 3. 从本地文件到 volfs 寻找
   Source=$2
   RemoteFlag=
   [[ ! $Source ]] && Source=$FilePath
@@ -119,16 +120,21 @@ dzTmpFsPush() {
   mkdir -p $FilePathDir
   mkdir -p $DzTmpFsFilePathDir
 
-  # 获取 Source
-  if [[ $RemoteFlag && ! $(rpm -qa | grep wget) ]]; then
-    curl -fsSL $Source >$DzTmpFsFilePath
+  # 远程下载
+  if [[ $RemoteFlag ]]; then
+    WgetVersion=$(rpm -qa | grep wget)
+    [[ ! $WgetVersion ]] && curl -fsSL $Source >$DzTmpFsFilePath
+    [[ $WgetVersion ]] && wget -q -t0 -T5 -O $DzTmpFsFilePath $Source --no-check-certificate
     dzLogInfo "[下载文件] $DzTmpFsFilePath"
-  elif [[ $RemoteFlag && $(rpm -qa | grep wget) ]]; then
-    wget -q -t0 -T5 -O $DzTmpFsFilePath $Source --no-check-certificate
-    dzLogInfo "[下载文件] $DzTmpFsFilePath"
-  elif [[ ! $RemoteFlag && ! -f $Source ]]; then
+    return
+  fi
+
+  # 寻找
+  if [[ ! -f $Source && ! $DzVolFsFilePath ]]; then
     touch $DzTmpFsFilePath
-  elif [[ ! $RemoteFlag && -f $Source ]]; then
+  elif [[ ! -f $Source && $DzVolFsFilePath ]]; then
+    /bin/cp -fa $DzVolFsFilePath $DzTmpFsFilePath
+  elif [[ -f $Source ]]; then
     /bin/cp -fa $Source $DzTmpFsFilePath
   fi
 }
@@ -136,6 +142,11 @@ dzTmpFsPush() {
 # 编辑文件内容
 # dzTmpFsEdit $FilePath $Sed
 dzTmpFsEdit() {
+  DzTmpFsPath=$DZ_TMP_FS_PATH
+  DzBakFsPath=$DZ_BAK_FS_PATH
+  DzVolFsPath=$DZ_VOL_FS_PATH
+  TmpFsRemove="TmpFsRemove"
+
   FilePath=$1
   FilePathDir=${FilePath%/*}
   FilePathFileName=${FilePath##*/}
@@ -143,6 +154,8 @@ dzTmpFsEdit() {
   DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
   DzBakFsFilePath=$DzBakFsPath$FilePath
   DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
+  DzVolFsFilePath=$DzVolFsPath$FilePath
+  DzVolFsFilePathDir=$DzVolFsPath$FilePathDir
   Sed=$2
 
   [[ ! -f $DzTmpFsFilePath ]] && dzLogError "dzTmpFsEdit => ${DzTmpFsFilePath} is not found" && exit
@@ -154,6 +167,11 @@ dzTmpFsEdit() {
 # 正则匹配内容获取字段
 # dzTmpFsMatch $FilePath $Sed
 dzTmpFsMatch() {
+  DzTmpFsPath=$DZ_TMP_FS_PATH
+  DzBakFsPath=$DZ_BAK_FS_PATH
+  DzVolFsPath=$DZ_VOL_FS_PATH
+  TmpFsRemove="TmpFsRemove"
+
   FilePath=$1
   FilePathDir=${FilePath%/*}
   FilePathFileName=${FilePath##*/}
@@ -161,6 +179,8 @@ dzTmpFsMatch() {
   DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
   DzBakFsFilePath=$DzBakFsPath$FilePath
   DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
+  DzVolFsFilePath=$DzVolFsPath$FilePath
+  DzVolFsFilePathDir=$DzVolFsPath$FilePathDir
   Sed=$2
 
   [[ ! -f $FilePath ]] && dzLogError "dzTmpFsMatch => ${DzTmpFsFilePath} is not found" && exit
@@ -174,6 +194,7 @@ dzTmpFsMatch() {
 dzTmpFsPull() {
   DzTmpFsPath=$DZ_TMP_FS_PATH
   DzBakFsPath=$DZ_BAK_FS_PATH
+  DzVolFsPath=$DZ_VOL_FS_PATH
   TmpFsRemove="TmpFsRemove"
 
   # 验证 FilePath
@@ -190,6 +211,8 @@ dzTmpFsPull() {
   DzTmpFsFilePathDir=$DzTmpFsPath$FilePathDir
   DzBakFsFilePath=$DzBakFsPath$FilePath
   DzBakFsFilePathDir=$DzBakFsPath$FilePathDir
+  DzVolFsFilePath=$DzVolFsPath$FilePath
+  DzVolFsFilePathDir=$DzVolFsPath$FilePathDir
   TmpFsCode=$2
 
   # 验证 TmpFsCode
