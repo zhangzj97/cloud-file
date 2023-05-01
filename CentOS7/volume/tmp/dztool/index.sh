@@ -1,20 +1,5 @@
 #!/bin/bash -i
 
-DzCloudPath=$1
-DzTmpFsPath=$DzCloudPath/.tmpfs
-DzBakFsPath=$DzCloudPath/.bakfs
-DzVolFsPath=$DzCloudPath/.volfs
-
-DZ_CLOUD_PATH=$DzCloudPath
-DZ_TMP_FS_PATH=$DzTmpFsPath
-DZ_BAK_FS_PATH=$DzBakFsPath
-DZ_VOL_FS_PATH=$DzVolFsPath
-
-[[ ! $DzCloudPath =~ ^\/ ]] && echo "DzCloudPath is invalid" && exit 0
-mkdir -p $DzCloudPath
-mkdir -p $DzTmpFsPath
-mkdir -p $DzBakFsPath
-
 ###################################################################################################
 ## 日志模块 dz-log
 ###################################################################################################
