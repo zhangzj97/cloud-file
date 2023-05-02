@@ -22,12 +22,12 @@ done
 
 StageNo=1
 
-logStage $StageNo "检查 Docker"
+dzLogStage $StageNo "检查 Docker"
 DockerVersion=$(rpm -qa | grep docker-ce)
 [[ ! $DockerVersion ]] && dzLogError "dzctl docker-cli => need docker-ce" && exit
 let StageNo+=1
 
-logStage $StageNo "运行 Docker Dashboard Cli"
+dzLogStage $StageNo "运行 Docker Dashboard Cli"
 DzDockerDashboardCliDC=/etc/dz/docker-compose/dz-docker-dashboard-cli/docker-compose.yml
 docker pull lazyteam/lazydocker &&
   docker tag lazyteam/lazydocker dz-docker-dashboard-lazydocker:1.0.0

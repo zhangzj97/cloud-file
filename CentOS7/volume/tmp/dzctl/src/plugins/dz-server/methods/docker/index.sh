@@ -41,9 +41,9 @@ if [[ ! $WebMode = 0 ]]; then
   dzTmpFsPush $DzDockerDashboardWebDC &&
     dzTmpFsPull $DzDockerDashboardWebDC
   docker pull joinsunsoft/docker.ui &&
-    docker tag joinsunsoft/docker.ui dz-dashboard-docker-ui:1.0.0
+    docker tag joinsunsoft/docker.ui dz-docker-dashboard-docker-ui:1.0.0
   docker pull portainer/portainer-ce &&
-    docker tag portainer/portainer-ce dz-dashboard-portainer-ce:1.0.0
+    docker tag portainer/portainer-ce dz-docker-dashboard-portainer-ce:1.0.0
   docker compose -f $DzDockerDashboardWebDC up -d
   docker rmi joinsunsoft/docker.ui
   docker rmi portainer/portainer-ce

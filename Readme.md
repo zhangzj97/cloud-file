@@ -10,7 +10,7 @@
 # https://raw.githubusercontent.com/zhangzj97/cloud-file/main/install.sh
 curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/install.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
 
-source dzinit /demopath
+dzinit /z1
 
 ```
 
