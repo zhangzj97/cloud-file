@@ -16,19 +16,6 @@ dzinit /z1
 
 ### Snipaste
 
-```bash
-
-sed -i '/# <Dz> GitHub/,/# <\/Dz> GitHub/d' /etc/hosts
-echo '# <Dz> GitHub' >>/etc/hosts
-echo '185.199.110.133 raw.githubusercontent.com' >>/etc/hosts
-echo '140.82.113.3    raw.github.com' >>/etc/hosts
-echo '140.82.112.4    raw.github.com' >>/etc/hosts
-echo '# </Dz> GitHub' >>/etc/hosts
-curl -fsSL https://raw.githubusercontent.com/zhangzj97/cloud-file/main/CentOS7/volume/tmp/dzadm/index.sh > /tmp/dzadm.sh
-source /tmp/dz-install.sh 0.2.0
-
-```
-
 ### Test
 
 ```bash
