@@ -367,6 +367,7 @@ DzCloudTarSource=$(dzTmpFsMatch $DzCloudGitApiJson 's|^.*"tarball_url": "([^"]*)
 dzTmpFsPush $DzCloudTar $DzCloudTarSource &&
   dzTmpFsPull $DzCloudTar
 dzTarX $DzCloudTar $DzCloudPath
+rm -rf $DzCloudPackage
 /bin/cp -fa $DzCloudPackageRaw $DzCloudPackage
 /bin/cp -fa $DzCloudPackage/CentOS7/volume/* $DzVolFsPath
 rm -rf $DzCloudPackageRaw
