@@ -64,3 +64,13 @@ chmod u+x /etc/dz/harbor-installer/install.sh
 chmod u+x /etc/dz/harbor-installer/prepare
 /etc/dz/harbor-installer/install.sh
 dzLogInfo "[访问] $Domain:$Port"
+
+dzLogInfo ""
+dzLogInfo ""
+dzLogInfo "TODO 将来用 脚本处理"
+dzLogInfo "vim /etc/docker/daemon.json"
+dzLogInfo "添加 \"insecure-registries\": [\"192.168.226.100:9005\"],"
+dzLogInfo "systemctl restart docker"
+dzLogInfo ""
+dzLogInfo ""
+dzLogInfo ""
