@@ -20,12 +20,12 @@ while true; do
     break
     ;;
   *)
-    logErrorResult "Internal error!" && exit 1
+    dzLogError "Internal error!" && exit 1
     ;;
   esac
 done
-[[ ! $Domain ]] && logErrorResult "option --domain is invalid" && exit 0
-[[ ! $Port ]] && logErrorResult "option --port is invalid" && exit 0
+[[ ! $Domain ]] && dzLogError "option --domain is invalid" && exit 0
+[[ ! $Port ]] && dzLogError "option --port is invalid" && exit 0
 
 StageNo=0
 
@@ -35,21 +35,30 @@ ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
 ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
 [[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
 dzLogInfo "准备 Harbor 安装文件"
-DzHarborInstallerFile01=$DZ_VOL_FS_PATH/etc/dz/harbor-installer/install.sh
-DzHarborInstallerFile02=$DZ_VOL_FS_PATH/etc/dz/harbor-installer/common.sh
-DzHarborInstallerFile03=$DZ_VOL_FS_PATH/etc/dz/harbor-installer/prepare
-DzHarborInstallerFile04=$DZ_VOL_FS_PATH/etc/dz/harbor-installer/harbor.yml
+DzHarborInstallerFile01=/etc/dz/harbor-installer/install.sh
+DzHarborInstallerFile02=/etc/dz/harbor-installer/common.sh
+DzHarborInstallerFile03=/etc/dz/harbor-installer/prepare
 dzTmpFsPush $DzHarborInstallerFile01 && dzTmpFsPull $DzHarborInstallerFile01
 dzTmpFsPush $DzHarborInstallerFile02 && dzTmpFsPull $DzHarborInstallerFile02
 dzTmpFsPush $DzHarborInstallerFile03 && dzTmpFsPull $DzHarborInstallerFile03
-dzTmpFsPush $DzHarborInstallerFile04 && dzTmpFsPull $DzHarborInstallerFile04
-dzLogInfo "修改 Harbor env"
-
-DzHarborEnv=$DZ_VOL_FS_PATH/etc/dz/harbor-installer/.env
+dzLogInfo "修改 Harbor 初始化 config"
+DzHarborYml=/etc/dz/harbor-installer/harbor.yml
+DzHarborYml__hostname=$Domain
+DzHarborYml__https_port=$Port
+DzHarborYml__https_certificate=$ServerCert
+DzHarborYml__https_private_key=$ServerKey
+DzHarborYml__harbor_admin_password=123123
+DzHarborYml__data_volume=/var/lib/docker/volumes/dz-harbor-data
+DzHarborYml__log_local_location=/var/log/harbor
 dzTmpFsPush $DzHarborYml &&
-  dzTmpFsEdit $DzHarborYml 's|^.*hostname="?([^"]*)"?.*$|hostname=${Domain}|g' &&
-  dzTmpFsEdit $DzHarborYml 's|^.*https_port="?([^"]*)"?.*$|https_port=${Port}|g' &&
-  dzTmpFsEdit $DzHarborYml 's|^.*https_private_key="?([^"]*)"?.*$|https_private_key=${ServerKey}|g' &&
-  dzTmpFsEdit $DzHarborYml 's|^.*https_certificate="?([^"]*)"?.*$|https_certificate=${ServerCert}|g' &&
+  dzTmpFsEdit $DzHarborYml "s|__hostname__|$DzHarborYml__hostname|g" &&
+  dzTmpFsEdit $DzHarborYml "s|__https_port__|$DzHarborYml__https_port|g" &&
+  dzTmpFsEdit $DzHarborYml "s|__https_certificate__|$DzHarborYml__https_certificate|g" &&
+  dzTmpFsEdit $DzHarborYml "s|__https_private_key__|$DzHarborYml__https_private_key|g" &&
+  dzTmpFsEdit $DzHarborYml "s|__harbor_admin_password__|$DzHarborYml__harbor_admin_password|g" &&
+  dzTmpFsEdit $DzHarborYml "s|__data_volume__|$DzHarborYml__data_volume|g" &&
+  dzTmpFsEdit $DzHarborYml "s|__log_local_location__|$DzHarborYml__log_local_location|g" &&
   dzTmpFsPull $DzHarborYml
-source /etc/dz/harbor-installer/install.sh
+chmod u+x /etc/dz/harbor-installer/install.sh
+chmod u+x /etc/dz/harbor-installer/prepare
+/etc/dz/harbor-installer/install.sh
