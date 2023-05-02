@@ -75,7 +75,7 @@ echo ""
 h2 "[Step $item]: preparing environment ..."
 let item+=1
 if [ -n "$host" ]; then
-  sed -i "s/^hostname: .*/hostname: $host/g" $HarborInstaller/dz-harbor.yml
+  sed -i "s/^hostname: .*/hostname: $host/g" $HarborInstaller/harbor.yml
 fi
 
 h2 "[Step $item]: preparing harbor configs ..."
