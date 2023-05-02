@@ -2,7 +2,7 @@
 
 # The IP address or hostname to access admin UI and registry service.
 # DO NOT use localhost or 127.0.0.1, because Harbor needs to be accessed by external clients.
-hostname: __hostname__
+hostname: ${hostname}
 
 # http related config
 http:
@@ -12,10 +12,10 @@ http:
 # https related config
 https:
   # https port for harbor, default is 443
-  port: __https_port__
+  port: ${https_port}
   # The path of cert and key files for nginx
-  certificate: __https_certificate__
-  private_key: __https_private_key__
+  certificate: ${https_certificate}
+  private_key: ${https_private_key}
 
 # # Uncomment following will enable tls communication between all harbor components
 # internal_tls:
@@ -31,7 +31,8 @@ https:
 # The initial password of Harbor admin
 # It only works in first time to install harbor
 # Remember Change the admin password from UI after launching Harbor.
-harbor_admin_password: 123123 # harbor_admin_password: Harbor12345
+# harbor_admin_password: Harbor12345
+harbor_admin_password: ${harbor_admin_password}
 
 # Harbor DB configuration
 database:
@@ -50,7 +51,8 @@ database:
   conn_max_idle_time: 0
 
 # The default data volume
-data_volume: /var/lib/docker/volumes/dz-harbor-data
+# data_volume: /data
+data_volume: ${data_volume}
 
 # Harbor Storage settings by default is using /data dir on local filesystem
 # Uncomment storage_service setting If you want to using external storage
