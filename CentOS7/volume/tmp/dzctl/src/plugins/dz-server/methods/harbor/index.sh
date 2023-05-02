@@ -50,8 +50,7 @@ DzHarborYml__https_private_key=$ServerKey
 DzHarborYml__harbor_admin_password=123123
 DzHarborYml__data_volume=/var/lib/docker/volumes/dz-harbor-data
 DzHarborYml__log_local_location=/var/log/harbor
-dzTmpFsPush $DzHarborYml &&
-  dzTmpFsPull $DzHarborYml "Remove"
+dzTmpFsPull $DzHarborYml "TmpFsRemove"
 dzTmpFsPush $DzHarborYml &&
   dzTmpFsEdit $DzHarborYml "s|__hostname__|$DzHarborYml__hostname|g" &&
   dzTmpFsEdit $DzHarborYml "s|__https_port__|$DzHarborYml__https_port|g" &&
