@@ -2,11 +2,8 @@
 
 set -e
 
-# DIR="$(cd "$(dirname "$0")" && pwd)"
-
-HarborInstaller=$DZ_CLOUD_PATH/cloud-file/CentOS7/volume/etc/dz/harbor-installer
-
-source $HarborInstaller/common.sh
+DIR="$(cd "$(dirname "$0")" && pwd)"
+source $DIR/common.sh
 
 set +o noglob
 
@@ -26,35 +23,35 @@ with_trivy=$false
 # flag to using docker compose v1 or v2, default would using v1 docker-compose
 DOCKER_COMPOSE=docker-compose
 
-# while [ $# -gt 0 ]; do
-#   case $1 in
-#   --help)
-#     note "$usage"
-#     exit 0
-#     ;;
-#   --with-notary)
-#     with_notary=true
-#     ;;
-#   --with-clair)
-#     with_clair=true
-#     ;;
-#   --with-trivy)
-#     with_trivy=true
-#     ;;
-#   *)
-#     note "$usage"
-#     exit 1
-#     ;;
-#   esac
-#   shift || true
-# done
+while [ $# -gt 0 ]; do
+  case $1 in
+  --help)
+    note "$usage"
+    exit 0
+    ;;
+  --with-notary)
+    with_notary=true
+    ;;
+  --with-clair)
+    with_clair=true
+    ;;
+  --with-trivy)
+    with_trivy=true
+    ;;
+  *)
+    note "$usage"
+    exit 1
+    ;;
+  esac
+  shift || true
+done
 
 if [ $with_clair ]; then
   error "Clair is deprecated please remove it from installation arguments !!!"
   exit 1
 fi
 
-workdir=$HarborInstaller
+workdir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 cd $workdir
 
 h2 "[Step $item]: checking if docker is installed ..."
@@ -65,17 +62,17 @@ h2 "[Step $item]: checking docker-compose is installed ..."
 let item+=1
 check_dockercompose
 
-if [ -f $HarborInstaller/harbor*.tar.gz ]; then
+if [ -f harbor*.tar.gz ]; then
   h2 "[Step $item]: loading Harbor images ..."
   let item+=1
-  docker load -i $HarborInstaller/harbor*.tar.gz
+  docker load -i ./harbor*.tar.gz
 fi
 echo ""
 
 h2 "[Step $item]: preparing environment ..."
 let item+=1
 if [ -n "$host" ]; then
-  sed -i "s/^hostname: .*/hostname: $host/g" $HarborInstaller/harbor.yml
+  sed "s/^hostname: .*/hostname: $host/g" -i ./harbor.yml
 fi
 
 h2 "[Step $item]: preparing harbor configs ..."
@@ -88,8 +85,7 @@ if [ $with_trivy ]; then
   prepare_para="${prepare_para} --with-trivy"
 fi
 
-chmod u+x $HarborInstaller/prepare
-$HarborInstaller/prepare $prepare_para
+./prepare $prepare_para
 echo ""
 
 if [ -n "$DOCKER_COMPOSE ps -q" ]; then
