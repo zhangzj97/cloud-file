@@ -51,6 +51,8 @@ DzHarborYml__harbor_admin_password=123123
 DzHarborYml__data_volume=/var/lib/docker/volumes/dz-harbor-data
 DzHarborYml__log_local_location=/var/log/harbor
 dzTmpFsPush $DzHarborYml &&
+  dzTmpFsPull $DzHarborYml "Remove"
+dzTmpFsPush $DzHarborYml &&
   dzTmpFsEdit $DzHarborYml "s|__hostname__|$DzHarborYml__hostname|g" &&
   dzTmpFsEdit $DzHarborYml "s|__https_port__|$DzHarborYml__https_port|g" &&
   dzTmpFsEdit $DzHarborYml "s|__https_certificate__|$DzHarborYml__https_certificate|g" &&
@@ -62,3 +64,4 @@ dzTmpFsPush $DzHarborYml &&
 chmod u+x /etc/dz/harbor-installer/install.sh
 chmod u+x /etc/dz/harbor-installer/prepare
 /etc/dz/harbor-installer/install.sh
+dzLogInfo "[访问] $Domain:$Port"
