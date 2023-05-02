@@ -29,6 +29,8 @@ let StageNo+=1
 
 dzLogStage $StageNo "运行 Docker Dashboard Cli"
 DzDockerDashboardCliDC=/etc/dz/docker-compose/dz-docker-dashboard-cli/docker-compose.yml
+dzTmpFsPush $DzDockerDashboardCliDC &&
+  dzTmpFsPull $DzDockerDashboardCliDC
 docker pull lazyteam/lazydocker &&
   docker tag lazyteam/lazydocker dz-docker-dashboard-lazydocker:1.0.0
 docker rmi lazyteam/lazydocker
