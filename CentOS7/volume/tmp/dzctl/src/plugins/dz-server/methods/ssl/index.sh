@@ -44,7 +44,7 @@ fi
 let StageNo+=1
 
 dzLogStage $StageNo "Server Certificate"
-ServerDomainPort=$Domain:$Port
+ServerDomainPort=$Domain--$Port
 ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
 ServerCsr=/etc/docker/certs.d/$ServerDomainPort/server.csr
 ServerCrt=/etc/docker/certs.d/$ServerDomainPort/server.crt

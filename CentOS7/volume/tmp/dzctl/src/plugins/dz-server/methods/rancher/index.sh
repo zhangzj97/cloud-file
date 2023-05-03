@@ -27,10 +27,10 @@ done
 StageNo=0
 
 dzLogStage $StageNo "检查 Rancher"
-ServerDomainPort=$Domain:$Port
-CaCrt=/etc/docker/certs.d/ca.crt
+ServerDomainPort=$Domain--$Port
 ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
 ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
+CaCrt=/etc/docker/certs.d/ca.crt
 [[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
 DzRancherDC=/etc/dz/docker-compose/dz-rancher/docker-compose.yml
 DzRancherEnv=/etc/dz/docker-compose/dz-rancher/.env

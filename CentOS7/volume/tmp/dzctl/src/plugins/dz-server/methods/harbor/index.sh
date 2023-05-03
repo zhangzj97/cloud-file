@@ -27,9 +27,10 @@ done
 StageNo=0
 
 dzLogStage $StageNo "检查 Harbor"
-ServerDomainPort=$Domain:$Port
+ServerDomainPort=$Domain--$Port
 ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
 ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
+CaCrt=/etc/docker/certs.d/ca.crt
 [[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
 dzLogInfo "准备 Harbor 安装文件"
 DzHarborInstallerFile01=/etc/dz/harbor-installer/install.sh
