@@ -13,9 +13,6 @@ while true; do
   --port)
     Port=$2 && shift 2
     ;;
-  --ssl)
-    SSL=$2 && shift 2
-    ;;
   --)
     break
     ;;
