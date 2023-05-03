@@ -5,16 +5,18 @@ services:
     image: dz-docker-dashboard-docker-ui:1.0.0
     container_name: dz-docker-dashboard-docker-ui
     restart: always
+    privileged: false
     environment: {}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
     ports:
       - 9001:8999
       
-  dz-docker-dashboard-portainer:
+  dz-docker-dashboard-portainer-ce:
     image: dz-docker-dashboard-portainer-ce:1.0.0
     container_name: dz-docker-dashboard-portainer-ce
     restart: always
+    privileged: false
     environment: {}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock

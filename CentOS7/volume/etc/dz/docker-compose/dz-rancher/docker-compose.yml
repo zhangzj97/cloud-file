@@ -5,8 +5,8 @@ services:
     image: dz-rancher:1.0.0
     container_name: dz-rancher
     restart: unless-stopped
-    environment: {}
     privileged: true
+    environment: {}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - ${ServerCert}:/etc/rancher/ssl/cert.pem

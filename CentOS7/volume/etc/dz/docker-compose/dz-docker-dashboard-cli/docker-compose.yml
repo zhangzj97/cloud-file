@@ -5,6 +5,7 @@ services:
     image: dz-docker-dashboard-lazydocker:1.0.0
     container_name: dz-docker-dashboard-lazydocker
     restart: always
+    privileged: false
     environment: {}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
