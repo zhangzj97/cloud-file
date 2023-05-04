@@ -16,7 +16,7 @@ while true; do
   esac
 done
 
-StageNo=0
+StageNo=1
 
 logStage $StageNo "Config Kubernetes DNS"
 dzTextRemove /etc/hosts "K8S" &&

@@ -27,7 +27,7 @@ done
 [[ ! $DomainNew ]] && logErrorResult "option --domain is invalid" && exit 0
 [[ ! $PortNew ]] && logErrorResult "option --port is invalid" && exit 0
 
-StageNo=0
+StageNo=1
 
 logStage $StageNo "Install Harbor"
 ServerDomainPort=$DomainNew:$PortNew

@@ -16,7 +16,7 @@ while true; do
   esac
 done
 
-StageNo=0
+StageNo=1
 
 logStage $StageNo "First Stage Description"
 let StageNo+=1

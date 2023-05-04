@@ -22,7 +22,7 @@ while true; do
   esac
 done
 
-StageNo=0
+StageNo=1
 
 if [[ $WebMode ]]; then
   logStage $StageNo "Deploy Docker Dashboard WebMode"

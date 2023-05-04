@@ -16,7 +16,7 @@ while true; do
   esac
 done
 
-StageNo=0
+StageNo=1
 
 logStage $StageNo "Install Docker"
 dzYum docker-ce
