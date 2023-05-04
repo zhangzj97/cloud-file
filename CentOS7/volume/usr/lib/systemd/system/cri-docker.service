@@ -7,7 +7,7 @@ Requires=cri-docker.socket
 
 [Service]
 Type=notify
-ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd://
+ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd:// --network-plugin=cni --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.9
 ExecReload=/bin/kill -s HUP $MAINPID
 TimeoutSec=0
 RestartSec=2
