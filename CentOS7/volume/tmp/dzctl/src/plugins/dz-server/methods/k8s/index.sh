@@ -58,11 +58,16 @@ source $IpvsModules
 let StageNo+=1
 
 dzLogStage $StageNo "修改 kubelet 配置"
+dzLogInfo "kubelet"
 SysconfigKubelet=/etc/sysconfig/kubelet
 dzTmpFsPush $SysconfigKubelet &&
-  dzTmpFsEdit $SysconfigKubelet "/disabled_plugins/s/^(.*)$/# \1/g" &&
   dzTmpFsPull $SysconfigKubelet
+ContainerdConfig=/etc/containerd/config.toml
 systemctl enable --now kubelet
+dzLogInfo "containerd"
+dzTmpFsPush $ContainerdConfig &&
+  dzTmpFsEdit $ContainerdConfig "/disabled_plugins/s/^(.*)$/# \1/g" &&
+  dzTmpFsPull $ContainerdConfig
 systemctl restart containerd
 let StageNo+=1
 
@@ -76,7 +81,8 @@ dzLogInfo "iptables"
 systemctl stop iptables
 systemctl disable iptables
 dzLogInfo "selinux"
-sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+SysconfigSelinux=/etc/sysconfig/selinux
+sed -i --follow-symlinks 's|SELINUX=enforcing|SELINUX=disabled|g' $SysconfigSelinux
 setenforce 0
 dzLogInfo "swap"
 Fstab=/etc/fstab
