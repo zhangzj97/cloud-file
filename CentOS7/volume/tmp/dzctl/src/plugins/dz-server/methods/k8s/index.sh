@@ -27,7 +27,7 @@ dzRpm ipvsadm
 let StageNo+=1
 
 dzLogStage $StageNo "安装 cri-docker"
-dzRpm cri-docker https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.1/cri-dockerd-0.3.1-3.el7.x86_64.rpm
+dzRpm cri-docker https://fastgit.org/Mirantis/cri-dockerd/releases/download/v0.3.1/cri-dockerd-0.3.1-3.el7.x86_64.rpm
 systemctl enable --now cri-docker
 let StageNo+=1
 
@@ -39,7 +39,7 @@ dzTmpFsPush $CriDockerService &&
 systemctl daemon-reload
 let StageNo+=1
 
-dzLogStage $StageNo "修改 Linux 配置"
+dzLogStage $StageNo "修改 网桥 配置"
 KubernetesConf=/etc/sysctl.d/kubernetes.conf
 dzTmpFsPush $KubernetesConf &&
   dzTmpFsPull $KubernetesConf
@@ -78,12 +78,12 @@ systemctl disable iptables
 dzLogInfo "selinux"
 sed -i --follow-symlinks 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
 setenforce 0
-logStep "swap"
+dzLogInfo "swap"
 Fstab=/etc/fstab
 dzTmpFsPush $Fstab &&
   dzTmpFsEdit $Fstab "/ swap /s/^(.*)$/# \1/g" &&
   dzTmpFsPull $Fstab
 swapoff -a
 dzLogInfo "k8s"
-systemctl enable --now kubelet
+systemctl restart kubelet
 let StageNo+=1

@@ -42,8 +42,11 @@ docker images
 let StageNo+=1
 
 dzLogStage $StageNo "初始化 k8s"
+dzLogInfo "获取网络信息"
+IfcfgPath=/etc/sysconfig/network-scripts/ifcfg-ens33
+StaticIp=$(dzTmpFsMatch $IfcfgPath 's|^.*IPADDR="?([^"]*)"?.*$|\1|g')
 kubeadm init \
-  --apiserver-advertise-address=192.168.226.100 \
+  --apiserver-advertise-address=$StaticIp \
   --pod-network-cidr=10.224.0.0/16 \
   --service-cidr=10.96.0.0/12 \
   --cri-socket unix:///var/run/cri-dockerd.sock
