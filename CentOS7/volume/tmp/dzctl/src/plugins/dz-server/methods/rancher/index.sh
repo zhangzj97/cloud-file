@@ -62,7 +62,7 @@ dzTmpFsPush $DzRancherEnv &&
   dzTmpFsEdit $DzRancherEnv "s|__HttpsPort__|$DzRanckerEnv__HttpsPort|g" &&
   dzTmpFsPull $DzRancherEnv
 docker compose -f $DzRancherDC up -d
-docker rmi rancher/rancher:v2.7.2
+# docker rmi rancher/rancher:v2.7.2
 let StageNo+=1
 
 dzLogInfo "[访问] $Domain:$Port"
