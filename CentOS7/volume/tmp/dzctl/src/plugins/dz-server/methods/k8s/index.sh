@@ -60,6 +60,7 @@ let StageNo+=1
 dzLogStage $StageNo "修改 kubelet 配置"
 dzLogInfo "kubelet"
 SysconfigKubelet=/etc/sysconfig/kubelet
+dzTmpFsPull $SysconfigKubelet "TmpFsRemove"
 dzTmpFsPush $SysconfigKubelet &&
   dzTmpFsPull $SysconfigKubelet
 ContainerdConfig=/etc/containerd/config.toml

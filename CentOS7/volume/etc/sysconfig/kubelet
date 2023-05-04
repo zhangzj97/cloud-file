@@ -1,4 +1,2 @@
-# <Dz> K8S
 KUBELET_CGROUP_ARGS=--cgroup-driver=systemd
 KUBE_PROXY_MODE=ipvs
-# </Dz> K8S
