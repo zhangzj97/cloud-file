@@ -28,7 +28,7 @@ done
 # [[ ! $Hostname ]] && dzLogError "option --port is invalid" && exit 0
 [[ $Gateway && ! $Gateway =~ ^([0-9]{1,3}\.){3}[0-9]{1,3}$ ]] && dzLogError "option --port is invalid" && exit
 
-StageNo=0
+StageNo=1
 
 dzLogStage $StageNo "修改网络信息"
 IfcfgPath=/etc/sysconfig/network-scripts/ifcfg-ens33

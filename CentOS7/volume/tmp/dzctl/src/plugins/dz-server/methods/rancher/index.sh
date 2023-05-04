@@ -24,7 +24,7 @@ done
 [[ ! $Domain ]] && dzLogError "option --domain is invalid" && exit 0
 [[ ! $Port ]] && dzLogError "option --port is invalid" && exit 0
 
-StageNo=0
+StageNo=1
 
 # dzLogStage $StageNo "准备镜像"
 # DzRancherInstallerFile01=/etc/dz/rancher-installer/rancher-images.txt
