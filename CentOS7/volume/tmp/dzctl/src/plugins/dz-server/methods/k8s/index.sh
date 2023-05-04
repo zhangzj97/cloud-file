@@ -34,7 +34,7 @@ let StageNo+=1
 dzLogStage $StageNo "修改 cri-docker 服务配置"
 CriDockerService=/usr/lib/systemd/system/cri-docker.service
 dzTmpFsPush $CriDockerService &&
-  dzTmpFsEdit $CriDockerService "s|ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd://|ExecStart=/usr/bin/cri-dockerd --network-plugin=cni --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.8 --container-runtime-endpoint fd://|g" &&
+  dzTmpFsEdit $CriDockerService "s|ExecStart=/usr/bin/cri-dockerd --container-runtime-endpoint fd://|ExecStart=/usr/bin/cri-dockerd --network-plugin=cni --pod-infra-container-image=registry.aliyuncs.com/google_containers/pause:3.9 --container-runtime-endpoint fd://|g" &&
   dzTmpFsPull $CriDockerService
 systemctl daemon-reload
 let StageNo+=1
