@@ -26,16 +26,16 @@ done
 
 StageNo=0
 
-dzLogStage $StageNo "准备镜像"
-DzRancherInstallerFile01=/etc/dz/rancher-installer/rancher-images.txt
-DzRancherInstallerFile02=/etc/dz/rancher-installer/rancher-load-images.sh
-DzRancherInstallerFile03=/etc/dz/rancher-installer/rancher-save-images.sh
-dzTmpFsPush $DzRancherInstallerFile01 && dzTmpFsPull $DzRancherInstallerFile01
-dzTmpFsPush $DzRancherInstallerFile02 && dzTmpFsPull $DzRancherInstallerFile02
-dzTmpFsPush $DzRancherInstallerFile03 && dzTmpFsPull $DzRancherInstallerFile03
-chmod u+x /etc/dz/rancher-installer/rancher-save-images.sh
-/etc/dz/rancher-installer/rancher-save-images.sh --from-aliyun true
-let StageNo+=1
+# dzLogStage $StageNo "准备镜像"
+# DzRancherInstallerFile01=/etc/dz/rancher-installer/rancher-images.txt
+# DzRancherInstallerFile02=/etc/dz/rancher-installer/rancher-load-images.sh
+# DzRancherInstallerFile03=/etc/dz/rancher-installer/rancher-save-images.sh
+# dzTmpFsPush $DzRancherInstallerFile01 && dzTmpFsPull $DzRancherInstallerFile01
+# dzTmpFsPush $DzRancherInstallerFile02 && dzTmpFsPull $DzRancherInstallerFile02
+# dzTmpFsPush $DzRancherInstallerFile03 && dzTmpFsPull $DzRancherInstallerFile03
+# chmod u+x /etc/dz/rancher-installer/rancher-save-images.sh
+# /etc/dz/rancher-installer/rancher-save-images.sh --from-aliyun true
+# let StageNo+=1
 
 dzLogStage $StageNo "检查 Rancher"
 ServerDomainPort=$Domain--$Port
@@ -50,8 +50,8 @@ DzRanckerEnv__ServerKey=$ServerKey
 DzRanckerEnv__CaCrt=$CaCrt
 DzRanckerEnv__HttpPort=9011
 DzRanckerEnv__HttpsPort=9012
-docker pull rancher/rancher:v2.7.2 &&
-  docker tag rancher/rancher dz-rancher:1.0.0
+docker pull registry.cn-hangzhou.aliyuncs.com/rancher/rancher:v2.7.2 &&
+  docker tag registry.cn-hangzhou.aliyuncs.com/rancher/rancher:v2.7.2 dz-rancher:1.0.0
 dzTmpFsPush $DzRancherDC && dzTmpFsPull $DzRancherDC
 dzTmpFsPull $DzRancherEnv "TmpFsRemove"
 dzTmpFsPush $DzRancherEnv &&

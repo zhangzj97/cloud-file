@@ -2,7 +2,7 @@ version: "3.8"
 
 services:
   dz-rancher:
-    image: dz-rancher:1.0.0
+    image: registry.cn-hangzhou.aliyuncs.com/rancher/rancher:v2.7.2
     container_name: dz-rancher
     restart: unless-stopped
     privileged: true
