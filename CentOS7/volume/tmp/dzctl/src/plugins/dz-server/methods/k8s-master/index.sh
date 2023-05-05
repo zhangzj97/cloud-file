@@ -27,14 +27,14 @@ images=(
   kube-proxy:v1.27.1
   pause:3.9
   etcd:3.5.7-0
-  # coredns/coredns:1.10.1
+  # coredns/coredns:v1.10.1
 )
 for imageName in ${images[@]}; do
-  docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName
+  docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName --cri-socket=unix:///var/run/cri-dockerd.sock
   docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName registry.k8s.io/$imageName
   docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName
 done
-docker pull coredns/coredns:1.10.1
+docker pull coredns/coredns:1.10.1 --cri-socket=unix:///var/run/cri-dockerd.sock
 docker tag coredns/coredns:1.10.1 registry.k8s.io/coredns/coredns:v1.10.1
 docker rmi coredns/coredns:1.10.1
 
