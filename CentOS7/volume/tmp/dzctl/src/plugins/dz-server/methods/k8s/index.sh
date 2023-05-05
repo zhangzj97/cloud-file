@@ -42,6 +42,7 @@ dzTmpFsPush $CriDockerService &&
 dzTmpFsPush $CriDockerSocket &&
   dzTmpFsPull $CriDockerSocket
 systemctl daemon-reload
+systemctl restart cri-docker
 let StageNo+=1
 
 dzLogStage $StageNo "修改 网桥 配置"
