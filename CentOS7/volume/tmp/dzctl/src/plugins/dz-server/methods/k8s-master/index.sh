@@ -30,11 +30,11 @@ images=(
   # coredns/coredns:v1.10.1
 )
 for imageName in ${images[@]}; do
-  docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName --cri-socket=unix:///var/run/cri-dockerd.sock
+  docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName
   docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName registry.k8s.io/$imageName
   docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName
 done
-docker pull coredns/coredns:1.10.1 --cri-socket=unix:///var/run/cri-dockerd.sock
+docker pull coredns/coredns:1.10.1
 docker tag coredns/coredns:1.10.1 registry.k8s.io/coredns/coredns:v1.10.1
 docker rmi coredns/coredns:1.10.1
 
@@ -61,5 +61,5 @@ dzLogStage $StageNo "初始化 k8s 网络配置"
 KubeFlannelYml=/etc/dz/k8s/kube-flannel.yml
 dzTmpFsPush $KubeFlannelYml &&
   dzTmpFsPull $KubeFlannelYml
-kubectl apply -f /tmp/kube-flannel.yml
+kubectl apply -f $KubeFlannelYml
 let StageNo+=1
