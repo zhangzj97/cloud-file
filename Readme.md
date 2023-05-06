@@ -101,3 +101,17 @@ curl -sfL http://rancher-mirror.rancher.cn/k3s/k3s-install.sh | INSTALL_K3S_MIRR
 k3s kubectl get node
 
 ```
+
+### helm
+
+```bash
+curl -fsSL https://raw.fastgit.org/helm/helm/main/scripts/get-helm-3> /tmp/helm.sh | bash
+```
+
+https://get.helm.sh/helm-v3.11.3-linux-amd64.tar.gz
+https://github.com/helm/helm/archive/refs/tags/v3.11.3.tar.gz
+
+wget -q -t0 -T5 -O /tmp/helm.tar.gz https://get.helm.sh/helm-v3.11.3-linux-amd64.tar.gz --no-check-certificate
+tar -xzf /tmp/helm.tar.gz -C /tmp/
+
+https://get.helm.sh/helm--linux-amd64.tar.gz
