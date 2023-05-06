@@ -1,0 +1,20 @@
+version: "3.8"
+
+services:
+  dz-jenkins:
+    image: dz-jenkins
+    container_name: dz-jenkins
+    restart: on-failure
+    privileged: false
+    environment: {}
+    volumes:
+      - dz-jenkins-data:/var/jenkins_home
+    ports:
+      - ${HttpPort}:80
+      - ${HttpsPort}:443
+  ssh-agent:
+    image: jenkins/ssh-agent
+    container_name: jenkins/ssh-agent
+
+volumes:
+  dz-jenkins-data:
