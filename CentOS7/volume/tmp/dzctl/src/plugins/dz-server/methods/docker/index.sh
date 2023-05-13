@@ -40,13 +40,9 @@ if [[ ! $WebMode = 0 ]]; then
   DzDockerDashboardWebDC=/etc/dz/docker-compose/dz-docker-dashboard-web/docker-compose.yml
   dzTmpFsPush $DzDockerDashboardWebDC &&
     dzTmpFsPull $DzDockerDashboardWebDC
-  docker pull joinsunsoft/docker.ui &&
-    docker tag joinsunsoft/docker.ui dz-docker-dashboard-docker-ui:1.0.0
-  docker pull portainer/portainer-ce &&
-    docker tag portainer/portainer-ce dz-docker-dashboard-portainer-ce:1.0.0
+  dzImage dz-docker-dashboard-docker-ui:1.0.0 joinsunsoft/docker.ui:latest
+  dzImage dz-docker-dashboard-portainer-ce:1.0.0 portainer/portainer-ce:latest
   docker compose -f $DzDockerDashboardWebDC up -d
-  docker rmi joinsunsoft/docker.ui
-  docker rmi portainer/portainer-ce
   dzLogInfo "[访问] 192.168.226.100:9001"
   dzLogInfo "[访问] 192.168.226.100:9002"
   let StageNo+=1
