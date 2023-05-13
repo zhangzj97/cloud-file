@@ -28,9 +28,10 @@ DockerVersion=$(rpm -qa | grep docker-ce)
 let StageNo+=1
 
 dzLogStage $StageNo "运行 Docker Dashboard Cli"
-DzDockerDashboardCliDC=/etc/dz/docker-compose/dz-docker-dashboard-cli/docker-compose.yml
-dzTmpFsPush $DzDockerDashboardCliDC &&
-  dzTmpFsPull $DzDockerDashboardCliDC
-dzImage dz-docker-dashboard-lazydocker:1.0.0 lazyteam/lazydocker:latest
-docker compose -f $DzDockerDashboardCliDC run dz-docker-dashboard-lazydocker
+DzDockerCliDCY=/etc/dz/docker-compose/dz-docker-cli/docker-compose.yml
+dzTmpFsPull $DzDockerCliDCY "TmpFsRemove"
+dzTmpFsPush $DzDockerCliDCY &&
+  dzTmpFsPull $DzDockerCliDCY
+dzImage dz-server/lazydocker:1.0.0 lazyteam/lazydocker:latest
+docker compose -f $DzDockerCliDCY run dz-lazydocker
 let StageNo+=1
