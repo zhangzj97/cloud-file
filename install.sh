@@ -331,12 +331,14 @@ dzImage() {
   ImageTag=$1
   Source=$2
 
-  docker pull $ImageTag
+  RmiFlag=1
 
-  if [[ $ImageTag != $Source ]]; then
-    docker tag $ImageTag $Source
-    docker rmi $Source
-  fi
+  [[ ! $Source ]] && Source=$ImageTag && RmiFlag=
+
+  docker pull $Source
+  docker tag $Source $ImageTag
+
+  [[ $RmiFlag ]] && docker rmi $Source
 
   dzLogInfo "[镜像下载] $ImageTag <= $Source"
 }
