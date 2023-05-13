@@ -28,10 +28,13 @@ DockerVersion=$(rpm -qa | grep docker-ce)
 let StageNo+=1
 
 dzLogStage $StageNo "运行 Docker Dashboard Cli"
-DzDockerCliDCY=/etc/dz/docker-compose/dz-docker-cli/docker-compose.yml
-dzTmpFsPull $DzDockerCliDCY "TmpFsRemove"
-dzTmpFsPush $DzDockerCliDCY &&
-  dzTmpFsPull $DzDockerCliDCY
+dzLogInfo "准备镜像"
 dzImage dz-server/lazydocker:1.0.0 lazyteam/lazydocker:latest
-docker compose -f $DzDockerCliDCY run dz-lazydocker
+dzLogInfo "准备 Docker compose file"
+DzDcy=/etc/dz/docker-compose/dz-docker-cli/docker-compose.yml
+DzEnv=/etc/dz/docker-compose/dz-docker-cli/.env
+dzTmpFsPull $DzDcy "TmpFsRemove" && dzTmpFsPush $DzDcy && dzTmpFsPull $DzDcy
+dzTmpFsPull $DzEnv "TmpFsRemove" && dzTmpFsPush $DzEnv && dzTmpFsPull $DzEnv
+dzLogInfo "开始部署"
+docker compose -f $DzDcy run dz-lazydocker
 let StageNo+=1

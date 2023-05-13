@@ -37,13 +37,16 @@ let StageNo+=1
 
 dzLogStage $StageNo "安装 Docker Web"
 if [[ ! $WebMode = 0 ]]; then
-  DzDockerWebDCY=/etc/dz/docker-compose/dz-docker-web/docker-compose.yml
-  dzTmpFsPull $DzDockerWebDCY "TmpFsRemove"
-  dzTmpFsPush $DzDockerWebDCY &&
-    dzTmpFsPull $DzDockerWebDCY
+  dzLogInfo "准备镜像"
   dzImage dz-server/docker-ui:1.0.0 joinsunsoft/docker.ui:latest
   dzImage dz-server/portainer-ce:1.0.0 portainer/portainer-ce:latest
-  docker compose -f $DzDockerWebDCY up -d
+  dzLogInfo "准备 Docker compose file"
+  DzDcy=/etc/dz/docker-compose/dz-docker-web/docker-compose.yml
+  DzEnv=/etc/dz/docker-compose/dz-docker-web/.env
+  dzTmpFsPull $DzDcy "TmpFsRemove" && dzTmpFsPush $DzDcy && dzTmpFsPull $DzDcy
+  dzTmpFsPull $DzEnv "TmpFsRemove" && dzTmpFsPush $DzEnv && dzTmpFsPull $DzEnv
+  dzLogInfo "开始部署"
+  docker compose -f $DzDcy up -d
   dzLogInfo "[访问] 192.168.226.xxx:9001"
   dzLogInfo "[访问] 192.168.226.xxx:9002"
   let StageNo+=1
