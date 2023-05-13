@@ -43,9 +43,10 @@ DzJenkinsEnv__ServerKey=$ServerKey
 DzJenkinsEnv__CaCrt=$CaCrt
 DzJenkinsEnv__HttpPort=9021
 DzJenkinsEnv__HttpsPort=9022
-docker pull jenkins/jenkins:lts-jdk11 &&
-  docker tag jenkins/jenkins:lts-jdk11 dz-jenkins:1.0.0
-dzTmpFsPush $DzJenkinsDC && dzTmpFsPull $DzJenkinsDC
+dzImage dz-jenkins:1.0.0 jenkins/jenkins:lts-jdk11
+dzTmpFsPull $DzJenkinsDC "TmpFsRemove"
+dzTmpFsPush $DzJenkinsDC &&
+  dzTmpFsPull $DzJenkinsDC
 dzTmpFsPull $DzJenkinsEnv "TmpFsRemove"
 dzTmpFsPush $DzJenkinsEnv &&
   dzTmpFsEdit $DzJenkinsEnv "s|__ServerCert__|$DzJenkinsEnv__ServerCert|g" &&
@@ -55,7 +56,6 @@ dzTmpFsPush $DzJenkinsEnv &&
   dzTmpFsEdit $DzJenkinsEnv "s|__HttpsPort__|$DzJenkinsEnv__HttpsPort|g" &&
   dzTmpFsPull $DzJenkinsEnv
 docker compose -f $DzJenkinsDC up -d
-docker rmi jenkins/jenkins:lts-jdk11
 let StageNo+=1
 
 dzLogInfo "[访问] $Domain:$Port"
