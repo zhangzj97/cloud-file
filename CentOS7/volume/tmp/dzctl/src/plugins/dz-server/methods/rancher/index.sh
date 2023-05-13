@@ -30,43 +30,32 @@ done
 
 StageNo=1
 
-# dzLogStage $StageNo "准备镜像"
-# DzRancherInstallerFile01=/etc/dz/rancher-installer/rancher-images.txt
-# DzRancherInstallerFile02=/etc/dz/rancher-installer/rancher-load-images.sh
-# DzRancherInstallerFile03=/etc/dz/rancher-installer/rancher-save-images.sh
-# dzTmpFsPush $DzRancherInstallerFile01 && dzTmpFsPull $DzRancherInstallerFile01
-# dzTmpFsPush $DzRancherInstallerFile02 && dzTmpFsPull $DzRancherInstallerFile02
-# dzTmpFsPush $DzRancherInstallerFile03 && dzTmpFsPull $DzRancherInstallerFile03
-# chmod u+x /etc/dz/rancher-installer/rancher-save-images.sh
-# /etc/dz/rancher-installer/rancher-save-images.sh --from-aliyun true
-# let StageNo+=1
-
 dzLogStage $StageNo "检查 Rancher"
 ServerDomainPort=$Domain--$Port
 ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
 ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
 CaCrt=/etc/docker/certs.d/ca.crt
 [[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
-DzRancherDC=/etc/dz/docker-compose/dz-rancher/docker-compose.yml
-DzRancherEnv=/etc/dz/docker-compose/dz-rancher/.env
-DzRanckerEnv__ServerCert=$ServerCert
-DzRanckerEnv__ServerKey=$ServerKey
-DzRanckerEnv__CaCrt=$CaCrt
-DzRanckerEnv__HttpPort=9011
-DzRanckerEnv__HttpsPort=9012
+dzLogInfo "准备镜像"
 dzImage registry.cn-hangzhou.aliyuncs.com/rancher/rancher:v2.7.2
-dzTmpFsPull $DzRancherDC "TmpFsRemove"
-dzTmpFsPush $DzRancherDC &&
-  dzTmpFsPull $DzRancherDC
-dzTmpFsPull $DzRancherEnv "TmpFsRemove"
-dzTmpFsPush $DzRancherEnv &&
-  dzTmpFsEdit $DzRancherEnv "s|__ServerCert__|$DzRanckerEnv__ServerCert|g" &&
-  dzTmpFsEdit $DzRancherEnv "s|__ServerKey__|$DzRanckerEnv__ServerKey|g" &&
-  dzTmpFsEdit $DzRancherEnv "s|__CaCrt__|$DzRanckerEnv__CaCrt|g" &&
-  dzTmpFsEdit $DzRancherEnv "s|__HttpPort__|$DzRanckerEnv__HttpPort|g" &&
-  dzTmpFsEdit $DzRancherEnv "s|__HttpsPort__|$DzRanckerEnv__HttpsPort|g" &&
-  dzTmpFsPull $DzRancherEnv
-docker compose -f $DzRancherDC up -d
-let StageNo+=1
-
+dzLogInfo "准备 Docker compose file"
+DzDCY=/etc/dz/docker-compose/dz-rancher/docker-compose.yml
+DzEnv=/etc/dz/docker-compose/dz-rancher/.env
+DzEnv__ServerCert=$ServerCert
+DzEnv__ServerKey=$ServerKey
+DzEnv__CaCrt=$CaCrt
+DzEnv__HttpPort=9011
+DzEnv__HttpsPort=9012
+dzTmpFsPull $DzDCY "TmpFsRemove" && dzTmpFsPush $DzDCY && dzTmpFsPull $DzDCY
+dzTmpFsPull $DzEnv "TmpFsRemove" &&
+  dzTmpFsPush $DzEnv &&
+  dzTmpFsEdit $DzEnv "s|__ServerCert__|$DzEnv__ServerCert|g" &&
+  dzTmpFsEdit $DzEnv "s|__ServerKey__|$DzEnv__ServerKey|g" &&
+  dzTmpFsEdit $DzEnv "s|__CaCrt__|$DzEnv__CaCrt|g" &&
+  dzTmpFsEdit $DzEnv "s|__HttpPort__|$DzEnv__HttpPort|g" &&
+  dzTmpFsEdit $DzEnv "s|__HttpsPort__|$DzEnv__HttpsPort|g" &&
+  dzTmpFsPull $DzEnv
+dzLogInfo "开始部署"
+docker compose -f $DzDCY up -d
 dzLogInfo "[访问] $Domain:$Port"
+let StageNo+=1

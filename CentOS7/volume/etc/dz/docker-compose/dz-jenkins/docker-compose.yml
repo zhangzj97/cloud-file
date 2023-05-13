@@ -13,7 +13,7 @@ services:
       - ${HttpPort}:8080
       - ${HttpsPort}:443
   ssh-agent:
-    image: jenkins/ssh-agent
+    image: jenkins/ssh-agent:latest
     container_name: jenkins/ssh-agent
 
 volumes:

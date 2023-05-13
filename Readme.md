@@ -66,7 +66,8 @@ dzctl server harbor --domain=192.168.226.102 --port=9005
 dzctl server ssl --domain=192.168.226.102 --port=9012
 dzctl server rancher --domain=192.168.226.102 --port=9012
 
-
+harbor
+admin 123123
 
 ```
 
@@ -114,3 +115,7 @@ wget -q -t0 -T5 -O /tmp/helm.tar.gz https://get.helm.sh/helm-v3.11.3-linux-amd64
 tar -xzf /tmp/helm.tar.gz -C /tmp/
 
 https://get.helm.sh/helm--linux-amd64.tar.gz
+
+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
+
+### 备份 harbor
