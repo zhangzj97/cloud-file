@@ -110,4 +110,8 @@ dzRpm() {}
 # dzLinkFile $BinName $Source
 dzLinkFile () {}
 
+# 下载镜像
+# dzImage $NewTag $Source
+dzImage() {}
+
 ```

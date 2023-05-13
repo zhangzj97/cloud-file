@@ -307,6 +307,22 @@ dzLinkFile() {
   dzLogInfo "[链接] $BinName => $Source"
 }
 
+# 下载镜像 如果有 harbor 上传至 harbor
+# dzImage $ImageTag $Source
+dzImage() {
+  ImageTag=$1
+  Source=$2
+
+  docker pull $ImageTag
+
+  if [[ $ImageTag != $Source ]]; then
+    docker tag $ImageTag $Source
+    docker rmi $Source
+  fi
+
+  dzLogInfo "[镜像下载] $ImageTag <= $Source"
+}
+
 ###################################################################################################
 ## 业务
 ###################################################################################################
