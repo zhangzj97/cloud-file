@@ -54,9 +54,10 @@ DzRanckerEnv__ServerKey=$ServerKey
 DzRanckerEnv__CaCrt=$CaCrt
 DzRanckerEnv__HttpPort=9011
 DzRanckerEnv__HttpsPort=9012
-docker pull registry.cn-hangzhou.aliyuncs.com/rancher/rancher:v2.7.2 &&
-  docker tag registry.cn-hangzhou.aliyuncs.com/rancher/rancher:v2.7.2 dz-rancher:1.0.0
-dzTmpFsPush $DzRancherDC && dzTmpFsPull $DzRancherDC
+dzImage registry.cn-hangzhou.aliyuncs.com/rancher/rancher:v2.7.2
+dzTmpFsPull $DzRancherDC "TmpFsRemove"
+dzTmpFsPush $DzRancherDC &&
+  dzTmpFsPull $DzRancherDC
 dzTmpFsPull $DzRancherEnv "TmpFsRemove"
 dzTmpFsPush $DzRancherEnv &&
   dzTmpFsEdit $DzRancherEnv "s|__ServerCert__|$DzRanckerEnv__ServerCert|g" &&
@@ -66,7 +67,6 @@ dzTmpFsPush $DzRancherEnv &&
   dzTmpFsEdit $DzRancherEnv "s|__HttpsPort__|$DzRanckerEnv__HttpsPort|g" &&
   dzTmpFsPull $DzRancherEnv
 docker compose -f $DzRancherDC up -d
-# docker rmi rancher/rancher:v2.7.2
 let StageNo+=1
 
 dzLogInfo "[访问] $Domain:$Port"
