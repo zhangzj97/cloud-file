@@ -24,6 +24,10 @@ done
 [[ ! $Domain ]] && dzLogError "option --domain is invalid" && exit 0
 [[ ! $Port ]] && dzLogError "option --port is invalid" && exit 0
 
+###################################################################################################
+## 业务
+###################################################################################################
+
 StageNo=1
 
 dzLogStage $StageNo "检查 Jenkins"
