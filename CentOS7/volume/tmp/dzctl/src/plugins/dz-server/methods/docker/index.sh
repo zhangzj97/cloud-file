@@ -35,18 +35,19 @@ systemctl daemon-reload
 systemctl restart docker
 let StageNo+=1
 
-dzLogStage $StageNo "安装 Docker Dashboard Web"
+dzLogStage $StageNo "安装 Docker Web"
 if [[ ! $WebMode = 0 ]]; then
-  DzDockerDashboardWebDC=/etc/dz/docker-compose/dz-docker-dashboard-web/docker-compose.yml
-  dzTmpFsPush $DzDockerDashboardWebDC &&
-    dzTmpFsPull $DzDockerDashboardWebDC
-  dzImage dz-docker-dashboard-docker-ui:1.0.0 joinsunsoft/docker.ui:latest
-  dzImage dz-docker-dashboard-portainer-ce:1.0.0 portainer/portainer-ce:latest
-  docker compose -f $DzDockerDashboardWebDC up -d
-  dzLogInfo "[访问] 192.168.226.100:9001"
-  dzLogInfo "[访问] 192.168.226.100:9002"
+  DzDockerWebDCY=/etc/dz/docker-compose/dz-docker-web/docker-compose.yml
+  dzTmpFsPull $DzDockerWebDCY "TmpFsRemove"
+  dzTmpFsPush $DzDockerWebDCY &&
+    dzTmpFsPull $DzDockerWebDCY
+  dzImage dz-server/docker-ui:1.0.0 joinsunsoft/docker.ui:latest
+  dzImage dz-server/portainer-ce:1.0.0 portainer/portainer-ce:latest
+  docker compose -f $DzDockerWebDCY up -d
+  dzLogInfo "[访问] 192.168.226.xxx:9001"
+  dzLogInfo "[访问] 192.168.226.xxx:9002"
   let StageNo+=1
 else
-  dzLogInfo "不部署 Docker Dashboard Web"
+  dzLogInfo "不部署 Docker Web"
   let StageNo+=1
 fi
