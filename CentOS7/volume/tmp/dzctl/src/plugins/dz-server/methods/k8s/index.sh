@@ -107,23 +107,11 @@ let StageNo+=1
 
 dzLogStage $StageNo "下载国内源镜像 images"
 kubeadm config images list
-images=(
-  kube-apiserver:v1.27.1
-  kube-controller-manager:v1.27.1
-  kube-scheduler:v1.27.1
-  kube-proxy:v1.27.1
-  pause:3.9
-  etcd:3.5.7-0
-  # coredns/coredns:v1.10.1
-)
-for imageName in ${images[@]}; do
-  docker pull registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName
-  docker tag registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName registry.k8s.io/$imageName
-  docker rmi registry.cn-hangzhou.aliyuncs.com/google_containers/$imageName
-done
-docker pull coredns/coredns:1.10.1
-docker tag coredns/coredns:1.10.1 registry.k8s.io/coredns/coredns:v1.10.1
-docker rmi coredns/coredns:1.10.1
-
-docker images
+dzImage registry.k8s.io/kube-apiserver:v1.27.1 registry.cn-hangzhou.aliyuncs.com/google_containers/kube-apiserver:v1.27.1
+dzImage registry.k8s.io/kube-controller-manager:v1.27.1 registry.cn-hangzhou.aliyuncs.com/google_containers/kube-controller-manager:v1.27.1
+dzImage registry.k8s.io/kube-scheduler:v1.27.1 registry.cn-hangzhou.aliyuncs.com/google_containers/kube-scheduler:v1.27.1
+dzImage registry.k8s.io/kube-proxy:v1.27.1 registry.cn-hangzhou.aliyuncs.com/google_containers/kube-proxy:v1.27.1
+dzImage registry.k8s.io/pause:3.9 registry.cn-hangzhou.aliyuncs.com/google_containers/pause:3.9
+dzImage registry.k8s.io/etcd:3.5.7-0 registry.cn-hangzhou.aliyuncs.com/google_containers/etcd:3.5.7-0
+dzImage registry.k8s.io/coredns/coredns:v1.10.1 coredns/coredns:1.10.1
 let StageNo+=1
