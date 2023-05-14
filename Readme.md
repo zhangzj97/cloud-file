@@ -27,6 +27,12 @@
 192.168.226.119 119xxx
 192.168.226.120 120xxx
 
+192.168.226.102 gitlab.dylan.zhang
+192.168.226.102 harbor.dylan.zhang
+192.168.226.102 docker.dylan.zhang
+192.168.226.102 rancher.dylan.zhang
+192.168.226.102 harbor.zhangzejie.top
+
 dzctl server set --ip=192.168.226.100 --name=base
 dzctl server set --ip=192.168.226.101 --name=template
 dzctl server set --ip=192.168.226.102 --name=test01
