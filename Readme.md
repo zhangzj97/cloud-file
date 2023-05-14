@@ -63,6 +63,9 @@ dzctl server set --ip=192.168.226.120 --name=120xxx
 # https://raw.githubusercontent.com/zhangzj97/cloud-file/main/install.sh
 curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/install.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
 
+docker rm $(docker ps -a -q)
+docker image prune -a
+
 dzinit /z
 
 docker rm
