@@ -35,22 +35,32 @@ systemctl daemon-reload
 systemctl restart docker
 let StageNo+=1
 
-dzLogStage $StageNo "安装 Docker Web"
-if [[ ! $WebMode = 0 ]]; then
-  dzLogInfo "准备镜像"
-  dzImage dz-server/docker-ui:1.0.0 joinsunsoft/docker.ui:latest
-  dzImage dz-server/portainer-ce:1.0.0 portainer/portainer-ce:latest
-  dzLogInfo "准备 Docker compose file"
-  DzDcy=/etc/dz/docker-compose/dz-docker-web/docker-compose.yml
-  DzEnv=/etc/dz/docker-compose/dz-docker-web/.env
-  dzTmpFsPull $DzDcy "TmpFsRemove" && dzTmpFsPush $DzDcy && dzTmpFsPull $DzDcy
-  dzTmpFsPull $DzEnv "TmpFsRemove" && dzTmpFsPush $DzEnv && dzTmpFsPull $DzEnv
-  dzLogInfo "开始部署"
-  docker compose -f $DzDcy up -d
-  dzLogInfo "[访问] 192.168.226.xxx:9001"
-  dzLogInfo "[访问] 192.168.226.xxx:9002"
-  let StageNo+=1
-else
-  dzLogInfo "不部署 Docker Web"
-  let StageNo+=1
-fi
+dzLogStage $StageNo "检查 Docker"
+ServerDomainPort=$Domain--$Port
+ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
+ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
+CaCrt=/etc/docker/certs.d/ca.crt
+[[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
+dzLogInfo "准备镜像"
+dzImage dz-server/portainer-ce:1.0.0 portainer/portainer-ce:latest
+dzLogInfo "准备 Docker compose file"
+DzDCY=/etc/dz/docker-compose/dz-docker-web/docker-compose.yml
+DzEnv=/etc/dz/docker-compose/dz-docker-web/.env
+DzEnv__ServerCert=$ServerCert
+DzEnv__ServerKey=$ServerKey
+DzEnv__CaCrt=$CaCrt
+DzEnv__HttpPort=9001
+DzEnv__HttpsPort=9002
+dzTmpFsPull $DzDCY "TmpFsRemove" && dzTmpFsPush $DzDCY && dzTmpFsPull $DzDCY
+dzTmpFsPull $DzEnv "TmpFsRemove" &&
+  dzTmpFsPush $DzEnv &&
+  dzTmpFsEdit $DzEnv "s|__ServerCert__|$DzEnv__ServerCert|g" &&
+  dzTmpFsEdit $DzEnv "s|__ServerKey__|$DzEnv__ServerKey|g" &&
+  dzTmpFsEdit $DzEnv "s|__CaCrt__|$DzEnv__CaCrt|g" &&
+  dzTmpFsEdit $DzEnv "s|__HttpPort__|$DzEnv__HttpPort|g" &&
+  dzTmpFsEdit $DzEnv "s|__HttpsPort__|$DzEnv__HttpsPort|g" &&
+  dzTmpFsPull $DzEnv
+dzLogInfo "开始部署"
+docker compose -f $DzDCY up -d
+dzLogInfo "[访问] 192.168.226.xxx:9002"
+let StageNo+=1
