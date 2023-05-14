@@ -36,19 +36,19 @@ systemctl restart docker
 let StageNo+=1
 
 dzLogStage $StageNo "检查 Docker"
-ServerDomainPort=$Domain--$Port
-ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
-ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
-CaCrt=/etc/docker/certs.d/ca.crt
-[[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
+# ServerDomainPort=$Domain--$Port
+# ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
+# ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
+# CaCrt=/etc/docker/certs.d/ca.crt
+# [[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
 dzLogInfo "准备镜像"
 dzImage dz-server/portainer-ce:1.0.0 portainer/portainer-ce:latest
 dzLogInfo "准备 Docker compose file"
 DzDCY=/etc/dz/docker-compose/dz-docker-web/docker-compose.yml
 DzEnv=/etc/dz/docker-compose/dz-docker-web/.env
-DzEnv__ServerCert=$ServerCert
-DzEnv__ServerKey=$ServerKey
-DzEnv__CaCrt=$CaCrt
+# DzEnv__ServerCert=$ServerCert
+# DzEnv__ServerKey=$ServerKey
+# DzEnv__CaCrt=$CaCrt
 DzEnv__HttpPort=9001
 DzEnv__HttpsPort=9002
 dzTmpFsPull $DzDCY "TmpFsRemove" && dzTmpFsPush $DzDCY && dzTmpFsPull $DzDCY
