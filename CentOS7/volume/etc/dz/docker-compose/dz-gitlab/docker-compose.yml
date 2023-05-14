@@ -11,7 +11,7 @@ services:
     ports:
       - ${HttpPort}:80
       - ${HttpsPort}:443
-      - 22:22
+      - 9033:22
     volumes:
       - dz-gitlab-ce-config:/etc/gitlab
       - dz-gitlab-ce-data:/var/opt/gitlab

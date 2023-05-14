@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   dz-jenkins:
-    image: dz-jenkins:1.0.0
+    image: dz-server/jenkins:1.0.0
     container_name: dz-jenkins
     restart: on-failure
     privileged: false
@@ -14,7 +14,7 @@ services:
       - ${HttpsPort}:443
   ssh-agent:
     image: jenkins/ssh-agent:latest
-    container_name: jenkins/ssh-agent
+    container_name: jenkins-ssh-agent
 
 volumes:
   dz-jenkins-data:
