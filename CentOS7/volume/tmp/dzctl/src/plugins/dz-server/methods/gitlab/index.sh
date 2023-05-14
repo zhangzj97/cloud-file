@@ -30,23 +30,22 @@ done
 
 StageNo=1
 
-dzLogStage $StageNo "检查 Jenkins"
+dzLogStage $StageNo "检查 Gitlab"
 ServerDomainPort=$Domain--$Port
 ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
 ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
 CaCrt=/etc/docker/certs.d/ca.crt
 [[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
 dzLogInfo "准备镜像"
-dzImage dz-server/jenkins:1.0.0 jenkins/jenkins:latest-jdk11
-dzImage jenkins/ssh-agent:latest
+dzImage dz-server/gitlab-ce:1.0.0 gitlab/gitlab-ce:15.11.3-ce.0
 dzLogInfo "准备 Docker compose file"
-DzDCY=/etc/dz/docker-compose/dz-jenkins/docker-compose.yml
-DzEnv=/etc/dz/docker-compose/dz-jenkins/.env
+DzDCY=/etc/dz/docker-compose/dz-gitlab/docker-compose.yml
+DzEnv=/etc/dz/docker-compose/dz-gitlab/.env
 DzEnv__ServerCert=$ServerCert
 DzEnv__ServerKey=$ServerKey
 DzEnv__CaCrt=$CaCrt
-DzEnv__HttpPort=9021
-DzEnv__HttpsPort=9022
+DzEnv__HttpPort=9031
+DzEnv__HttpsPort=9032
 dzTmpFsPull $DzDCY "TmpFsRemove" && dzTmpFsPush $DzDCY && dzTmpFsPull $DzDCY
 dzTmpFsPull $DzEnv "TmpFsRemove" &&
   dzTmpFsPush $DzEnv &&

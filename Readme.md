@@ -60,11 +60,18 @@ curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/install.sh > /tmp/d
 dzinit /z
 
 dzctl server docker
+
 dzctl server ssl --domain=192.168.226.102 --port=9005
 dzctl server harbor --domain=192.168.226.102 --port=9005
 
 dzctl server ssl --domain=192.168.226.102 --port=9012
 dzctl server rancher --domain=192.168.226.102 --port=9012
+
+dzctl server ssl --domain=192.168.226.102 --port=9022
+dzctl server jenkins --domain=192.168.226.102 --port=9022
+
+dzctl server ssl --domain=192.168.226.102 --port=9032
+dzctl server gitlab --domain=192.168.226.102 --port=9032
 
 harbor
 admin 123123
