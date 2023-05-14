@@ -65,6 +65,10 @@ curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/install.sh > /tmp/d
 
 dzinit /z
 
+docker rm
+
+
+
 dzctl server docker
 
 dzctl server ssl --domain=192.168.226.102 --port=9005

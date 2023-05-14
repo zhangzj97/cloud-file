@@ -43,8 +43,8 @@ dzLogStage $StageNo "检查 Docker"
 dzLogInfo "准备镜像"
 dzImage dz-server/portainer-ce:1.0.0 portainer/portainer-ce:latest
 dzLogInfo "准备 Docker compose file"
-DzDCY=/etc/dz/docker-compose/dz-docker-web/docker-compose.yml
-DzEnv=/etc/dz/docker-compose/dz-docker-web/.env
+DzDCY=/etc/dz/docker-compose/dz-docker/docker-compose.yml
+DzEnv=/etc/dz/docker-compose/dz-docker/.env
 # DzEnv__ServerCert=$ServerCert
 # DzEnv__ServerKey=$ServerKey
 # DzEnv__CaCrt=$CaCrt
