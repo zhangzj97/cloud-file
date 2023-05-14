@@ -1,24 +1,25 @@
 version: '3.8'
 
 services:
-  dz-gitlab-ce:
-    image: dz-server/gitlab-ce:1.0.0
+  dz-gitlab-ee:
+    image: dz-server/gitlab-ee:1.0.0
+    container_name: dz-gitlab
     restart: always
+    privileged: true
     environment:
       GITLAB_OMNIBUS_CONFIG: |
-        external_url 'https://gitlab.example.com'
-        # Add any other gitlab.rb configuration here, each on its own line
+        external_url 'https://192.168.226.102:${HttpsPort}'
     ports:
       - ${HttpPort}:80
       - ${HttpsPort}:443
       - 9033:22
     volumes:
-      - dz-gitlab-ce-config:/etc/gitlab
-      - dz-gitlab-ce-data:/var/opt/gitlab
-      - dz-gitlab-ce-log:/var/log/gitlab
+      - dz-gitlab-ee-config:/etc/gitlab
+      - dz-gitlab-ee-data:/var/opt/gitlab
+      - dz-gitlab-ee-log:/var/log/gitlab
     shm_size: '256m'
 
 volumes:
-  dz-gitlab-ce-config:
-  dz-gitlab-ce-data:
-  dz-gitlab-ce-log:
+  dz-gitlab-ee-config:
+  dz-gitlab-ee-data:
+  dz-gitlab-ee-log:
