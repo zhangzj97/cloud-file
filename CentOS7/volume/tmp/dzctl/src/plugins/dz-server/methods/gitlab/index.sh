@@ -37,7 +37,7 @@ ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
 CaCrt=/etc/docker/certs.d/ca.crt
 [[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
 dzLogInfo "准备镜像"
-dzImage dz-server/gitlab-ee:1.0.0 gitlab/gitlab-ee:15.11.3-ee.0
+dzImage dz-server/gitlab-ee:1.0.0 05f073ad3c0010ea0f4bc00b7105ec20.mirror.swr.myhuaweicloud.com/gitlab/gitlab-ee:15.11.3-ee.0
 dzLogInfo "准备 Docker compose file"
 DzDCY=/etc/dz/docker-compose/dz-gitlab/docker-compose.yml
 DzEnv=/etc/dz/docker-compose/dz-gitlab/.env
