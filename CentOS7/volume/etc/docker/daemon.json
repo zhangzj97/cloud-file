@@ -1,7 +1,9 @@
 {
   "registry-mirrors": [
-    "https://cr.console.aliyun.com",
-    "http://hub-mirror.c.163.com",
+    "https://dockerproxy.com",
+    "https://hub-mirror.c.163.com",
+    "https://mirror.baidubce.com",
+    "https://ccr.ccs.tencentyun.com",
     "https://harbor.zhangzejie.top:9005"
   ],
   "exec-opts": [
