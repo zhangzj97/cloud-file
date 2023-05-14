@@ -1,6 +1,7 @@
 {
   "registry-mirrors": [
     "https://cr.console.aliyun.com",
+    "https://registry.docker-cn.com",
     "https://harbor.zhangzejie.top:9005"
   ],
   "exec-opts": [
