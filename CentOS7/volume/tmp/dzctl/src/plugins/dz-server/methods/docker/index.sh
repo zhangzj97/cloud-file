@@ -29,8 +29,7 @@ dzLogStage $StageNo "安装 Docker"
 dzRpm docker-ce
 systemctl enable --now docker
 DaemonJson=/etc/docker/daemon.json
-dzTmpFsPush $DaemonJson &&
-  dzTmpFsPull $DaemonJson
+dzTmpFsPull $DaemonJson "TmpFsRemove" && dzTmpFsPush $DaemonJson && dzTmpFsPull $DaemonJson
 systemctl daemon-reload
 systemctl restart docker
 let StageNo+=1
