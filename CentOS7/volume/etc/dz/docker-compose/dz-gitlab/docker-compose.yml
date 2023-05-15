@@ -11,7 +11,7 @@ services:
         external_url 'https://192.168.226.102:${HttpsPort}'
     ports:
       - ${HttpPort}:80
-      - ${HttpsPort}:443
+      - ${HttpsPort}:${HttpsPort}
       - 9033:22
     volumes:
       - dz-gitlab-ee-config:/etc/gitlab
