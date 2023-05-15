@@ -63,12 +63,10 @@ dzctl server set --ip=192.168.226.120 --name=120xxx
 # https://raw.githubusercontent.com/zhangzj97/cloud-file/main/install.sh
 curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/install.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
 
-docker rm $(docker ps -a -q)
+docker rm -f $(docker ps -a -q)
 docker image prune -a
 
 dzinit /z
-
-docker rm
 
 dzctl server docker
 
@@ -137,3 +135,28 @@ https://get.helm.sh/helm--linux-amd64.tar.gz
 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
 
 ### 备份 harbor
+
+### Gitlab
+
+Current version: gitlab-ee=15.11.3-ee.0
+
+Configure GitLab for your system by editing /etc/gitlab/gitlab.rb file
+And restart this container to reload settings.
+To do it use docker exec:
+
+docker exec -it gitlab editor /etc/gitlab/gitlab.rb
+docker restart gitlab
+
+For a comprehensive list of configuration options please see the Omnibus GitLab readme
+https://gitlab.com/gitlab-org/omnibus-gitlab/blob/master/README.md
+
+If this container fails to start due to permission problems try to fix it by executing:
+
+docker exec -it gitlab update-permissions
+docker restart gitlab
+
+Cleaning stale PIDs & sockets
+
+docker exec -it dz-gitlab gitlab-backup create
+docker exec -it dz-gitlab gitlab-backup restore xxxx
+oldPassword: SNvPM+FwRbTUxSMQ0TZpmx4RRf84wXhFwu0M4+oO/Ss=
