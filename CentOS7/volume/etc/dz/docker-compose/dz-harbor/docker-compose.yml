@@ -31,9 +31,9 @@ services:
       - SETGID
       - SETUID
     volumes:
-      - /var/lib/docker/volumes/dz-harbor-data/registry:/storage:z
+      - ${HarborVolumePath}/registry:/storage:z
+      - ${HarborVolumePath}/secret/registry/root.crt:/etc/registry/root.crt
       - ${BasePath}/common/config/registry/:/etc/registry/:z
-      - /var/lib/docker/volumes/dz-harbor-data/secret/registry/root.crt:/etc/registry/root.crt
       - ${BasePath}/common/config/shared/trust-certificates:/harbor_cust_cert
     networks:
       - harbor
@@ -57,7 +57,7 @@ services:
       - SETGID
       - SETUID
     volumes:
-      - /var/lib/docker/volumes/dz-harbor-data/registry:/storage:z
+      - ${HarborVolumePath}/registry:/storage:z
       - ${BasePath}/common/config/registry/:/etc/registry/:z
       - ${BasePath}/common/config/registryctl/config.yml:/etc/registryctl/config.yml
       - ${BasePath}/common/config/shared/trust-certificates:/harbor_cust_cert
@@ -82,7 +82,7 @@ services:
       - SETGID
       - SETUID
     volumes:
-      - /var/lib/docker/volumes/dz-harbor-data/database:/var/lib/postgresql/data:z
+      - ${HarborVolumePath}/database:/var/lib/postgresql/data:z
     networks:
       harbor:
     env_file:
@@ -107,12 +107,12 @@ services:
       - SETGID
       - SETUID
     volumes:
-      - /var/lib/docker/volumes/dz-harbor-data/ca_download/:/etc/core/ca/:z
-      - /var/lib/docker/volumes/dz-harbor-data/:/data/:z
+      - ${HarborVolumePath}/ca_download/:/etc/core/ca/:z
+      - ${HarborVolumePath}/:/data/:z
+      - ${HarborVolumePath}/secret/core/private_key.pem:/etc/core/private_key.pem
+      - ${HarborVolumePath}/secret/keys/secretkey:/etc/core/key
       - ${BasePath}/common/config/core/certificates/:/etc/core/certificates/:z
       - ${BasePath}/common/config/core/app.conf:/etc/core/app.conf
-      - /var/lib/docker/volumes/dz-harbor-data/secret/core/private_key.pem:/etc/core/private_key.pem
-      - /var/lib/docker/volumes/dz-harbor-data/secret/keys/secretkey:/etc/core/key
       - ${BasePath}/common/config/shared/trust-certificates:/harbor_cust_cert
     networks:
       harbor:
@@ -161,7 +161,7 @@ services:
       - SETGID
       - SETUID
     volumes:
-      - /var/lib/docker/volumes/dz-harbor-data/job_logs:/var/log/jobs:z
+      - ${HarborVolumePath}/job_logs:/var/log/jobs:z
       - ${BasePath}/common/config/jobservice/config.yml:/etc/jobservice/config.yml
       - ${BasePath}/common/config/shared/trust-certificates:/harbor_cust_cert
     networks:
@@ -184,7 +184,7 @@ services:
       - SETGID
       - SETUID
     volumes:
-      - /var/lib/docker/volumes/dz-harbor-data/redis:/var/lib/redis
+      - ${HarborVolumePath}/redis:/var/lib/redis
     networks:
       harbor:
     depends_on:
@@ -206,8 +206,8 @@ services:
       - SETUID
       - NET_BIND_SERVICE
     volumes:
+      - ${HarborVolumePath}/secret/cert:/etc/cert:z
       - ${BasePath}/common/config/nginx:/etc/nginx:z
-      - /var/lib/docker/volumes/dz-harbor-data/secret/cert:/etc/cert:z
       - ${BasePath}/common/config/shared/trust-certificates:/harbor_cust_cert
     networks:
       - harbor
