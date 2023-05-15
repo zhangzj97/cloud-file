@@ -1,8 +1,9 @@
   version: '2.3'
+
   services:
     log:
       image: goharbor/harbor-log:v2.8.0
-      container_name: harbor-log
+      container_name: dz-harbor-log
       restart: always
       cap_drop:
         - ALL
@@ -12,7 +13,7 @@
         - SETGID
         - SETUID
       volumes:
-        - /var/log/harbor/:/var/log/docker/:z
+        - dz-harbor-log-data:/var/log/docker/:z
         - type: bind
           source: ${BasePath}/common/config/log/logrotate.conf
           target: /etc/logrotate.d/logrotate.conf
@@ -25,7 +26,7 @@
         - harbor
     registry:
       image: goharbor/registry-photon:v2.8.0
-      container_name: registry
+      container_name: dz-harbor-registry
       restart: always
       cap_drop:
         - ALL
@@ -53,7 +54,7 @@
           tag: "registry"
     registryctl:
       image: goharbor/harbor-registryctl:v2.8.0
-      container_name: registryctl
+      container_name: dz-harbor-registryctl
       env_file:
         - ${BasePath}/common/config/registryctl/env
       restart: always
@@ -83,7 +84,7 @@
           tag: "registryctl"
     postgresql:
       image: goharbor/harbor-db:v2.8.0
-      container_name: harbor-db
+      container_name: dz-harbor-db
       restart: always
       cap_drop:
         - ALL
@@ -108,7 +109,7 @@
       shm_size: '1gb'
     core:
       image: goharbor/harbor-core:v2.8.0
-      container_name: harbor-core
+      container_name: dz-harbor-core
       env_file:
         - ${BasePath}/common/config/core/env
       restart: always
@@ -147,7 +148,7 @@
           tag: "core"
     portal:
       image: goharbor/harbor-portal:v2.8.0
-      container_name: harbor-portal
+      container_name: dz-harbor-portal
       restart: always
       cap_drop:
         - ALL
@@ -171,7 +172,7 @@
           tag: "portal"
     jobservice:
       image: goharbor/harbor-jobservice:v2.8.0
-      container_name: harbor-jobservice
+      container_name: dz-harbor-jobservice
       env_file:
         - ${BasePath}/common/config/jobservice/env
       restart: always
@@ -200,7 +201,7 @@
           tag: "jobservice"
     redis:
       image: goharbor/redis-photon:v2.8.0
-      container_name: redis
+      container_name: dz-harbor-redis
       restart: always
       cap_drop:
         - ALL
@@ -221,7 +222,7 @@
           tag: "redis"
     proxy:
       image: goharbor/nginx-photon:v2.8.0
-      container_name: nginx
+      container_name: dz-harbor-nginx
       restart: always
       cap_drop:
         - ALL
@@ -254,3 +255,7 @@
   networks:
     harbor:
       external: false
+
+  volumes:
+    dz-harbor-log-data:
+  
