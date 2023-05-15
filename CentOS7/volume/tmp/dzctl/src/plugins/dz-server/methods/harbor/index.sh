@@ -28,6 +28,38 @@ done
 ## 业务
 ###################################################################################################
 
+###################################################################################################
+## 文件处理
+###################################################################################################
+FileHanlder() {
+  File=$1
+
+  dzTmpFsPull $File "TmpFsRemove" && dzTmpFsPush $File && dzTmpFsPull $File
+}
+
+FileHanlderEnv() {
+  File=$DzDCPath/.env
+
+  __BasePath__=$DzDCPath
+  __ServerCert__=$ServerCert
+  __ServerKey__=$ServerKey
+  __CaCrt__=$CaCrt
+  __HttpPort__=9004
+  __HttpsPort__=$Port
+  __HarborVolumePath__=/var/lib/docker/volumes/dz-harbor
+
+  dzTmpFsPull $File "TmpFsRemove" &&
+    dzTmpFsPush $File &&
+    dzTmpFsEdit $File "s|__BasePath__|$__BasePath__|g" &&
+    dzTmpFsEdit $File "s|__ServerCert__|$__ServerCert__|g" &&
+    dzTmpFsEdit $File "s|__ServerKey__|$__ServerKey__|g" &&
+    dzTmpFsEdit $File "s|__CaCrt__|$__CaCrt__|g" &&
+    dzTmpFsEdit $File "s|__HttpPort__|$__HttpPort__|g" &&
+    dzTmpFsEdit $File "s|__HttpsPort__|$__HttpsPort__|g" &&
+    dzTmpFsEdit $File "s|__HarborVolumePath__|$__HarborVolumePath__|g" &&
+    dzTmpFsPull $File
+}
+
 StageNo=1
 
 dzLogStage $StageNo "检查 Harbor"
@@ -36,44 +68,25 @@ ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
 ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
 CaCrt=/etc/docker/certs.d/ca.crt
 [[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
-dzLogInfo "准备 Harbor 安装文件"
-DzHarborInstallerFile01=/etc/dz/harbor-installer/install.sh
-DzHarborInstallerFile02=/etc/dz/harbor-installer/common.sh
-DzHarborInstallerFile03=/etc/dz/harbor-installer/prepare
-dzTmpFsPush $DzHarborInstallerFile01 && dzTmpFsPull $DzHarborInstallerFile01
-dzTmpFsPush $DzHarborInstallerFile02 && dzTmpFsPull $DzHarborInstallerFile02
-dzTmpFsPush $DzHarborInstallerFile03 && dzTmpFsPull $DzHarborInstallerFile03
-dzLogInfo "修改 Harbor 初始化 config"
-DzHarborYml=/etc/dz/harbor-installer/harbor.yml
-DzHarborYml__hostname=$Domain
-DzHarborYml__https_port=$Port
-DzHarborYml__https_certificate=$ServerCert
-DzHarborYml__https_private_key=$ServerKey
-DzHarborYml__harbor_admin_password=123123
-DzHarborYml__data_volume=/var/lib/docker/volumes/dz-harbor-data
-DzHarborYml__log_local_location=/var/log/harbor
-dzTmpFsPull $DzHarborYml "TmpFsRemove"
-dzTmpFsPush $DzHarborYml &&
-  dzTmpFsEdit $DzHarborYml "s|__hostname__|$DzHarborYml__hostname|g" &&
-  dzTmpFsEdit $DzHarborYml "s|__https_port__|$DzHarborYml__https_port|g" &&
-  dzTmpFsEdit $DzHarborYml "s|__https_certificate__|$DzHarborYml__https_certificate|g" &&
-  dzTmpFsEdit $DzHarborYml "s|__https_private_key__|$DzHarborYml__https_private_key|g" &&
-  dzTmpFsEdit $DzHarborYml "s|__harbor_admin_password__|$DzHarborYml__harbor_admin_password|g" &&
-  dzTmpFsEdit $DzHarborYml "s|__data_volume__|$DzHarborYml__data_volume|g" &&
-  dzTmpFsEdit $DzHarborYml "s|__log_local_location__|$DzHarborYml__log_local_location|g" &&
-  dzTmpFsPull $DzHarborYml
-chmod u+x /etc/dz/harbor-installer/install.sh
-chmod u+x /etc/dz/harbor-installer/prepare
-/etc/dz/harbor-installer/install.sh
+DzDCPath=/etc/dz/docker-compose/dz-harbor
+dzLogInfo "准备镜像"
+dzImage goharbor/harbor-core:v2.8.0
+dzImage goharbor/harbor-db:v2.8.0
+dzImage goharbor/harbor-jobservice:v2.8.0
+dzImage goharbor/harbor-log:v2.8.0
+dzImage goharbor/harbor-portal:v2.8.0
+dzImage goharbor/harbor-registryctl:v2.8.0
+dzImage goharbor/nginx-photon:v2.8.0
+dzImage goharbor/redis-photon:v2.8.0
+dzImage goharbor/registry-photon:v2.8.0
+dzLogInfo "准备 基础文件"
+for file in $(find $DzDCPath -type f); do
+  FileHanlder $file
+done
+dzLogInfo "准备 Docker compose file & .env"
+DzDCY=$DzDCPath/docker-compose.yml
+FileHanlderEnv
+dzLogInfo "开始部署"
+docker compose -f $DzDCY up -d
 dzLogInfo "[访问] $Domain:$Port"
-
-dzLogInfo ""
-dzLogInfo ""
-dzLogInfo ""
-dzLogInfo "TODO 将来用 脚本处理"
-dzLogInfo "vim /etc/docker/daemon.json"
-dzLogInfo "添加 \"insecure-registries\": [\"192.168.226.100:9005\"],"
-dzLogInfo "systemctl restart docker"
-dzLogInfo ""
-dzLogInfo ""
-dzLogInfo ""
+let StageNo+=1
