@@ -81,8 +81,8 @@ dzLogStage $StageNo "开始安装"
 dzLogInfo "检查 SSL"
 CheckSSL
 dzLogInfo "准备基础文件"
-for file in $(find $DCPath -type f); do
-  FileHanlder $file
+for file in $(find $DZ_VOL_FS_PATH$DCPath -type f); do
+  FileHanlder ${file##$DZ_VOL_FS_PATH}
 done
 dzLogInfo "修改初始化文件并执行安装流程"
 dzLogInfo "准备镜像"
