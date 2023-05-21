@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  dz-gitlab-ee:
+    image: dz-server/gitlab-ee:1.0.0
+    container_name: dz-gitlab
+    restart: always
+    privileged: true
+    environment:
+      GITLAB_OMNIBUS_CONFIG: |
+        external_url 'https://192.168.226.102:${HttpsPort}'
+    ports:
+      - ${HttpPort}:80
+      - ${HttpsPort}:${HttpsPort}
+      - 9033:22
+    volumes:
+      - dz-gitlab-ee-config:/etc/gitlab
+      - dz-gitlab-ee-data:/var/opt/gitlab
+      - dz-gitlab-ee-log:/var/log/gitlab
+    shm_size: '256m'
+
+volumes:
+  dz-gitlab-ee-config:
+  dz-gitlab-ee-data:
+  dz-gitlab-ee-log:

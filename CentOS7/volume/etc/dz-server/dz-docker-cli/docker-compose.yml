@@ -1,0 +1,18 @@
+version: '3.8'
+
+services:
+  dz-lazydocker:
+    image: dz-server/lazydocker:1.0.0
+    container_name: dz-lazydocker
+    restart: always
+    privileged: false
+    environment: {}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - dz-lazydocker-data:/.config/jesseduffield/lazydocker
+    ports: []
+    stdin_open: true
+    tty: true
+
+volumes:
+  dz-lazydocker-data:

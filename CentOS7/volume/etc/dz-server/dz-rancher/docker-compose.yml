@@ -1,0 +1,19 @@
+version: "3.8"
+
+services:
+  dz-rancher:
+    image: registry.cn-hangzhou.aliyuncs.com/rancher/rancher:v2.7.2
+    container_name: dz-rancher
+    restart: unless-stopped
+    privileged: true
+    environment: {}
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ${ServerCert}:/etc/rancher/ssl/cert.pem
+      - ${ServerKey}:/etc/rancher/ssl/key.pem
+      - ${CaCrt}:/etc/rancher/ssl/cacerts.pem
+    ports:
+      - ${HttpPort}:80
+      - ${HttpsPort}:443
+
+volumes: {}
