@@ -74,7 +74,7 @@ FileHanlderEnv() {
 StageNo=1
 
 # TODO
-DCPath=/etc/dz/docker-compose/dz-jenkins
+DCPath=/etc/dz-server/dz-jenkins
 SSLPath=/etc/docker/certs.d/$Domain--$Port
 
 dzLogStage $StageNo "开始安装"

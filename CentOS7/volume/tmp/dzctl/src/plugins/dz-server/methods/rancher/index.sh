@@ -69,7 +69,7 @@ FileHanlderEnv() {
 StageNo=1
 
 # TODO
-DCPath=/etc/dz/docker-compose/dz-rancher
+DCPath=/etc/dz-server/dz-rancher
 SSLPath=/etc/docker/certs.d/$Domain--$Port
 
 dzLogStage $StageNo "开始安装"

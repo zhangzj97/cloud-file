@@ -74,7 +74,7 @@ FileHanlderEnv() {
 StageNo=1
 
 # TODO
-DCPath=/etc/dz/docker-compose/dz-docker-web
+DCPath=/etc/dz-server/dz-docker-web
 # SSLPath=/etc/docker/certs.d/$Domain--$Port
 
 dzLogStage $StageNo "开始安装"

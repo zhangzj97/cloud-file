@@ -96,7 +96,7 @@ FileHanlderHarborYml() {
 StageNo=1
 
 # TODO
-DCPath=/etc/dz/docker-compose/dz-harbor
+DCPath=/etc/dz-server/dz-harbor
 SSLPath=/etc/docker/certs.d/$Domain--$Port
 
 dzLogStage $StageNo "开始安装"
