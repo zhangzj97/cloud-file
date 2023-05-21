@@ -25,37 +25,66 @@ done
 [[ ! $Port ]] && dzLogError "option --port is invalid" && exit 0
 
 ###################################################################################################
+## SSL
+###################################################################################################
+CheckSSL() {
+  SSLKey=$SSLPath/server.key
+
+  [[ ! -f $SSLKey ]] && dzLogError "File $SSLKey is not found" && exit
+}
+
+###################################################################################################
+## 文件处理
+###################################################################################################
+FileHanlder() {
+  File=$1
+
+  dzTmpFsPull $File "TmpFsRemove" && dzTmpFsPush $File && dzTmpFsPull $File
+}
+
+FileHanlderEnv() {
+  File=$DCPath/.env
+
+  __ServerCert__=$SSLPath/server.cert
+  __ServerKey__=$SSLPath/server.key
+  # TODO
+  __CaCrt__=/etc/docker/certs.d/ca.crt
+
+  __HttpPort__=
+  __HttpsPort__=$Port
+
+  dzTmpFsPush $File &&
+    dzTmpFsEdit $File "s|__ServerCert__|$__ServerCert__|g" &&
+    dzTmpFsEdit $File "s|__ServerKey__|$__ServerKey__|g" &&
+    dzTmpFsEdit $File "s|__CaCrt__|$__CaCrt__|g" &&
+    dzTmpFsEdit $File "s|__HttpPort__|$__HttpPort__|g" &&
+    dzTmpFsEdit $File "s|__HttpsPort__|$__HttpsPort__|g" &&
+    dzTmpFsPull $File
+
+}
+
+###################################################################################################
 ## 业务
 ###################################################################################################
-
 StageNo=1
 
-dzLogStage $StageNo "检查 Gitlab"
-ServerDomainPort=$Domain--$Port
-ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
-ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
-CaCrt=/etc/docker/certs.d/ca.crt
-[[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
+# TODO
+DCPath=/etc/dz/docker-compose/dz-gitlab
+SSLPath=/etc/docker/certs.d/$Domain--$Port
+
+dzLogStage $StageNo "开始安装"
+dzLogInfo "检查 SSL"
+CheckSSL
+dzLogInfo "准备基础文件"
+for file in $(find $DCPath -type f); do
+  FileHanlder $file
+done
+dzLogInfo "修改初始化文件并执行安装流程"
 dzLogInfo "准备镜像"
 dzImage dz-server/gitlab-ee:1.0.0 05f073ad3c0010ea0f4bc00b7105ec20.mirror.swr.myhuaweicloud.com/gitlab/gitlab-ee:15.11.3-ee.0
-dzLogInfo "准备 Docker compose file"
-DzDCY=/etc/dz/docker-compose/dz-gitlab/docker-compose.yml
-DzEnv=/etc/dz/docker-compose/dz-gitlab/.env
-DzEnv__ServerCert=$ServerCert
-DzEnv__ServerKey=$ServerKey
-DzEnv__CaCrt=$CaCrt
-DzEnv__HttpPort=9031
-DzEnv__HttpsPort=9032
-dzTmpFsPull $DzDCY "TmpFsRemove" && dzTmpFsPush $DzDCY && dzTmpFsPull $DzDCY
-dzTmpFsPull $DzEnv "TmpFsRemove" &&
-  dzTmpFsPush $DzEnv &&
-  dzTmpFsEdit $DzEnv "s|__ServerCert__|$DzEnv__ServerCert|g" &&
-  dzTmpFsEdit $DzEnv "s|__ServerKey__|$DzEnv__ServerKey|g" &&
-  dzTmpFsEdit $DzEnv "s|__CaCrt__|$DzEnv__CaCrt|g" &&
-  dzTmpFsEdit $DzEnv "s|__HttpPort__|$DzEnv__HttpPort|g" &&
-  dzTmpFsEdit $DzEnv "s|__HttpsPort__|$DzEnv__HttpsPort|g" &&
-  dzTmpFsPull $DzEnv
+dzLogInfo "准备 处理 .env"
+FileHanlderEnv
 dzLogInfo "开始部署"
-docker compose -f $DzDCY up -d
+docker compose -f $DCPath/docker-compose.yml up -d
 dzLogInfo "[访问] $Domain:$Port"
 let StageNo+=1
