@@ -21,7 +21,12 @@ while true; do
     ;;
   esac
 done
-[[ ! $Domain ]] && dzLogError "option --domain is invalid" && exit 0
+if [[ ! $Domain ]]; then
+  IfcfgPath=/etc/sysconfig/network-scripts/ifcfg-ens33
+  dzTmpFsPush $IfcfgPath &&
+    StaticIp=$(dzTmpFsMatch $IfcfgPath 's|^.*IPADDR="?([^"]*)"?.*$|\1|g')
+  Domain=$StaticIp
+fi
 [[ ! $Port ]] && dzLogError "option --port is invalid" && exit 0
 
 ###################################################################################################
