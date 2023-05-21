@@ -43,7 +43,7 @@ FileHanlder() {
 }
 
 FileHanlderEnv() {
-  File=$DzDCPath/.env
+  File=$DCPath/.env
 
   __ServerCert__=$SSLPath/server.cert
   __ServerKey__=$SSLPath/server.key
@@ -76,7 +76,7 @@ dzLogStage $StageNo "开始安装"
 dzLogInfo "检查 SSL"
 CheckSSL
 dzLogInfo "准备基础文件"
-for file in $(find $DzDCPath -type f); do
+for file in $(find $DCPath -type f); do
   FileHanlder $file
 done
 dzLogInfo "修改初始化文件并执行安装流程"
@@ -85,6 +85,6 @@ dzImage registry.cn-hangzhou.aliyuncs.com/rancher/rancher:v2.7.2
 dzLogInfo "准备 处理 .env"
 FileHanlderEnv
 dzLogInfo "开始部署"
-docker compose -f $DzDCPath/docker-compose.yml up -d
+docker compose -f $DCPath/docker-compose.yml up -d
 dzLogInfo "[访问] $Domain:$Port"
 let StageNo+=1
