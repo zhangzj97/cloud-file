@@ -102,6 +102,6 @@ if [ $with_notary ]; then
     Please see discussion here for more details. https://github.com/goharbor/harbor/discussions/16612"
 fi
 
-$DOCKER_COMPOSE up -d
+# $DOCKER_COMPOSE up -d
 
-success $"----Harbor has been installed and started successfully.----"
+# success $"----Harbor has been installed and started successfully.----"

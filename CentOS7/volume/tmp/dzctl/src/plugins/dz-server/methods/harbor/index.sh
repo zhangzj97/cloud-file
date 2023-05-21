@@ -40,24 +40,42 @@ FileHanlder() {
 FileHanlderEnv() {
   File=$DzDCPath/.env
 
-  __BasePath__=$DzDCPath
   __ServerCert__=$ServerCert
   __ServerKey__=$ServerKey
   __CaCrt__=$CaCrt
-  __HttpPort__=9004
-  __HttpsPort__=$Port
-  __HarborVolumePath__=/var/lib/docker/volumes/dz-harbor
+  __HttpPort__=9031
+  __HttpsPort__=9032
 
-  dzTmpFsPull $File "TmpFsRemove" &&
-    dzTmpFsPush $File &&
-    dzTmpFsEdit $File "s|__BasePath__|$__BasePath__|g" &&
+  dzTmpFsPush $File &&
     dzTmpFsEdit $File "s|__ServerCert__|$__ServerCert__|g" &&
     dzTmpFsEdit $File "s|__ServerKey__|$__ServerKey__|g" &&
     dzTmpFsEdit $File "s|__CaCrt__|$__CaCrt__|g" &&
     dzTmpFsEdit $File "s|__HttpPort__|$__HttpPort__|g" &&
     dzTmpFsEdit $File "s|__HttpsPort__|$__HttpsPort__|g" &&
-    dzTmpFsEdit $File "s|__HarborVolumePath__|$__HarborVolumePath__|g" &&
     dzTmpFsPull $File
+
+}
+
+FileHanlderHarborYml() {
+  File=$DzDCPath/harbor.yml
+
+  __hostname__ =$Domain
+  __https_port__=$Port
+  __https_certificate__=$ServerCert
+  __https_private_key__=$ServerKey
+  __harbor_admin_password__=123123
+  __data_volume__=/var/lib/docker/volumes/dz-harbor-data
+  __log_local_location__=/var/log/harbor
+
+  dzTmpFsPush $DzInstall &&
+    dzTmpFsEdit $DzInstall "s|__hostname__|$__hostname__|g" &&
+    dzTmpFsEdit $DzInstall "s|__https_port__|$__https_port__|g" &&
+    dzTmpFsEdit $DzInstall "s|__https_certificate__|$__https_certificate__|g" &&
+    dzTmpFsEdit $DzInstall "s|__https_private_key__|$__https_private_key__|g" &&
+    dzTmpFsEdit $DzInstall "s|__harbor_admin_password__|$__harbor_admin_password__|g" &&
+    dzTmpFsEdit $DzInstall "s|__data_volume__|$__data_volume__|g" &&
+    dzTmpFsEdit $DzInstall "s|__log_local_location__|$__log_local_location__|g" &&
+    dzTmpFsPull $DzInstall
 }
 
 StageNo=1
@@ -68,25 +86,20 @@ ServerKey=/etc/docker/certs.d/$ServerDomainPort/server.key
 ServerCert=/etc/docker/certs.d/$ServerDomainPort/server.cert
 CaCrt=/etc/docker/certs.d/ca.crt
 [[ ! -f $ServerKey ]] && dzLogError "File $ServerKey is not found" && exit
+dzLogInfo "准备基础文件"
 DzDCPath=/etc/dz/docker-compose/dz-harbor
-dzLogInfo "准备镜像"
-dzImage goharbor/harbor-core:v2.8.0
-dzImage goharbor/harbor-db:v2.8.0
-dzImage goharbor/harbor-jobservice:v2.8.0
-dzImage goharbor/harbor-log:v2.8.0
-dzImage goharbor/harbor-portal:v2.8.0
-dzImage goharbor/harbor-registryctl:v2.8.0
-dzImage goharbor/nginx-photon:v2.8.0
-dzImage goharbor/redis-photon:v2.8.0
-dzImage goharbor/registry-photon:v2.8.0
-dzLogInfo "准备 基础文件"
 for file in $(find $DzDCPath -type f); do
   FileHanlder $file
 done
-dzLogInfo "准备 Docker compose file & .env"
-DzDCY=$DzDCPath/docker-compose.yml
+dzLogInfo "修改初始化文件并执行安装流程"
+FileHanlderHarborYml
+chmod u+x $DzDCPath/install.sh
+chmod u+x $DzDCPath/prepare
+$DzDCPath/install.sh
+dzLogInfo "准备镜像"
+dzLogInfo "准备 处理 .env"
 FileHanlderEnv
 dzLogInfo "开始部署"
-docker compose -f $DzDCY up -d
+docker compose -f $DzDCPath/docker-compose.yml up -d
 dzLogInfo "[访问] $Domain:$Port"
 let StageNo+=1
