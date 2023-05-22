@@ -23,6 +23,7 @@ services:
       - ${VolumePath}/data:/data
       - ${VolumePath}/public:/public
     ports:
+      # - ${HttpPort}:8000
       - ${HttpsPort}:9443
 
 # volumes:
