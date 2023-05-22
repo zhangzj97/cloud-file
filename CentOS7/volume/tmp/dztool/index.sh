@@ -243,7 +243,7 @@ dzTarC() {
   FilePath=$1
   Source=$2
 
-  tar -czvPf $FilePath $Dir
+  tar -czvPf $FilePath -C ${Source%/*} ${Source##*/}
 }
 
 # Tar 解压
