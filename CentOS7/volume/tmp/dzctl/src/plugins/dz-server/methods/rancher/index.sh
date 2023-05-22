@@ -21,7 +21,12 @@ while true; do
     ;;
   esac
 done
-[[ ! $Domain ]] && dzLogError "option --domain is invalid" && exit 0
+if [[ ! $Domain ]]; then
+  IfcfgPath=/etc/sysconfig/network-scripts/ifcfg-ens33
+  dzTmpFsPush $IfcfgPath &&
+    StaticIp=$(dzTmpFsMatch $IfcfgPath 's|^.*IPADDR="?([^"]*)"?.*$|\1|g')
+  Domain=$StaticIp
+fi
 [[ ! $Port ]] && dzLogError "option --port is invalid" && exit 0
 
 ###################################################################################################
@@ -45,15 +50,20 @@ FileHanlder() {
 FileHanlderEnv() {
   File=$DCPath/.env
 
+  __BasePath__=$DCPath
+  __VolumePath__=$DCPath/volume
+
   __ServerCert__=$SSLPath/server.cert
   __ServerKey__=$SSLPath/server.key
   # TODO
   __CaCrt__=/etc/docker/certs.d/ca.crt
 
-  __HttpPort__=
+  __HttpPort__=$(($Port - 1))
   __HttpsPort__=$Port
 
   dzTmpFsPush $File &&
+    dzTmpFsEdit $File "s|__BasePath__|$__BasePath__|g" &&
+    dzTmpFsEdit $File "s|__VolumePath__|$__VolumePath__|g" &&
     dzTmpFsEdit $File "s|__ServerCert__|$__ServerCert__|g" &&
     dzTmpFsEdit $File "s|__ServerKey__|$__ServerKey__|g" &&
     dzTmpFsEdit $File "s|__CaCrt__|$__CaCrt__|g" &&
