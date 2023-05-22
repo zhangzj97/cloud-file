@@ -14,12 +14,12 @@ services:
       - ${HttpsPort}:${HttpsPort}
       - 9033:22
     volumes:
-      - dz-gitlab-ee-config:/etc/gitlab
-      - dz-gitlab-ee-data:/var/opt/gitlab
-      - dz-gitlab-ee-log:/var/log/gitlab
+      - ${VolumePath}/config:/etc/gitlab
+      - ${VolumePath}/data:/var/opt/gitlab
+      - ${VolumePath}/log:/var/log/gitlab
     shm_size: '256m'
 
-volumes:
-  dz-gitlab-ee-config:
-  dz-gitlab-ee-data:
-  dz-gitlab-ee-log:
+# volumes:
+#   dz-gitlab-ee-config:
+#   dz-gitlab-ee-data:
+#   dz-gitlab-ee-log:
