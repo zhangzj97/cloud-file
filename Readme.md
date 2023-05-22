@@ -70,20 +70,29 @@ dzinit /z
 
 dzctl server docker
 
-dzctl server ssl --domain=192.168.226.102 --port=9005
-dzctl server harbor --domain=192.168.226.102 --port=9005
+dzctl server ssl --port=9002
+dzctl server docker-web --port=9002
 
-dzctl server ssl --domain=192.168.226.102 --port=9012
-dzctl server rancher --domain=192.168.226.102 --port=9012
+dzctl server ssl --port=9012
+dzctl server harbor --port=9012
 
-dzctl server ssl --domain=192.168.226.102 --port=9022
-dzctl server jenkins --domain=192.168.226.102 --port=9022
+dzctl server ssl --port=9022
+dzctl server rancher --port=9022
 
-dzctl server ssl --domain=192.168.226.102 --port=9032
-dzctl server gitlab --domain=192.168.226.102 --port=9032
+dzctl server ssl --port=9032
+dzctl server jenkins --port=9032
+
+dzctl server ssl --port=9042
+dzctl server gitlab --port=9042
 
 harbor
 admin 123123
+
+https://192.168.226.102:9002 http://192.168.226.102:9001 # docker
+https://192.168.226.102:9012 http://192.168.226.102:9011 # harbor
+https://192.168.226.102:9022 http://192.168.226.102:9021 # rancher
+https://192.168.226.102:9032 http://192.168.226.102:9031 # jenkins
+https://192.168.226.102:9042 http://192.168.226.102:9041 # gitlab
 
 ```
 
