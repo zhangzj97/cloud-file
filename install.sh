@@ -436,6 +436,7 @@ let StageNo+=1
 dzLogStage $StageNo "安装常用第三方软件"
 dzRpm vim-enhanced vim
 dzRpm wget
+dzRpm lrzsz
 let StageNo+=1
 
 dzLogStage $StageNo "清理"
@@ -446,8 +447,8 @@ dzTmpFsPush $DzCloudTar &&
 let StageNo+=1
 
 dzLogStage $StageNo "Note"
-dzLogInfo "修改基础信息 => dzctl host set --ip=[static ip] --name=[hostname]"
-dzLogInfo "添加 ssl     => dzctl ssl apply"
-dzLogInfo "你可以先部署 docker => dzctl docker apply"
-dzLogInfo "可部署列表: harbor rancher k8s 等"
+# dzLogInfo "修改基础信息 => dzctl host set --ip=[static ip] --name=[hostname]"
+# dzLogInfo "添加 ssl     => dzctl ssl apply"
+# dzLogInfo "你可以先部署 docker => dzctl docker apply"
+# dzLogInfo "可部署列表: harbor rancher k8s 等"
 let StageNo+=1

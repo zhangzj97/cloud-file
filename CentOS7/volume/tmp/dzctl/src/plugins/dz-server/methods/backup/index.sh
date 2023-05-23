@@ -52,13 +52,19 @@ DokcerPath=/etc/docker
 
 dzLogStage $StageNo "备份 SSL"
 TimeFlag=$(date "+%Y-%m-%d_%H-%M-%S")
-mkdir -p /etc/dz-server/backup/
-dzTarC $ServerPath/backup/docker-$TimeFlag.bak.gz.tar $DokcerPath
+mkdir -p /etc/dz-server/backup/.tmp
+dzTarC $ServerPath/backup/docker-$TimeFlag.bak.tar.gz $DokcerPath
 dzLogStage $StageNo "备份 Server"
 BackupServer docker-cli
 BackupServer docker-web
 BackupServer harbor
 BackupServer jenkins
 BackupServer rancher
-BackupServer gitlab
+# BackupServer gitlab
+
+/bin/cp -fa /etc/dz-server/backup/*-$TimeFlag.bak.tar.gz /etc/dz-server/backup/.tmp/
+tar -czvPf $ServerPath/backup/server-$TimeFlag.bak.tar.gz -C /etc/dz-server/backup/.tmp/ .
+rm -rf /etc/dz-server/backup/.tmp/
 let StageNo+=1
+
+sz $ServerPath/backup/server-$TimeFlag.bak.tar.gz
