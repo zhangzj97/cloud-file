@@ -60,8 +60,16 @@ BackupServer docker-web
 BackupServer harbor
 BackupServer jenkins
 BackupServer rancher
-# BackupServer gitlab
-
+BackupServer gitlab
+docker exec -it dz-gitlab gitlab-backup create
+dzLogInfo "备份 => gitlab"
+LasteGitlabFilename=$(ls -t /etc/dz-server/dz-gitlab/volume/data/backups/ | head -n1)
+/bin/cp -fa $ServerPath/dz-gitlab/volume/data/backups/$LasteGitlabFilename /etc/dz-server/backup/.tmp.gitlab
+/bin/cp -fa $ServerPath/dz-gitlab/volume/config/gitlab.rb /etc/dz-server/backup/.tmp.gitlab
+/bin/cp -fa $ServerPath/dz-gitlab/volume/config/gitlab-secrets.json /etc/dz-server/backup/.tmp.gitlab
+tar -czvPf $ServerPath/backup/dz-gitlab-$TimeFlag.bak.tar.gz -C /etc/dz-server/backup/.tmp.gitlab/ .
+rm -rf /etc/dz-server/backup/.tmp.gitlab/
+dzLogInfo "备份 => server"
 /bin/cp -fa /etc/dz-server/backup/*-$TimeFlag.bak.tar.gz /etc/dz-server/backup/.tmp/
 tar -czvPf $ServerPath/backup/server-$TimeFlag.bak.tar.gz -C /etc/dz-server/backup/.tmp/ .
 rm -rf /etc/dz-server/backup/.tmp/
