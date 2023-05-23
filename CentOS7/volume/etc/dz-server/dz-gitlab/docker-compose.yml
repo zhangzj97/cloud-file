@@ -13,7 +13,6 @@ services:
       - ${HttpPort}:80
       - ${HttpsPort}:${HttpsPort}
       - 9033:22
-    user: 1000:1000
     volumes:
       - ${VolumePath}/config:/etc/gitlab
       - ${VolumePath}/data:/var/opt/gitlab

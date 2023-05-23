@@ -7,7 +7,6 @@ services:
     restart: on-failure
     privileged: false
     environment: {}
-    user: 1000:1000
     volumes:
       - ${VolumePath}/data:/var/jenkins_home
     ports:

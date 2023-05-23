@@ -7,7 +7,6 @@ services:
     restart: always
     privileged: false
     environment: {}
-    user: 1000:1000
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
       - dz-lazydocker-data:/.config/jesseduffield/lazydocker
