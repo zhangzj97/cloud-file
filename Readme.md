@@ -66,9 +66,6 @@ curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/install.sh > /tmp/d
 docker rm -f $(docker ps -a -q)
 docker image prune -a
 
-mkdir -p /etc/de-server
-chown -R 1000:1000 /etc/de-server
-
 dzinit /z
 
 dzctl server docker
