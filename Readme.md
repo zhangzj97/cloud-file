@@ -63,30 +63,18 @@ dzctl server set --ip=192.168.226.120 --name=120xxx
 # https://raw.githubusercontent.com/zhangzj97/cloud-file/main/install.sh
 curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/install.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
 
-docker rm -f $(docker ps -a -q)
-docker image prune -a
+# docker rm -f $(docker ps -a -q)
+# docker image prune -a
 
 dzinit /z
 
 dzctl server docker
 
-dzctl server ssl --port=9002
-dzctl server docker-web --port=9002
-
-dzctl server ssl --port=9012
-dzctl server harbor --port=9012
-
-dzctl server ssl --port=9022
-dzctl server rancher --port=9022
-
-dzctl server ssl --port=9032
-dzctl server jenkins --port=9032
-
-dzctl server ssl --port=9042
-dzctl server gitlab --port=9042
-
-harbor
-admin 123123
+dzctl server ssl --port=9002 | dzctl server docker-web --port=9002
+dzctl server ssl --port=9012 | dzctl server harbor --port=9012
+dzctl server ssl --port=9022 | dzctl server rancher --port=9022
+dzctl server ssl --port=9032 | dzctl server jenkins --port=9032
+dzctl server ssl --port=9042 | dzctl server gitlab --port=9042
 
 https://192.168.226.102:9002 http://192.168.226.102:9001 # portainer admin:123123
 https://192.168.226.102:9012 http://192.168.226.102:9011 # harbor    admin:123123

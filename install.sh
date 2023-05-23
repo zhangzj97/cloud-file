@@ -425,10 +425,6 @@ dzTmpFsPush $ProfileDDzAdmSh &&
 source /etc/profile
 let StageNo+=1
 
-dzLogStage $StageNo "准备一个空间 /etc/server"
-mkdir -p /etc/de-server
-chown -R 1000:1000 /etc/de-server
-
 dzLogStage $StageNo "第三方软件 repo 源"
 YumReposD=/etc/yum.repos.d
 for FileName in $(ls $DzVolFsPath/$YumReposD); do
