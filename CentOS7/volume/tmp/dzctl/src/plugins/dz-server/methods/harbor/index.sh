@@ -80,9 +80,9 @@ FileHanlderHarborYml() {
   __https_port__=$Port
   __https_certificate__=$SSLPath/server.cert
   __https_private_key__=$SSLPath/server.key
-  __harbor_admin_password__=123123
-  __data_volume__=/var/lib/docker/volumes/dz-harbor-data
-  __log_local_location__=/var/log/harbor
+  __harbor_admin_password__=A613dc8f55e8
+  __data_volume__=/etc/dz-server/dz-harbor/volume/data
+  __log_local_location__=/etc/dz-server/dz-harbor/volume/log
 
   dzTmpFsPush $File &&
     dzTmpFsEdit $File "s|__hostname__|$__hostname__|g" &&
