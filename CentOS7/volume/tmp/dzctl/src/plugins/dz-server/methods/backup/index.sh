@@ -55,8 +55,6 @@ TimeFlag=$(date "+%Y-%m-%d_%H-%M-%S")
 mkdir -p /etc/dz-server/backup/.tmp
 dzTarC $ServerPath/backup/docker-$TimeFlag.bak.tar.gz $DokcerPath
 dzLogStage $StageNo "备份 Server"
-BackupServer docker-cli
-BackupServer docker-web
 BackupServer harbor
 BackupServer jenkins
 BackupServer rancher
