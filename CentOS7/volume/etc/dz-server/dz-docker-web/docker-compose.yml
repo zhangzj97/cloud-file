@@ -1,31 +1,20 @@
 version: '3.8'
 
 services:
-  # dz-docker-ui:
-  #   image: dz-server/docker-ui:1.0.0
-  #   container_name: dz-docker-ui
-  #   restart: always
-  #   privileged: false
-  #   environment: {}
-  #   volumes:
-  #     - /var/run/docker.sock:/var/run/docker.sock
-  #   ports:
-  #     - 9001:8999
-
-  dz-portainer-ce:
+  dz-portainer:
     image: dz-server/portainer-ce:1.0.0
-    container_name: dz-portainer-ce
+    container_name: dz-portainer
     restart: always
     privileged: false
     environment: {}
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
-      - ${VolumePath}/data:/data
-      - ${VolumePath}/public:/public
+      - data:/data
+      - public:/public
     ports:
-      # - ${HttpPort}:8000
+      - ${HttpPort}:9000
       - ${HttpsPort}:9443
 
-# volumes:
-#   dz-portainer-ce-data:
-#   dz-portainer-ce-public:
+volumes:
+  data:
+  public:

@@ -76,7 +76,7 @@ dzctl server ssl --port=9022 | dzctl server rancher --port=9022
 dzctl server ssl --port=9032 | dzctl server jenkins --port=9032
 dzctl server ssl --port=9042 | dzctl server gitlab --port=9042
 
-https://192.168.226.102:9002 http://192.168.226.102:9001 # portainer admin:123123
+https://192.168.226.102:9002 http://192.168.226.102:9001 # portainer admzzj : Aa19970824123_
 https://192.168.226.102:9012 http://192.168.226.102:9011 # harbor    admin:123123
 https://192.168.226.102:9022 http://192.168.226.102:9021 # rancher   admin:123123
 https://192.168.226.102:9032 http://192.168.226.102:9031 # jenkins   admin:123123
