@@ -76,7 +76,7 @@ FileHanlderEnv() {
 FileHanlderHarborYml() {
   File=$DCPath/harbor.yml
 
-  __hostname__ =$Domain
+  __hostname__ =harbor.zhangzejie.top
 
   __http_port__=$(($Port - 1))
   __https_port__=$Port
