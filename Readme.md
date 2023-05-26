@@ -76,7 +76,7 @@ dzctl server ssl --port=9022 && dzctl server rancher --port=9022
 dzctl server ssl --port=9032 && dzctl server jenkins --port=9032
 dzctl server ssl --port=9042 && dzctl server gitlab --port=9042
 
-systemctl daemon-reload && systemctl restart docker
+systemctl daemon-reload && systemctl restart docker && dzctl server harbor --port=9012
 
 https://192.168.226.102:9002 http://192.168.226.102:9001 # portainer
 https://192.168.226.102:9012 http://192.168.226.102:9011 # harbor    admin:123123
