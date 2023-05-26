@@ -66,7 +66,7 @@ curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/install.sh > /tmp/d
 # docker rm -f $(docker ps -a -q)
 # docker image prune -a
 
-dzinit /z
+dzinit /z && dzinit /z
 
 dzctl server docker
 
@@ -75,6 +75,8 @@ dzctl server ssl --port=9012 && dzctl server harbor --port=9012
 dzctl server ssl --port=9022 && dzctl server rancher --port=9022
 dzctl server ssl --port=9032 && dzctl server jenkins --port=9032
 dzctl server ssl --port=9042 && dzctl server gitlab --port=9042
+
+systemctl daemon-reload && systemctl restart docker
 
 https://192.168.226.102:9002 http://192.168.226.102:9001 # portainer
 https://192.168.226.102:9012 http://192.168.226.102:9011 # harbor    admin:123123

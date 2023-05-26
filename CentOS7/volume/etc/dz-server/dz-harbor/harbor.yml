@@ -7,7 +7,7 @@ hostname: __hostname__
 # http related config
 http:
   # port for http, default is 80. If https enabled, this port will redirect to https port
-  # port: 80
+  port: __http_port__
 
 # https related config
 https:

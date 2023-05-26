@@ -77,7 +77,10 @@ FileHanlderHarborYml() {
   File=$DCPath/harbor.yml
 
   __hostname__ =$Domain
+
+  __http_port__=$(($Port - 1))
   __https_port__=$Port
+
   __https_certificate__=$SSLPath/server.cert
   __https_private_key__=$SSLPath/server.key
   __harbor_admin_password__=A613dc8f55e8
@@ -86,6 +89,7 @@ FileHanlderHarborYml() {
 
   dzTmpFsPush $File &&
     dzTmpFsEdit $File "s|__hostname__|$__hostname__|g" &&
+    dzTmpFsEdit $File "s|__http_port__|$__http_port__|g" &&
     dzTmpFsEdit $File "s|__https_port__|$__https_port__|g" &&
     dzTmpFsEdit $File "s|__https_certificate__|$__https_certificate__|g" &&
     dzTmpFsEdit $File "s|__https_private_key__|$__https_private_key__|g" &&
