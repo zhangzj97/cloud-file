@@ -12,5 +12,8 @@
   "log-driver": "json-file",
   "log-opts": {
     "max-size": "100m"
-  }
+  },
+  "insecure-registries": [
+    "https://harbor.zhangzejie.top:9012"
+  ]
 }
