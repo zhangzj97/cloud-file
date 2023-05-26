@@ -70,13 +70,13 @@ dzinit /z
 
 dzctl server docker
 
-dzctl server ssl --port=9002 | dzctl server docker-web --port=9002
-dzctl server ssl --port=9012 | dzctl server harbor --port=9012
-dzctl server ssl --port=9022 | dzctl server rancher --port=9022
-dzctl server ssl --port=9032 | dzctl server jenkins --port=9032
-dzctl server ssl --port=9042 | dzctl server gitlab --port=9042
+dzctl server ssl --port=9002 && dzctl server docker-web --port=9002
+dzctl server ssl --port=9012 && dzctl server harbor --port=9012
+dzctl server ssl --port=9022 && dzctl server rancher --port=9022
+dzctl server ssl --port=9032 && dzctl server jenkins --port=9032
+dzctl server ssl --port=9042 && dzctl server gitlab --port=9042
 
-https://192.168.226.102:9002 http://192.168.226.102:9001 # portainer admzzj : Aa19970824123_
+https://192.168.226.102:9002 http://192.168.226.102:9001 # portainer
 https://192.168.226.102:9012 http://192.168.226.102:9011 # harbor    admin:123123
 https://192.168.226.102:9022 http://192.168.226.102:9021 # rancher   admin:123123
 https://192.168.226.102:9032 http://192.168.226.102:9031 # jenkins   admin:123123
@@ -84,7 +84,16 @@ https://192.168.226.102:9042 http://192.168.226.102:9041 # gitlab    admin:12312
 
 ```
 
-### Snipaste
+### User
+
+#### Portainer
+
+|           |        |              |              |
+| --------- | ------ | ------------ | ------------ |
+| Portainer |        | admzzj       | 5171176db7f2 |
+| Portainer | dzteam | dzteamuser01 | b622730c7bdc |
+| Harbor    |        | admin        | A613dc8f55e8 |
+| Harbor    |        | admzzj       | A613dc8f55e8 |
 
 ### Test
 

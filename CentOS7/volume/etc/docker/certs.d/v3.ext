@@ -8,6 +8,7 @@ subjectAltName=@alt_names
 DNS.1=localhost
 DNS.2=localhost
 DNS.3=hostname
+DNS.4=*.zhangzejie.top
 IP.1=192.168.226.100
 IP.2=192.168.226.101
 IP.3=192.168.226.102
