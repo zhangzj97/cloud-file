@@ -4,7 +4,7 @@
     "https://hub-mirror.c.163.com",
     "https://mirror.baidubce.com",
     "https://ccr.ccs.tencentyun.com",
-    "https://harbor.zhangzejie.top:9005"
+    "https://harbor.zhangzejie.top:9012"
   ],
   "exec-opts": [
     "native.cgroupdriver=systemd"

@@ -51,6 +51,7 @@ ServerPath=/etc/dz-server
 DokcerPath=/etc/docker
 
 TimeFlag=$(date "+%Y-%m-%d_%H-%M-%S")
+mkdir -p $ServerPath/backup/
 
 dzLogStage $StageNo "备份 SSL"
 dzTarC $ServerPath/backup/docker-$TimeFlag.bak.tar.gz $DokcerPath
