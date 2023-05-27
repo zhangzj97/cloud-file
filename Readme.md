@@ -96,6 +96,8 @@ https://192.168.226.102:9042 http://192.168.226.102:9041 # gitlab    admin:12312
 | Portainer | dzteam | dzteamuser01 | b622730c7bdc |
 | Harbor    |        | admin        | A613dc8f55e8 |
 | Harbor    |        | admzzj       | A613dc8f55e8 |
+| Jenkins   |        | admin        | 572a2042dfa0 |
+| Jenkins   |        | admzzj       | 572a2042dfa0 |
 
 ### Test
 
