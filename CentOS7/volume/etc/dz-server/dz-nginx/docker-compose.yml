@@ -1,0 +1,19 @@
+version: '3.2'
+
+services:
+  dz-nginx-web:
+    image: dz-server/nginx-web:1.0.0
+    container_name: dz-nginx-web
+    restart: always
+    privileged: true
+    environment: 
+      BOOT_OPTIONS: "--server.port=9090"
+    network_mode: "host"
+    volumes:
+      - data:/home/nginxWebUI
+    # ports:
+    #   - ${HttpPort}:8080
+    #   - ${HttpsPort}:443
+
+volumes:
+  data:
