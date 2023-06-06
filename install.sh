@@ -1,9 +1,9 @@
 #!/bin/bash -i
 
 DzCloudPath=$1
-DzCtlPath=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dzctl
-DzAdmPath=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dzadm
-DzToolPath=$DzCloudPath/cloud-file/CentOS7/volume/tmp/dztool
+DzCtlPath=$DzCloudPath/cloud-file/volume/tmp/dzctl
+DzAdmPath=$DzCloudPath/cloud-file/volume/tmp/dzadm
+DzToolPath=$DzCloudPath/cloud-file/volume/tmp/dztool
 DzTmpFsPath=$DzCloudPath/.tmpfs
 DzBakFsPath=$DzCloudPath/.bakfs
 DzVolFsPath=$DzCloudPath/.volfs
@@ -387,7 +387,7 @@ dzTmpFsPush $DzCloudTar $DzCloudTarSource &&
 dzTarX $DzCloudTar $DzCloudPath
 rm -rf $DzCloudPackage
 /bin/cp -fa $DzCloudPackageRaw $DzCloudPackage
-/bin/cp -fa $DzCloudPackage/CentOS7/volume/* $DzVolFsPath
+/bin/cp -fa $DzCloudPackage/volume/* $DzVolFsPath
 rm -rf $DzCloudPackageRaw
 let StageNo+=1
 
