@@ -396,6 +396,7 @@ DzAdmIndexSh=$DzAdmPath/index.sh
 DzCtlIndexSh=$DzCtlPath/index.sh
 dzLinkFile dzadm $DzAdmIndexSh
 dzLinkFile dzctl $DzCtlIndexSh
+dzLinkFile dz $DzCtlIndexSh
 let StageNo+=1
 
 dzLogStage $StageNo "注册全局参数 /etc/profile.d/dzadm.sh"
@@ -428,8 +429,7 @@ let StageNo+=1
 dzLogStage $StageNo "第三方软件 repo 源"
 YumReposD=/etc/yum.repos.d
 for FileName in $(ls $DzVolFsPath/$YumReposD); do
-  dzTmpFsPush $YumReposD/$FileName &&
-    dzTmpFsPull $YumReposD/$FileName
+  dzTmpFsPush $YumReposD/$FileName && dzTmpFsPull $YumReposD/$FileName
 done
 let StageNo+=1
 
@@ -440,15 +440,9 @@ dzRpm lrzsz
 let StageNo+=1
 
 dzLogStage $StageNo "清理"
-dzTmpFsPush $DzCloudGitApiJson &&
-  dzTmpFsPull $DzCloudGitApiJson "TmpFsRemove"
-dzTmpFsPush $DzCloudTar &&
-  dzTmpFsPull $DzCloudTar "TmpFsRemove"
+dzTmpFsPush $DzCloudGitApiJson && dzTmpFsPull $DzCloudGitApiJson "TmpFsRemove"
+dzTmpFsPush $DzCloudTar && dzTmpFsPull $DzCloudTar "TmpFsRemove"
 let StageNo+=1
 
 dzLogStage $StageNo "Note"
-# dzLogInfo "修改基础信息 => dzctl host set --ip=[static ip] --name=[hostname]"
-# dzLogInfo "添加 ssl     => dzctl ssl apply"
-# dzLogInfo "你可以先部署 docker => dzctl docker apply"
-# dzLogInfo "可部署列表: harbor rancher k8s 等"
 let StageNo+=1
