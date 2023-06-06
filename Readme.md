@@ -28,20 +28,20 @@
 192.168.226.120 120xxx
 192.168.226.121 test01
 
-192.168.226.102 gitlab.zhangzejie.top
-192.168.226.102 harbor.zhangzejie.top
-192.168.226.102 portainer.zhangzejie.top
-192.168.226.102 jenkins.zhangzejie.top
-192.168.226.102 rancher.zhangzejie.top
-192.168.226.102 nacos.zhangzejie.top
-192.168.226.102 nexus.zhangzejie.top
-192.168.226.102 nginx.zhangzejie.top
+192.168.226.121 gitlab.zhangzejie.top
+192.168.226.121 harbor.zhangzejie.top
+192.168.226.121 portainer.zhangzejie.top
+192.168.226.121 jenkins.zhangzejie.top
+192.168.226.121 rancher.zhangzejie.top
+192.168.226.121 nacos.zhangzejie.top
+192.168.226.121 nexus.zhangzejie.top
+192.168.226.121 nginx.zhangzejie.top
 
-192.168.226.102 test01.mysql.zhangzejie.top
-192.168.226.102 test01.redis.zhangzejie.top
-192.168.226.102 test01.n1.zhangzejie.top
-192.168.226.102 test01.n2.zhangzejie.top
-192.168.226.102 test01.n3.zhangzejie.top
+192.168.226.121 test01.mysql.zhangzejie.top
+192.168.226.121 test01.redis.zhangzejie.top
+192.168.226.121 test01.n1.zhangzejie.top
+192.168.226.121 test01.n2.zhangzejie.top
+192.168.226.121 test01.n3.zhangzejie.top
 
 dz host-set --ip=192.168.226.100 --name=base
 dz host-set --ip=192.168.226.101 --name=template
@@ -89,15 +89,15 @@ dz ssl --port=8052 && dz nginx-web --port=8052
 
 systemctl daemon-reload && systemctl restart docker && dz harbor --port=9012
 
-https://portainer.zhangzejie.top
-https://nginx.zhangzejie.top
-https://harbor.zhangzejie.top
-https://rancher.zhangzejie.top
-https://jenkins.zhangzejie.top
-https://gitlab.zhangzejie.top
-https://test.n1.zhangzejie.top
-https://test.n2.zhangzejie.top
-https://test.n3.zhangzejie.top
+https://portainer.zhangzejie.top # https://192.168.226.121:9002
+https://harbor.zhangzejie.top # https://192.168.226.121:9012
+https://rancher.zhangzejie.top # https://192.168.226.121:9022
+https://nginx.zhangzejie.top # https://192.168.226.121:9052
+https://jenkins.zhangzejie.top # https://192.168.226.121:9032
+https://gitlab.zhangzejie.top # https://192.168.226.121:9042
+https://test.n1.zhangzejie.top # https://192.168.226.121:
+https://test.n2.zhangzejie.top # https://192.168.226.121:
+https://test.n3.zhangzejie.top # https://192.168.226.121:
 
 ```
 
