@@ -7,7 +7,7 @@
 ```
 192.168.226.100 base
 192.168.226.101 template
-192.168.226.102 test01
+192.168.226.102 102xxx
 192.168.226.103 103xxx
 192.168.226.104 104xxx
 192.168.226.105 105xxx
@@ -26,6 +26,7 @@
 192.168.226.118 118xxx
 192.168.226.119 119xxx
 192.168.226.120 120xxx
+192.168.226.121 test01
 
 192.168.226.102 gitlab.zhangzejie.top
 192.168.226.102 harbor.zhangzejie.top
@@ -36,15 +37,15 @@
 192.168.226.102 nexus.zhangzejie.top
 192.168.226.102 nginx.zhangzejie.top
 
-192.168.226.102 test.mysql.zhangzejie.top
-192.168.226.102 test.redis.zhangzejie.top
-192.168.226.102 test.n1.zhangzejie.top
-192.168.226.102 test.n2.zhangzejie.top
-192.168.226.102 test.n3.zhangzejie.top
+192.168.226.102 test01.mysql.zhangzejie.top
+192.168.226.102 test01.redis.zhangzejie.top
+192.168.226.102 test01.n1.zhangzejie.top
+192.168.226.102 test01.n2.zhangzejie.top
+192.168.226.102 test01.n3.zhangzejie.top
 
 dz host-set --ip=192.168.226.100 --name=base
 dz host-set --ip=192.168.226.101 --name=template
-dz host-set --ip=192.168.226.102 --name=test01
+dz host-set --ip=192.168.226.102 --name=102xxx
 dz host-set --ip=192.168.226.103 --name=103xxx
 dz host-set --ip=192.168.226.104 --name=104xxx
 dz host-set --ip=192.168.226.105 --name=105xxx
@@ -63,6 +64,7 @@ dz host-set --ip=192.168.226.117 --name=worker02
 dz host-set --ip=192.168.226.118 --name=118xxx
 dz host-set --ip=192.168.226.119 --name=119xxx
 dz host-set --ip=192.168.226.120 --name=120xxx
+dz host-set --ip=192.168.226.121 --name=test01
 
 ```
 
