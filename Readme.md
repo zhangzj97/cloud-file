@@ -27,62 +27,75 @@
 192.168.226.119 119xxx
 192.168.226.120 120xxx
 
-192.168.226.102 gitlab.dylan.zhang
-192.168.226.102 harbor.dylan.zhang
-192.168.226.102 docker.dylan.zhang
-192.168.226.102 rancher.dylan.zhang
+192.168.226.102 gitlab.zhangzejie.top
 192.168.226.102 harbor.zhangzejie.top
+192.168.226.102 portainer.zhangzejie.top
+192.168.226.102 jenkins.zhangzejie.top
+192.168.226.102 rancher.zhangzejie.top
+192.168.226.102 nacos.zhangzejie.top
+192.168.226.102 nexus.zhangzejie.top
+192.168.226.102 nginx.zhangzejie.top
 
-dzctl server set --ip=192.168.226.100 --name=base
-dzctl server set --ip=192.168.226.101 --name=template
-dzctl server set --ip=192.168.226.102 --name=test01
-dzctl server set --ip=192.168.226.103 --name=103xxx
-dzctl server set --ip=192.168.226.104 --name=104xxx
-dzctl server set --ip=192.168.226.105 --name=105xxx
-dzctl server set --ip=192.168.226.106 --name=106xxx
-dzctl server set --ip=192.168.226.107 --name=107xxx
-dzctl server set --ip=192.168.226.108 --name=108xxx
-dzctl server set --ip=192.168.226.109 --name=109xxx
-dzctl server set --ip=192.168.226.110 --name=110xxx
-dzctl server set --ip=192.168.226.111 --name=master01
-dzctl server set --ip=192.168.226.112 --name=master02
-dzctl server set --ip=192.168.226.113 --name=113xxx
-dzctl server set --ip=192.168.226.114 --name=114xxx
-dzctl server set --ip=192.168.226.115 --name=115xxx
-dzctl server set --ip=192.168.226.116 --name=worker01
-dzctl server set --ip=192.168.226.117 --name=worker02
-dzctl server set --ip=192.168.226.118 --name=118xxx
-dzctl server set --ip=192.168.226.119 --name=119xxx
-dzctl server set --ip=192.168.226.120 --name=120xxx
+192.168.226.102 test.mysql.zhangzejie.top
+192.168.226.102 test.redis.zhangzejie.top
+192.168.226.102 test.n1.zhangzejie.top
+192.168.226.102 test.n2.zhangzejie.top
+192.168.226.102 test.n3.zhangzejie.top
+
+dz host-set --ip=192.168.226.100 --name=base
+dz host-set --ip=192.168.226.101 --name=template
+dz host-set --ip=192.168.226.102 --name=test01
+dz host-set --ip=192.168.226.103 --name=103xxx
+dz host-set --ip=192.168.226.104 --name=104xxx
+dz host-set --ip=192.168.226.105 --name=105xxx
+dz host-set --ip=192.168.226.106 --name=106xxx
+dz host-set --ip=192.168.226.107 --name=107xxx
+dz host-set --ip=192.168.226.108 --name=108xxx
+dz host-set --ip=192.168.226.109 --name=109xxx
+dz host-set --ip=192.168.226.110 --name=110xxx
+dz host-set --ip=192.168.226.111 --name=master01
+dz host-set --ip=192.168.226.112 --name=master02
+dz host-set --ip=192.168.226.113 --name=113xxx
+dz host-set --ip=192.168.226.114 --name=114xxx
+dz host-set --ip=192.168.226.115 --name=115xxx
+dz host-set --ip=192.168.226.116 --name=worker01
+dz host-set --ip=192.168.226.117 --name=worker02
+dz host-set --ip=192.168.226.118 --name=118xxx
+dz host-set --ip=192.168.226.119 --name=119xxx
+dz host-set --ip=192.168.226.120 --name=120xxx
 
 ```
 
 ```bash
 
 # Download Install file
-# https://raw.githubusercontent.com/zhangzj97/cloud-file/main/install.sh
 curl -fsSL https://raw.fastgit.org/zhangzj97/cloud-file/main/install.sh > /tmp/dzinit.sh | chmod u+x /tmp/dzinit.sh | ln -fs /tmp/dzinit.sh /bin/dzinit
 
 # docker rm -f $(docker ps -a -q)
 # docker image prune -a
 
-dzinit /z && dzinit /z
+dzinit /z
 
-dzctl server docker
+dz docker
 
-dzctl server ssl --port=9002 && dzctl server docker-web --port=9002
-dzctl server ssl --port=9012 && dzctl server harbor --port=9012
-dzctl server ssl --port=9022 && dzctl server rancher --port=9022
-dzctl server ssl --port=9032 && dzctl server jenkins --port=9032
-dzctl server ssl --port=9042 && dzctl server gitlab --port=9042
+dz ssl --port=9002 && dz docker-web --port=9002
+dz ssl --port=9012 && dz harbor --port=9012
+dz ssl --port=9022 && dz rancher --port=9022
+dz ssl --port=9032 && dz jenkins --port=9032
+dz ssl --port=9042 && dz gitlab --port=9042
+dz ssl --port=8052 && dz nginx-web --port=8052
 
-systemctl daemon-reload && systemctl restart docker && dzctl server harbor --port=9012
+systemctl daemon-reload && systemctl restart docker && dz harbor --port=9012
 
-https://192.168.226.102:9002 http://192.168.226.102:9001 # portainer
-https://192.168.226.102:9012 http://192.168.226.102:9011 # harbor    admin:123123
-https://192.168.226.102:9022 http://192.168.226.102:9021 # rancher   admin:123123
-https://192.168.226.102:9032 http://192.168.226.102:9031 # jenkins   admin:123123
-https://192.168.226.102:9042 http://192.168.226.102:9041 # gitlab    admin:123123
+https://portainer.zhangzejie.top
+https://nginx.zhangzejie.top
+https://harbor.zhangzejie.top
+https://rancher.zhangzejie.top
+https://jenkins.zhangzejie.top
+https://gitlab.zhangzejie.top
+https://test.n1.zhangzejie.top
+https://test.n2.zhangzejie.top
+https://test.n3.zhangzejie.top
 
 ```
 
@@ -98,6 +111,7 @@ https://192.168.226.102:9042 http://192.168.226.102:9041 # gitlab    admin:12312
 | Harbor    |        | admzzj       | A613dc8f55e8 |
 | Jenkins   |        | admin        | 572a2042dfa0 |
 | Jenkins   |        | admzzj       | 572a2042dfa0 |
+| Nginx     |        | admzzj       | A2db6c9f1836 |
 
 ### Test
 
